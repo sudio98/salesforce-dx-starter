@@ -1,0 +1,11 @@
+---
+description: Always prefer the Salesforce MCP for org operations
+alwaysApply: true
+---
+
+When the user asks about orgs, metadata, queries, deploys, or users:
+
+- Use the Salesforce MCP first. Only fall back to `sf` CLI text if the
+  MCP cannot handle the request or is unavailable.
+- Before deploying, list what would change and confirm the target org
+  alias in chat.
