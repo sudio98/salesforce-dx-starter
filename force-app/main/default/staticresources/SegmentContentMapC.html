@@ -326,7 +326,7 @@ Santa: 비즈니스 리더 / Elves: 임직원 / Children: 고객<br>
 <span class="hi-pill" onclick="toggleHiDesc(this)" data-desc="Salesforce Lightning 내 사이드패널 AI 어시스턴트. CRM 화면에서 바로 Agent와 대화" style="width:128px;height:36px;display:inline-flex;align-items:center;justify-content:center;padding:0 .7rem;background:#E8F4FD;border:1px solid #BDE0FE;border-radius:999px;font-size:.83rem;font-weight:600;color:var(--navy);text-align:center;cursor:pointer;transition:all .2s">Coworker</span>
 <span class="hi-pill" onclick="toggleHiDesc(this)" data-desc="Lightning Experience UI에 임베드된 Agent 호출 채널. 레코드 페이지·홈에서 직접 실행" style="width:128px;height:36px;display:inline-flex;align-items:center;justify-content:center;padding:0 .7rem;background:#E8F4FD;border:1px solid #BDE0FE;border-radius:999px;font-size:.83rem;font-weight:600;color:var(--navy);text-align:center;cursor:pointer;transition:all .2s">Lightning</span>
 <span class="hi-pill" onclick="toggleHiDesc(this)" data-desc="Slack 채널/DM에서 Agent를 @멘션으로 호출. 팀 협업 흐름 안에서 AI 작업 수행" style="width:128px;height:36px;display:inline-flex;align-items:center;justify-content:center;padding:0 .7rem;background:#E8F4FD;border:1px solid #BDE0FE;border-radius:999px;font-size:.83rem;font-weight:600;color:var(--navy);text-align:center;cursor:pointer;transition:all .2s">Slack</span>
-<span class="hi-pill" onclick="toggleHiDesc(this)" data-desc="Slack 네이티브 AI 봇 + MCP 연동. 자연어로 데이터 조회·리포팅 자동화" style="width:128px;height:36px;display:inline-flex;align-items:center;justify-content:center;padding:0 .7rem;background:#E8F4FD;border:1px solid #BDE0FE;border-radius:999px;font-size:.83rem;font-weight:600;color:var(--navy);text-align:center;cursor:pointer;transition:all .2s">Albert & Slackbot</span>
+<span class="hi-pill" onclick="toggleHiDesc(this)" data-desc="Slack 네이티브 AI 봇 + MCP 연동. 자연어로 데이터 조회·리포팅 자동화" style="width:128px;height:36px;display:inline-flex;align-items:center;justify-content:center;padding:0 .7rem;background:#E8F4FD;border:1px solid #BDE0FE;border-radius:999px;font-size:.83rem;font-weight:600;color:var(--navy);text-align:center;cursor:pointer;transition:all .2s">Slackbot</span>
 <span class="hi-pill" onclick="toggleHiDesc(this)" data-desc="Microsoft Teams에서 동일 Agent 호출. 외부 채널 확장으로 Teams 사용 고객사 대응" style="width:128px;height:36px;display:inline-flex;align-items:center;justify-content:center;padding:0 .7rem;background:#F3F3F3;border:1px solid var(--gray-200);border-radius:999px;font-size:.83rem;font-weight:600;color:var(--gray-600);text-align:center;cursor:pointer;transition:all .2s">Teams</span>
 <span class="hi-pill" onclick="toggleHiDesc(this)" data-desc="OpenAI ChatGPT에서 Salesforce Agent를 Subagent로 호출하는 구조" style="width:128px;height:36px;display:inline-flex;align-items:center;justify-content:center;padding:0 .7rem;background:#F3F3F3;border:1px solid var(--gray-200);border-radius:999px;font-size:.83rem;font-weight:600;color:var(--gray-600);text-align:center;cursor:pointer;transition:all .2s">ChatGPT</span>
 <span class="hi-pill" onclick="toggleHiDesc(this)" data-desc="Microsoft Copilot에서 Salesforce 데이터·Agent를 연동 호출" style="width:128px;height:36px;display:inline-flex;align-items:center;justify-content:center;padding:0 .7rem;background:#F3F3F3;border:1px solid var(--gray-200);border-radius:999px;font-size:.83rem;font-weight:600;color:var(--gray-600);text-align:center;cursor:pointer;transition:all .2s">Copilot</span>
@@ -776,6 +776,15 @@ archAntiPatterns:[
 function toggleHiDesc(el){
 const box=document.getElementById('hi-detail-box');
 const hiDetailMap={
+Claudeforce:{
+html:'<div style="display:flex;flex-direction:column;gap:.55rem"><div><b>Claudeforce</b></div><div><b>핵심 개념</b><br>"Salesforce in Claude"라는 Claude 플러그인으로, Claude가 Salesforce MCP를 직접 호출해 데이터를 가져오는 방식입니다.</div><div><b>동작 방식</b><br>Coworker 같은 별도 오케스트레이션/reasoning 레이어가 없어, 검색·검증·재시도를 Claude가 직접 처리하는 "raw MCP" 구조입니다.</div><div><b>데이터/권한</b><br>FLS, 공유 규칙, RBAC은 그대로 적용되지만, Einstein Trust Layer(PII 마스킹, ZDR 등)는 적용되지 않습니다.</div><div><b>현재 한계 & 로드맵</b><br>Trust Layer 보호가 없으며, ZDR급 보장을 원하면 Anthropic과 별도 계약이 필요합니다.<br>Claude는 raw MCP 위에서 오케스트레이션·검증·재시도를 스스로 해야 하며, 이는 Coworker가 이미 갖춘 오케스트레이션/거버넌스 레이어(Data Cloud 기반 federated search, sub-agent 위임, audit 로깅)가 없다는 의미입니다.</div></div>'
+},
+Slack:{
+html:'<div style="display:flex;flex-direction:column;gap:.55rem"><div><b>Slack 동작 방식</b></div><div><b>핵심 개념</b><br>Slack 채널/DM에서 Agent를 @멘션으로 호출. 팀 협업 흐름 안에서 AI 작업 수행</div><div><b>동작 방식</b><br>진입점은 DM(개인 비서처럼 1:1 대화)과 채널 @멘션(팀원처럼 협업) 두 가지이며, Agentforce/3rd party/Custom Agent 모두 이 동일한 로직으로 호출됩니다.<br>채널에서는 명시적 @멘션이 있어야만 Agent가 응답하며, Salesforce Flow → Agent 호출도 가능해, 레코드 트리거 Flow가 이상 감지 시 Agent를 액션으로 실행할 수 있습니다.</div><div><b>데이터/권한</b><br>Agent가 접근 가능한 레코드/필드/객체는 Slack 사용자에 매핑된 Salesforce 사용자의 권한을 그대로 따릅니다.</div><div><b>현재 한계 & 로드맵</b><br>Slack과 Slackbot을 Headless 아키텍처에서 구분해서 설명하는 이유는 Slack은 대화형 표면·업무 진입점일 뿐 오케스트레이터가 아니기 때문에 개념 층위가 다릅니다.</div></div>'
+},
+'Slackbot':{
+html:'<div style="display:flex;flex-direction:column;gap:.55rem"><div><b>Slackbot</b></div><div><b>핵심 개념</b><br>Slack 안에서 네이티브로 동작하는 "개인 AI"로, Salesforce 권한 모델 내부에서 동작합니다.</div><div><b>동작 방식</b><br>Slack 채널/DM/파일을 직접 읽고, Salesforce 조회·수정은 사용자를 대신해 API로 처리합니다.<br>삭제는 지원하지 않으며(create/update만), 관리자는 특정 객체(예: Opportunity 생성·삭제 등)에 대한 쓰기 권한을 별도로 제한할 수 있습니다.</div><div><b>데이터/권한</b><br>사용자 권한셋/FLS/공유규칙 그대로 적용, 삭제는 미지원(생성·수정만), 모든 쓰기는 저장 전 사용자 승인 필수입니다.</div><div><b>현재 한계 & 로드맵</b><br>신뢰 모델이 zero retention + Slack-native 권한으로, Coworker의 ABAC/Data 360 거버넌스/Agentforce Trust Layer와 다릅니다.<br>Coworker의 페타바이트급 데이터 인덱싱이나 ABAC 거버넌스 수준은 아직 없습니다.</div></div>'
+},
 Coworker:{
 core:[
 'Coworker는 실행 엔진이 아니라 reasoning/retrieval 레이어입니다.',
@@ -800,7 +809,7 @@ Claudeforce:'',
 Coworker:'',
 Lightning:'',
 Slack:'',
-'Albert & Slackbot':'',
+'Slackbot':'',
 Teams:'',
 ChatGPT:'',
 Copilot:''
@@ -813,6 +822,7 @@ return `<div><b>${title}</b>${body}</div>`;
 }
 function renderHiLeft(name){
 const d=hiDetailMap[name]||{};
+if(d.html) return d.html;
 const defaultCore=(el.dataset.desc||'').trim();
 const mergedCore=d.core&&d.core.length?d.core:(defaultCore?[defaultCore]:[]);
 return `<div style="display:flex;flex-direction:column;gap:.55rem">
