@@ -1,0 +1,1476 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Initiative — Segment Content Map (C)</title>
+<style>
+:root{
+--navy:#032D60;--navy-light:#0B2545;--blue:#0176D3;--blue-light:#1B96FF;
+--teal:#04844B;--purple:#5A1BA9;--orange:#DD7A01;--green:#2E844A;
+--gray-100:#F3F3F3;--gray-200:#E5E5E5;--gray-300:#C9C9C9;--gray-600:#706E6B;
+--card:#FFFFFF;--radius:12px;--radius-sm:8px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Salesforce Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--gray-100);color:#181818;line-height:1.6}
+
+.topnav{display:flex;align-items:center;padding:0 2rem;height:56px;background:var(--card);border-bottom:1px solid var(--gray-200);position:sticky;top:0;z-index:200}
+.topnav-logo{font-weight:800;font-size:1rem;color:var(--navy);display:flex;align-items:center;gap:.5rem}
+.topnav-logo svg{width:24px;height:24px}
+.topnav-links{display:flex;gap:.2rem;margin-left:2rem}
+.topnav-links a{padding:.5rem 1rem;font-size:.82rem;font-weight:600;color:var(--gray-600);text-decoration:none;border-bottom:3px solid transparent;transition:all .2s;cursor:pointer}
+.topnav-links a:hover,.topnav-links a.active{color:var(--blue);border-bottom-color:var(--blue)}
+
+.hero{background:linear-gradient(135deg,#001F3F 0%,#032D60 40%,#0B5CAB 100%);color:#fff;padding:3rem 2rem 2.5rem}
+.hero-inner{max-width:1200px;margin:0 auto}
+.hero h1{font-size:2.2rem;font-weight:800;letter-spacing:-.02em;line-height:1.2}
+.hero h1 span{color:var(--blue-light)}
+.hero .hero-sub{font-size:.92rem;opacity:.7;margin-top:.5rem}
+.hero-stats{display:flex;gap:1.5rem;margin-top:1.8rem}
+.hero-stat{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:var(--radius);padding:.8rem 1.3rem;text-align:center;min-width:100px}
+.hero-stat .num{font-size:1.5rem;font-weight:800;color:var(--blue-light)}
+.hero-stat .lbl{font-size:.65rem;text-transform:uppercase;letter-spacing:.5px;opacity:.7;margin-top:.2rem}
+
+.main{max-width:1200px;margin:0 auto;padding:2rem}
+.intro-video-card{width:100%;margin:0 0 1rem;padding:1rem;background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius)}
+.intro-video-title{font-size:.92rem;font-weight:700;color:var(--navy);margin-bottom:.55rem}
+.intro-video-frame{width:100%;height:380px;border:none;border-radius:var(--radius-sm);background:#000}
+.intro-video-desc{margin-top:.8rem;padding:.9rem 1rem;background:#F8FBFF;border:1px solid #BDE0FE;border-radius:var(--radius-sm);font-size:.79rem;color:#333;line-height:1.65}
+.intro-video-desc b{color:var(--navy)}
+.main-action-card{width:100%;margin:1.2rem 0 1.6rem;padding:1.35rem 1.25rem;background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius);display:flex;flex-direction:column;gap:.75rem}
+.main-action-purpose{font-size:.9rem;color:#333;line-height:1.62}
+.main-action-purpose b{display:block;font-size:1.05rem;color:var(--navy);margin-bottom:.15rem}
+.main-action-shortcut{margin-top:.45rem}
+.main-action-row{display:grid;grid-template-columns:280px 1fr;gap:1rem;align-items:center}
+.main-action-copy{font-size:.92rem;color:var(--gray-600);line-height:1.55}
+.main-action-copy b{color:var(--navy)}
+.sec-label{font-size:.7rem;text-transform:uppercase;letter-spacing:1px;color:var(--blue);font-weight:700;margin-bottom:.4rem}
+.sec-title{font-size:1.4rem;font-weight:800;color:var(--navy)}
+.sec-desc{font-size:.82rem;color:var(--gray-600);margin-top:.3rem;margin-bottom:1.5rem}
+
+/* 2x2 Segment Matrix */
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.seg-matrix{display:grid;grid-template-columns:90px 1fr 1fr;grid-template-rows:auto 1fr 1fr;gap:.8rem;margin-bottom:2rem}
+.seg-col-label{text-align:center;font-size:.82rem;font-weight:700;padding:.8rem;border-radius:var(--radius-sm);background:#F0F4FF;color:var(--navy)}
+.seg-row-label{font-size:.72rem;font-weight:700;color:var(--navy);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:.5rem;border-radius:var(--radius-sm);background:#F8F8F8;line-height:1.3}
+.seg-cell{background:var(--card);border-radius:var(--radius);padding:1.5rem 1rem;border:2px solid var(--gray-200);cursor:pointer;transition:all .25s;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;min-height:140px}
+.seg-cell:hover{border-color:var(--blue-light);box-shadow:0 4px 14px rgba(1,118,211,.08);transform:translateY(-2px)}
+.seg-cell.active{border-color:var(--blue);box-shadow:0 6px 20px rgba(1,118,211,.15);background:#F8FBFF}
+.seg-cell-title{font-size:.95rem;font-weight:700;color:var(--navy);margin-bottom:.4rem}
+.seg-cell-desc{font-size:.72rem;color:var(--gray-600);line-height:1.4}
+.seg-cell-count{margin-top:.6rem;font-size:.66rem;font-weight:700;color:var(--blue);background:#E8F4FD;border-radius:999px;padding:3px 10px;line-height:1.35;text-align:center}
+
+/* Content cards */
+.clist{display:flex;flex-direction:column;gap:.6rem;margin-top:1rem}
+.clist.demo-grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.8rem}
+.ccard{background:var(--card);border:1px solid var(--gray-200);border-radius:var(--radius);padding:1.2rem 1.5rem;transition:all .2s}
+.ccard:hover{border-color:var(--blue);box-shadow:0 4px 14px rgba(0,0,0,.06)}
+.ccard-header{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem}
+.ccard-title{font-size:.92rem;font-weight:700;color:var(--blue);text-decoration:none;flex:1;display:block}
+.ccard-title:hover{color:#0B5CAB;text-decoration:underline}
+.ccard-date{font-size:.68rem;color:var(--gray-600);white-space:nowrap;padding-top:2px}
+.ccard-badges{display:flex;flex-wrap:wrap;gap:5px;margin-top:.5rem;align-items:center}
+.badge{display:inline-block;padding:3px 8px;border-radius:5px;font-size:.65rem;font-weight:600}
+.badge-sol{background:#F3F3F3;color:#444;border:1px solid var(--gray-200)}
+.ccard-summary{font-size:.82rem;color:#333;margin-top:.6rem;line-height:1.6}
+.ccard-toggle{display:flex;justify-content:flex-end;margin-top:.6rem}
+.toggle-btn{background:none;border:1px solid var(--gray-200);border-radius:var(--radius-sm);padding:.35rem .8rem;font-size:.72rem;font-weight:600;color:var(--gray-600);cursor:pointer;transition:all .2s}
+.toggle-btn:hover{border-color:var(--blue);color:var(--blue)}
+.toggle-btn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.seg-callout{background:#fff;border:1px solid #BDE0FE;border-left:4px solid var(--blue);border-radius:var(--radius-sm);padding:1.2rem 1.5rem;margin-bottom:1.2rem;line-height:1.7}
+.seg-callout-title{font-size:.98rem;font-weight:700;color:var(--navy);margin-bottom:.4rem}
+.seg-callout-body{font-size:.8rem;color:#333}
+.seg-callout-body b{color:var(--navy);font-size:.9rem;font-weight:700}
+#callout-row .seg-callout{margin-bottom:0;height:100%;display:flex;flex-direction:column}
+#seg-positioning-box{height:100%;display:flex;flex-direction:column}
+.ccard-detail{display:none;margin-top:1rem;padding-top:1rem;border-top:1px solid var(--gray-200);animation:fadeIn .2s}
+.ccard-detail.open{display:block}
+.ccard-meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem;margin-bottom:1rem}
+.mlabel{font-size:.62rem;text-transform:uppercase;letter-spacing:.5px;color:var(--gray-600);font-weight:700}
+.mvalue{font-size:.8rem;color:var(--navy);font-weight:600;margin-top:.2rem}
+.ccard-resources{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.8rem}
+.res-pill{padding:.3rem .7rem;border-radius:20px;font-size:.7rem;font-weight:600;border:1.5px solid var(--blue);color:var(--blue);text-decoration:none;transition:all .2s}
+.res-pill:hover{background:var(--blue);color:#fff}
+
+/* Empty state */
+.empty-state{text-align:center;padding:2rem;color:var(--gray-600);font-size:.82rem}
+
+/* Demo Category Toggle */
+.demo-cat-toggle{display:flex;gap:.8rem;margin-bottom:1.5rem}
+.demo-cat-btn{flex:1;display:flex;align-items:center;gap:1rem;padding:1rem 1.3rem;background:var(--card);border:2px solid var(--gray-200);border-radius:var(--radius);cursor:pointer;transition:all .25s}
+.demo-cat-btn:hover{border-color:var(--blue-light);box-shadow:0 4px 12px rgba(1,118,211,.08)}
+.demo-cat-btn.active{border-color:var(--blue);box-shadow:0 4px 16px rgba(1,118,211,.12);background:#F8FBFF}
+.demo-cat-icon{width:44px;height:44px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:800;color:#fff;flex-shrink:0}
+.demo-cat-btn h4{font-size:.9rem;font-weight:700;color:var(--navy)}
+.demo-cat-btn p{font-size:.72rem;color:var(--gray-600);margin-top:.1rem}
+.demo-cat-section{display:none;animation:fadeIn .3s ease}
+.demo-cat-section.active{display:block}
+
+/* AX 2x2 Matrix for Demo tab */
+.ax-matrix{display:grid;grid-template-columns:100px 1fr 1fr;grid-template-rows:auto 1fr 1fr;gap:.8rem;margin-bottom:2rem}
+.ax-m-col-label{text-align:center;font-size:.78rem;font-weight:700;padding:.7rem;border-radius:var(--radius-sm);background:#F0F4FF;color:var(--navy)}
+.ax-m-row-label{font-size:.72rem;font-weight:700;color:var(--navy);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:.5rem;border-radius:var(--radius-sm);background:#F8F8F8;line-height:1.3}
+.ax-m-criteria{font-size:.58rem;font-weight:500;color:var(--gray-600);margin-top:.2rem}
+.ax-m-cell{background:var(--card);border-radius:var(--radius);padding:1.3rem;border:2px solid var(--gray-200);cursor:pointer;transition:all .25s;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;min-height:110px}
+.ax-m-cell:hover{border-color:var(--blue-light);box-shadow:0 4px 14px rgba(1,118,211,.08);transform:translateY(-2px)}
+.ax-m-cell.active{border-color:var(--blue);box-shadow:0 6px 20px rgba(1,118,211,.15);background:#F8FBFF}
+.ax-m-cell-title{font-size:.9rem;font-weight:700;color:var(--navy);margin-bottom:.3rem}
+.ax-m-cell-desc{font-size:.72rem;color:var(--gray-600)}
+
+/* Demo grid */
+.demo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem}
+.demo-card{background:var(--card);border:1px solid var(--gray-200);border-radius:var(--radius);overflow:hidden;cursor:pointer;transition:all .2s}
+.demo-card:hover{border-color:var(--blue);box-shadow:0 4px 14px rgba(0,0,0,.06);transform:translateY(-2px)}
+.demo-card.playing{border-color:var(--blue);box-shadow:0 4px 16px rgba(1,118,211,.15)}
+.demo-card.no-video{opacity:.6}
+.demo-card.no-video .demo-thumb{background:#444}
+.demo-thumb{position:relative;background:#1a1a2e;height:140px;display:flex;align-items:center;justify-content:center}
+.demo-thumb .play-icon{width:44px;height:44px;background:rgba(255,255,255,.9);border-radius:50%;display:flex;align-items:center;justify-content:center}
+.demo-thumb .play-icon::after{content:'';border-left:14px solid var(--blue);border-top:8px solid transparent;border-bottom:8px solid transparent;margin-left:3px}
+.demo-info{padding:.8rem 1rem}
+.demo-info h4{font-size:.8rem;font-weight:700;color:var(--navy);margin-bottom:.3rem}
+.demo-info p{font-size:.7rem;color:var(--gray-600)}
+
+/* Browse All tree */
+.tree-wrap{background:var(--card);border:1px solid var(--gray-200);border-radius:var(--radius);padding:1.2rem}
+.tree-level{list-style:none;margin:0;padding-left:0}
+.tree-node{position:relative;padding-left:1.2rem;margin:.45rem 0}
+.tree-node::before{content:'';position:absolute;left:.35rem;top:.72rem;width:.5rem;height:1px;background:var(--gray-300)}
+.tree-children{list-style:none;margin:.5rem 0 0 .2rem;padding-left:1rem;border-left:1px dashed var(--gray-300)}
+.node-card{border:1px solid var(--gray-200);border-radius:var(--radius-sm);padding:.55rem .7rem;background:#fff}
+.node-root{border-left:4px solid var(--blue);background:#F8FBFF}
+.node-step{border-left:4px solid #54698D}
+.node-top{display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.node-title{font-size:.82rem;font-weight:700;color:var(--navy)}
+.node-count{font-size:.68rem;font-weight:700;color:var(--blue);background:#E8F4FD;border-radius:999px;padding:2px 8px;white-space:nowrap}
+.node-items{margin-top:.45rem;display:flex;flex-wrap:wrap;gap:.35rem}
+.node-item{display:inline-block;font-size:.7rem;padding:2px 8px;border-radius:20px;background:#F3F3F3;color:#333;border:1px solid var(--gray-200)}
+
+.agent-name-row{display:flex;align-items:center;justify-content:center;gap:.35rem}
+.agent-info-dot{position:relative;display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;border:1px solid var(--blue);color:var(--blue);font-size:.58rem;font-weight:700;line-height:1;cursor:help;background:#fff}
+.agent-info-dot::after{content:attr(data-tip);position:absolute;left:18px;top:50%;transform:translateY(-50%);width:260px;padding:.55rem .65rem;border-radius:6px;background:#032D60;color:#fff;font-size:.64rem;font-weight:500;line-height:1.45;white-space:pre-line;box-shadow:0 6px 18px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:opacity .15s;z-index:30}
+.agent-info-dot:hover::after{opacity:1}
+.license-filter-section{display:grid;grid-template-columns:120px 1fr;gap:.8rem;align-items:center;margin-bottom:1rem;padding:.7rem .9rem;background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius-sm)}
+.license-filter-label{font-size:.8rem;font-weight:700;color:var(--navy)}
+.license-filter-row{display:flex;flex-wrap:wrap;gap:.5rem}
+.license-filter-groups{display:flex;flex-direction:column;gap:.45rem}
+.license-filter-group{display:flex;align-items:center;gap:.55rem;flex-wrap:wrap}
+.license-group-label{font-size:.72rem;font-weight:700;color:var(--gray-600);min-width:82px}
+.license-filter-btn{position:relative;display:inline-flex;align-items:center;justify-content:center;min-width:96px;padding:.45rem .85rem;border:1px solid var(--blue);border-radius:999px;background:#fff;color:var(--blue);font-size:.74rem;font-weight:700;line-height:1;cursor:pointer;transition:all .2s}
+.license-filter-btn:hover{background:#E8F4FD}
+.license-filter-btn.active{background:var(--blue);color:#fff}
+.license-filter-btn::after{content:attr(data-tip);position:absolute;left:0;top:calc(100% + 8px);width:340px;max-width:min(70vw,340px);padding:.55rem .65rem;border-radius:6px;background:#032D60;color:#fff;font-size:.66rem;font-weight:500;line-height:1.45;white-space:normal;box-shadow:0 6px 18px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:opacity .15s;z-index:40;text-align:left}
+.license-filter-btn:hover::after{opacity:1}
+.license-filter-note{grid-column:1 / -1;font-size:.72rem;color:var(--gray-600);margin-top:.15rem}
+.license-rule-box{grid-column:1 / -1;margin-top:.25rem;padding:.7rem .85rem;background:#F8FBFF;border:1px solid #BDE0FE;border-radius:var(--radius-sm);line-height:1.55}
+.license-rule-title{font-size:.74rem;font-weight:800;color:var(--navy);margin-bottom:.2rem}
+.license-rule-body{font-size:.71rem;color:#333}
+#agent-license-matrix .ca-pill{background:#E8F4FD !important;color:var(--navy) !important;border:1px solid #BDE0FE !important}
+#agent-license-matrix .ca-pill span{color:var(--gray-600) !important;opacity:1 !important}
+#agent-license-matrix .license-dim{opacity:.26;transition:opacity .2s ease}
+#agent-license-matrix .license-match{opacity:1 !important;background:#F0F7FF !important;border:2px solid var(--blue) !important;box-shadow:0 0 0 2px rgba(1,118,211,.12)}
+.feature-pill{min-height:53px;padding:.4rem .8rem;background:#E8F4FD;border:1px solid #BDE0FE;border-radius:var(--radius-sm);font-size:.75rem;font-weight:700;color:var(--navy);line-height:1.35;text-align:center;display:flex;align-items:center;justify-content:center}
+#feature-type-matrix .license-dim{opacity:.26;transition:opacity .2s ease}
+#feature-type-matrix .license-match{opacity:1 !important;background:#F0F7FF !important;border:2px solid var(--blue) !important;box-shadow:0 0 0 2px rgba(1,118,211,.12)}
+
+.lang-toggle{margin-left:auto;display:flex;gap:2px;background:var(--gray-100);border-radius:20px;padding:2px}
+.lang-btn{padding:4px 12px;border-radius:18px;border:none;font-size:.72rem;font-weight:700;cursor:pointer;transition:all .2s;background:transparent;color:var(--gray-600)}
+.lang-btn:hover{background:var(--gray-200)}
+.lang-btn.active{background:var(--blue);color:#fff}
+.view{display:none}.view.active{display:block}
+@media(max-width:1024px){.clist.demo-grid-3{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:768px){.seg-matrix{grid-template-columns:60px 1fr 1fr}.seg-cell{min-height:100px;padding:1rem .6rem}.clist.demo-grid-3{grid-template-columns:1fr}.intro-video-frame{height:220px}.main-action-row{grid-template-columns:1fr;gap:.55rem}.license-filter-section{grid-template-columns:1fr;gap:.45rem}.license-filter-btn::after{width:280px;max-width:80vw}}
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+<div class="topnav-logo">
+<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#0176D3"/><path d="M7 12l3 3 7-7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+AI Initiative
+</div>
+<div class="topnav-links">
+<a data-view="main" class="active" onclick="showView('main')">Main</a>
+<a data-view="agents" onclick="showView('agents')">Agent Level</a>
+<a data-view="map" onclick="showView('map')">Content Hub</a>
+<a data-view="all" onclick="showView('all')">Browse All</a>
+</div>
+<div class="lang-toggle">
+<button class="lang-btn active" id="lang-ko" onclick="setLang('ko')">한국어</button>
+<button class="lang-btn" id="lang-en" onclick="setLang('en')">EN</button>
+</div>
+</nav>
+
+<div class="hero">
+<div class="hero-inner">
+<h1>Customer Segment <span>Content Map</span></h1>
+<p class="hero-sub" data-i18n="heroSub">CRM 사용 여부와 AI 역량 수준으로 고객을 4가지 세그먼트로 분류하고, 각 세그먼트에 맞는 콘텐츠를 추천합니다.</p>
+<div class="hero-stats">
+<div class="hero-stat"><div class="num">4</div><div class="lbl" data-i18n="segments">세그먼트</div></div>
+<div class="hero-stat"><div class="num">14</div><div class="lbl">Contents</div></div>
+<div class="hero-stat"><div class="num">17</div><div class="lbl">Demos</div></div>
+</div>
+</div>
+</div>
+
+<div class="main">
+
+<!-- VIEW: MAIN -->
+<div class="view active" id="view-main">
+<div class="main-action-card">
+<div class="main-action-purpose" data-i18n-html="mainPurpose">
+<b>목적</b>
+이 사이트는 고객의 CRM·AI 성숙도와 업무 맥락에 맞춰 Agentic Enterprise 전환 전략을 빠르게 이해하고, 바로 실행 가능한 제안 방향을 정리하기 위한 실무형 가이드입니다.<br><br>
+<b>만들게 된 이유</b>
+고객마다 CRM 도입 수준과 AI 이해도가 달라 같은 설명으로는 공감과 실행을 끌어내기 어려웠고, 제안 과정에서 무엇을 먼저 보여주고 어떤 메시지로 설득할지가 매번 달라 일관성이 떨어지는 문제가 있었습니다. 이 사이트는 현장의 혼선을 줄이고 고객 상황에 맞는 스토리·데모·아키텍처 포인트를 빠르게 정렬해 제안의 속도와 품질을 동시에 높이기 위해 만들었습니다.
+</div>
+<div class="main-action-purpose main-action-shortcut">
+<b data-i18n="tabGuide">바로가기 Tab 설명</b>
+</div>
+<div class="main-action-row">
+<button class="toggle-btn" type="button" onclick="showView('agents')" style="min-width:280px;padding:.82rem 1.2rem;font-size:1rem;border-color:var(--blue)" data-i18n="btnAgents">Agent에 대해 알아보기</button>
+<div class="main-action-copy" data-i18n-html="btnAgentsDesc"><b>Agent 유형/활용 관점이 궁금하다면</b> 이 버튼을 눌러보세요. Internal/External 채널별 Agent 포지션, Headless Interface 개념, 실제 적용 시나리오를 한 번에 확인할 수 있습니다.</div>
+</div>
+<div class="main-action-row">
+<button class="toggle-btn" type="button" onclick="showView('map')" style="min-width:280px;padding:.82rem 1.2rem;font-size:1rem;border-color:var(--blue)" data-i18n="btnSegments">고객 세그먼트별 Approach 알아보기</button>
+<div class="main-action-copy" data-i18n-html="btnSegmentsDesc"><b>고객 상태에 맞는 제안 전략이 필요하다면</b> 여기에서 시작하세요. CRM/AI 성숙도에 따라 추천 제품, 설명 포인트, 시나리오, 아키텍처 주의사항까지 단계별로 볼 수 있습니다.</div>
+</div>
+</div>
+<div class="intro-video-card">
+<div class="intro-video-title" data-i18n="videoTitle">Agentic Enterprise 소개 영상</div>
+<iframe class="intro-video-frame" src="https://drive.google.com/file/d/13cmr9AZUFH6W3UYPXNnToA-p9tnUACfE/preview" allow="autoplay"></iframe>
+<div class="intro-video-desc" data-i18n-html="videoDesc">
+<b>Dreamforce 100일 뒤, 크리스마스가 찾아옵니다.</b><br>
+매년 Santa Company는 크리스마스를 완벽하게 준비해왔지만, 올해는 위기 상황에 놓입니다. 세상이 그 어느 때보다 빠르게 바뀌는 가운데, 전 세계의 착한 아이들(고객)이 기대하는 높은 기준을 계속 충족할 수 있을까요?<br><br>
+<b>해답은 Agentic Enterprise입니다.</b><br>
+Apromore, Piper, Carter, Felix, Agentforce Coworker, Slackbot이 함께 등장하는 이 스토리는 Salesforce가 어떻게 크리스마스를 구해내는지 보여줍니다.<br><br>
+<b>영상 속 비유</b><br>
+Santa: 비즈니스 리더 / Elves: 임직원 / Children: 고객<br>
+또한 영상의 연출 자체도 Headless를 비유합니다. 엘프들의 뒷모습 장면은 사람이 실제로 일하는 UI/현장을, 화면 전체를 채우는 데모 장면은 에이전트가 작업을 처리하는 실행 레이어를 의미합니다. 즉, UI와 실행 레이어가 분리되어 있으면서도 유기적으로 연결되는 Headless 구조를 직관적으로 전달합니다.<br><br>
+<b>핵심 메시지</b><br>
+직원과 AI 에이전트가 하나의 팀으로 협업할 때, 복잡한 업무도 더 빠르고 정확하게 실행됩니다.<br><br>
+<b>Takeaway</b><br>
+단 100일만 있어도 어떤 조직이든 Agentic Enterprise로의 전환을 시작할 수 있습니다.
+</div>
+</div>
+</div>
+
+<!-- VIEW: SEGMENT MAP -->
+<div class="view" id="view-map">
+
+<div class="sec-label">Customer Segment</div>
+<div class="sec-title" data-i18n="segTitle">고객 세그먼트 선택</div>
+<div class="sec-desc" data-i18n="segDesc">해당 고객의 CRM 사용 여부와 AI 역량을 기준으로 사분면을 클릭하세요</div>
+
+<div class="seg-matrix">
+<div></div>
+<div class="seg-col-label" data-i18n="noCRM">CRM 미사용</div>
+<div class="seg-col-label" data-i18n="usingCRM">CRM 사용중</div>
+
+<div class="seg-row-label" data-i18n-html="aiHigh">AI 역량<br>높음</div>
+<div class="seg-cell" id="seg-nocrm-ai" onclick="selectSeg('nocrm-ai')">
+<div class="seg-cell-title">Tech-savvy</div>
+<div class="seg-cell-desc" data-i18n-html="descNocrmAi">CRM 없지만 AI/개발 역량 보유<br>빠른 셀프 구축 가능</div>
+<div class="seg-cell-count" id="cnt-nocrm-ai"></div>
+</div>
+<div class="seg-cell" id="seg-crm-ai" onclick="selectSeg('crm-ai')">
+<div class="seg-cell-title">AI-ready</div>
+<div class="seg-cell-desc" data-i18n-html="descCrmAi">CRM + AI 역량 모두 보유<br>고도화·자동화 니즈</div>
+<div class="seg-cell-count" id="cnt-crm-ai"></div>
+</div>
+
+<div class="seg-row-label" data-i18n-html="aiLow">AI 역량<br>낮음</div>
+<div class="seg-cell" id="seg-nocrm-noai" onclick="selectSeg('nocrm-noai')">
+<div class="seg-cell-title" data-i18n="titleNocrmNoai">완전 미도입</div>
+<div class="seg-cell-desc" data-i18n-html="descNocrmNoai">CRM도 없고 AI도 모름<br>기본 가치부터 설득 필요</div>
+<div class="seg-cell-count" id="cnt-nocrm-noai"></div>
+</div>
+<div class="seg-cell" id="seg-crm-noai" onclick="selectSeg('crm-noai')">
+<div class="seg-cell-title" data-i18n="titleCrmNoai">CRM (AI 미경험)</div>
+<div class="seg-cell-desc" data-i18n-html="descCrmNoai">CRM 쓰지만 AI 경험 없음<br>AI 가치 소개·첫 체험 필요</div>
+<div class="seg-cell-count" id="cnt-crm-noai"></div>
+</div>
+</div>
+
+<!-- Results -->
+<div id="results" style="display:none;animation:fadeIn .3s ease">
+<div id="callout-row" style="display:grid;grid-template-columns:1fr;gap:1rem;align-items:stretch">
+<div class="seg-callout" id="seg-callout"></div>
+<div id="seg-positioning-box" style="display:none;padding:1.2rem 1.5rem;background:#fff;border:1px solid #BDE0FE;border-left:4px solid var(--blue);border-radius:var(--radius)"></div>
+</div>
+<div style="display:flex;gap:.5rem;margin-top:2rem;margin-bottom:1rem">
+<button class="toggle-btn active" id="tab-guide" onclick="switchResultTab('guide')" style="padding:.5rem 1.2rem;font-size:.82rem" data-i18n="tabGuideBtn">추천 제품 가이드</button>
+<button class="toggle-btn" id="tab-demo" onclick="switchResultTab('demo')" style="padding:.5rem 1.2rem;font-size:.82rem" data-i18n="tabDemoBtn">추천 시나리오</button>
+<button class="toggle-btn" id="tab-arch" onclick="switchResultTab('arch')" style="padding:.5rem 1.2rem;font-size:.82rem" data-i18n="tabArchBtn">추천 아키텍처 가이드</button>
+<button class="toggle-btn" id="tab-content" onclick="switchResultTab('content')" style="padding:.5rem 1.2rem;font-size:.82rem" data-i18n="tabContentBtn">추천 고객 제안 자료</button>
+</div>
+<div class="clist" id="result-cards"></div>
+</div>
+
+</div>
+
+<!-- VIEW: AGENT LEVEL -->
+<div class="view" id="view-agents">
+<div class="sec-label">Agent Leveling</div>
+<div class="sec-title" data-i18n="agentTitle">AI Agent 유형 & 레벨링</div>
+
+<!-- 1. Headless Interface 차트 (별도 섹션) -->
+<div style="margin-top:1.8rem;margin-bottom:2.5rem">
+<div style="font-size:.93rem;font-weight:700;color:var(--navy);margin-bottom:.8rem">Headless Interface</div>
+<div class="sec-desc" style="margin-bottom:.15rem" data-i18n="hiDesc">Headless Interface는 CRM의 데이터, 로직, 거버넌스를 특정 UI에 종속시키지 않고, 어떤 인터페이스에서도 동일한 Agent, 데이터, 로직을 재사용할 수 있게 만드는 구조입니다.</div>
+<div class="sec-desc" style="margin-bottom:.7rem" data-i18n-html="hiLink">자세한 자료는 <a href="https://docs.google.com/presentation/d/1NI7gK0cmrm1Km9O1HkRjR0Pn1wkmbasCqgrqqH0OFnA/edit" target="_blank" rel="noopener noreferrer">여기에서 확인하세요</a>.</div>
+<div id="hi-desc-box" style="display:block;margin-top:0;margin-bottom:.8rem;padding:.7rem 1rem;background:#F8FBFF;border:1px solid #BDE0FE;border-radius:var(--radius-sm);font-size:.87rem;color:#333;line-height:1.5"><div style="margin:0 0 .45rem 0;padding:.55rem .7rem;background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius-sm);font-size:.8rem;line-height:1.55"><div style="font-weight:700;color:var(--navy);margin-bottom:.25rem" data-i18n="licenseSummary">라이선스/과금 핵심 정리</div><ul style="margin:0;padding-left:1rem"><li>기본 조합은 <b>AUL(Agentforce User License) + Flex Credits</b>입니다.</li><li>Agent가 참조할 업무 컨텍스트를 쓰려면 해당 <b>Cloud 라이선스(Sales/Service/Revenue 등)</b>가 뒷받침되어야 합니다.</li><li>각 user license에는 월별 <b>Headless Platform Interaction</b> 기본 용량이 포함되며, 초과 시 Flex Credits 소모 또는 Add-On/A4X/A1E 업그레이드가 필요합니다.</li><li>3rd-party agent(예: Claude+MCP, Agent Identity 등록) 호출은 Headless Interaction이 아닌 <b>Agentforce/Data 360 사용량</b> 기준으로 과금됩니다.</li></ul></div><div style="margin:0 0 .45rem 0;padding:.5rem .7rem;background:#FFF8F0;border:1px solid #FFD9A0;border-radius:var(--radius-sm);font-size:.78rem;line-height:1.5"><b>주의</b><br><b>Headless Platform Interaction</b> 과금(외부 에이전트의 데이터/API 조회)과 <b>AUL + Flex Credits 과금(Agentforce 추론·액션 실행)</b>은 서로 다른 과금 체계입니다.</div><p style="margin:.7rem 0 0 0">각 인터페이스 버튼을 눌러 실제 동작 방식을 확인해보세요.</p></div>
+<div style="background:#fff;border:2px solid var(--blue);border-radius:var(--radius);padding:1.2rem 1.5rem">
+<div style="display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center">
+<span class="hi-pill" onclick="toggleHiDesc(this)" data-desc="Anthropic Claude를 Salesforce 내에서 호출하는 인터페이스. Agent가 Claude 모델을 통해 추론 수행" style="width:128px;height:36px;display:inline-flex;align-items:center;justify-content:center;padding:0 .7rem;background:#E8F4FD;border:1px solid #BDE0FE;border-radius:999px;font-size:.83rem;font-weight:600;color:var(--navy);text-align:center;cursor:pointer;transition:all .2s">Claudeforce</span>
+<span class="hi-pill" onclick="toggleHiDesc(this)" data-desc="Salesforce Lightning 내 사이드패널 AI 어시스턴트. CRM 화면에서 바로 Agent와 대화" style="width:128px;height:36px;display:inline-flex;align-items:center;justify-content:center;padding:0 .7rem;background:#E8F4FD;border:1px solid #BDE0FE;border-radius:999px;font-size:.83rem;font-weight:600;color:var(--navy);text-align:center;cursor:pointer;transition:all .2s">Coworker</span>
+<span class="hi-pill" onclick="toggleHiDesc(this)" data-desc="Lightning Experience UI에 임베드된 Agent 호출 채널. 레코드 페이지·홈에서 직접 실행" style="width:128px;height:36px;display:inline-flex;align-items:center;justify-content:center;padding:0 .7rem;background:#E8F4FD;border:1px solid #BDE0FE;border-radius:999px;font-size:.83rem;font-weight:600;color:var(--navy);text-align:center;cursor:pointer;transition:all .2s">Lightning</span>
+<span class="hi-pill" onclick="toggleHiDesc(this)" data-desc="Slack 채널/DM에서 Agent를 @멘션으로 호출. 팀 협업 흐름 안에서 AI 작업 수행" style="width:128px;height:36px;display:inline-flex;align-items:center;justify-content:center;padding:0 .7rem;background:#E8F4FD;border:1px solid #BDE0FE;border-radius:999px;font-size:.83rem;font-weight:600;color:var(--navy);text-align:center;cursor:pointer;transition:all .2s">Slack</span>
+<span class="hi-pill" onclick="toggleHiDesc(this)" data-desc="Slack 네이티브 AI 봇 + MCP 연동. 자연어로 데이터 조회·리포팅 자동화" style="width:128px;height:36px;display:inline-flex;align-items:center;justify-content:center;padding:0 .7rem;background:#E8F4FD;border:1px solid #BDE0FE;border-radius:999px;font-size:.83rem;font-weight:600;color:var(--navy);text-align:center;cursor:pointer;transition:all .2s">Albert & Slackbot</span>
+<span class="hi-pill" onclick="toggleHiDesc(this)" data-desc="Microsoft Teams에서 동일 Agent 호출. 외부 채널 확장으로 Teams 사용 고객사 대응" style="width:128px;height:36px;display:inline-flex;align-items:center;justify-content:center;padding:0 .7rem;background:#F3F3F3;border:1px solid var(--gray-200);border-radius:999px;font-size:.83rem;font-weight:600;color:var(--gray-600);text-align:center;cursor:pointer;transition:all .2s">Teams</span>
+<span class="hi-pill" onclick="toggleHiDesc(this)" data-desc="OpenAI ChatGPT에서 Salesforce Agent를 Subagent로 호출하는 구조" style="width:128px;height:36px;display:inline-flex;align-items:center;justify-content:center;padding:0 .7rem;background:#F3F3F3;border:1px solid var(--gray-200);border-radius:999px;font-size:.83rem;font-weight:600;color:var(--gray-600);text-align:center;cursor:pointer;transition:all .2s">ChatGPT</span>
+<span class="hi-pill" onclick="toggleHiDesc(this)" data-desc="Microsoft Copilot에서 Salesforce 데이터·Agent를 연동 호출" style="width:128px;height:36px;display:inline-flex;align-items:center;justify-content:center;padding:0 .7rem;background:#F3F3F3;border:1px solid var(--gray-200);border-radius:999px;font-size:.83rem;font-weight:600;color:var(--gray-600);text-align:center;cursor:pointer;transition:all .2s">Copilot</span>
+</div>
+<div id="hi-detail-box" style="display:none;margin-top:.65rem;padding:.7rem 1rem;background:#F3FAFF;border:1px solid #BDE0FE;border-radius:var(--radius-sm);font-size:.84rem;color:#245070;line-height:1.5"></div>
+</div>
+</div>
+
+<!-- 2. Agent 유형 매트릭스 (Internal/External × Simplified/Custom) -->
+<div style="font-size:.93rem;font-weight:700;color:var(--navy);margin-bottom:.8rem" data-i18n="subagentTitle">라이센스별 Sub-agent 유형 소개</div>
+<div class="license-filter-section">
+<div class="license-filter-label" data-i18n="licenseType">라이센스 종류</div>
+<div class="license-filter-groups">
+<div class="license-filter-group">
+<span class="license-group-label">Unmetered</span>
+<div class="license-filter-row">
+<button type="button" class="license-filter-btn" data-tip="A1E — Agentforce 1 Edition ($550 pupm)&#10;Agentforce 최상위 번들 라이선스입니다. Headless(MCP 서버 접근)와 보유한 A4X 라이선스를 포함합니다. Unmetered 대상이지만 사람이 직접 트리거하는 employee-facing 사용에만 적용되고, 자동화·시스템 트리거·외부 대상 사용은 Flex Credits를 소비합니다.">A1E - Agentforce 1 Edition</button>
+<button type="button" class="license-filter-btn" data-tip="A4X — Agentforce Add-on ($125 pupm)&#10;클라우드별 Agentforce 기능(Sales, Service, Field Service, Industries 등)을 제공하는 add-on 라이선스입니다. Agentforce Coworker, Headless add-on, Tableau Next를 포함하며, Unmetered 대상이지만 human-initiated 제약이 동일하게 적용됩니다.">A4X - Agentforce Add-on</button>
+<button type="button" class="license-filter-btn" data-tip="AELA — Agentforce Enterprise License Agreement&#10;소비(Flex Credits), 시트 라이선스, 서비스를 결합한 맞춤형 번들 계약입니다. Velocity와 Unlimited SKU가 있으며, 무제한 Flex credits/Data 360/Headless 사용이 필요한 고객에게 적합합니다.">AELA - Agentforce Enterprise License Agreement</button>
+</div>
+</div>
+<div class="license-filter-group">
+<span class="license-group-label">Metered</span>
+<div class="license-filter-row">
+<button type="button" class="license-filter-btn" data-tip="Flex Credits&#10;Agentforce/Data 360 사용량 기반 소비 크레딧입니다. 시스템 트리거 자동화, Data 360 Queries 등 Unmetered 대상이 아닌 모든 사용은 Flex Credits로 차감되며, 인터랙션당 약 10 Flex(=$0.05 list)가 표준 소비량입니다.">Flex Credits - Usage-based credits</button>
+<button type="button" class="license-filter-btn" data-tip="AUL — Agentforce User License ($5/user/month)&#10;CRM 접근이 필요 없는 employee를 위한 최소 권한 라이선스입니다. Slack 및 기본 Salesforce UI 기반 상호작용만 가능하며(Custom object 접근 불가), Unmetered tier가 없어 모든 사용이 Metered로 과금됩니다.">AUL - Agentforce User License + Flex Credits</button>
+</div>
+</div>
+<div class="license-filter-group">
+<span class="license-group-label">Other</span>
+<div class="license-filter-row">
+<button type="button" class="license-filter-btn" data-tip="별도 라이센스 필요&#10;기본 Agentforce 라이센스 조합 외에 목적별/클라우드별/계약별 추가 라이센스가 필요한 경우를 의미합니다. 실제 적용 시 SKU, 에디션, 계약 조건을 함께 확인해야 합니다.">별도 라이센스 필요</button>
+<button type="button" class="license-filter-btn" data-tip="미정&#10;현재 기준으로 라이선스 정책/과금 분류가 확정되지 않았거나, 계약/제품 로드맵에 따라 추후 확정이 필요한 항목입니다.">미정</button>
+</div>
+</div>
+</div>
+<div class="license-filter-note">*비고: 아래 에이전트는 보유한 라이선스 종류에 따라 제공 범위와 사용 가능 기능이 달라질 수 있습니다.</div>
+<div id="license-rule-box" class="license-rule-box">
+<div id="license-rule-title" class="license-rule-title">라이선스 선택 가이드</div>
+<div id="license-rule-body" class="license-rule-body">버튼을 클릭하면 해당 라이선스 기준으로 내부 트리거/외부 채널/시스템 자동화 과금 규칙을 요약해 보여줍니다.</div>
+</div>
+</div>
+<div id="agent-license-matrix" style="display:grid;grid-template-columns:130px 1fr 1fr 1fr;grid-template-rows:auto auto auto auto auto auto;gap:0;margin-bottom:2rem;border:2px solid var(--navy);border-radius:var(--radius);overflow:hidden">
+<!-- Top merged row -->
+<div style="grid-column:1 / -1;background:var(--navy);padding:.55rem .7rem;text-align:center;border-bottom:1px solid rgba(255,255,255,.2)"><span style="font-size:.78rem;font-weight:700;color:#fff">Sub-agent</span></div>
+<!-- Row 1: Agent 유형 -->
+<div style="background:#F8FBFF;padding:1rem .5rem;display:flex;align-items:center;justify-content:center;text-align:center;border-top:1px solid var(--gray-200)">
+<span style="font-size:.72rem;font-weight:800;color:var(--navy)" data-i18n="agentType">Agent 유형</span>
+</div>
+<div style="background:#F8FBFF;padding:1rem .6rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;border-top:1px solid var(--gray-200);border-left:1px solid var(--gray-200)">
+<span style="font-size:.84rem;font-weight:800;color:var(--navy)">Employee Agent</span>
+<span style="font-size:.66rem;color:var(--gray-600);margin-top:.3rem;line-height:1.35" data-i18n="employeeAgentDesc">사내 직원 대상 업무 보조 에이전트. 내부 시스템에서만 동작</span>
+</div>
+<div style="background:#F8FBFF;padding:1rem .6rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;border-top:1px solid var(--gray-200);border-left:1px solid var(--gray-200)">
+<span style="font-size:.84rem;font-weight:800;color:var(--navy)">Hybrid Agents</span>
+<span style="font-size:.66rem;color:var(--gray-600);margin-top:.3rem;line-height:1.35" data-i18n="hybridAgentDesc">직원+고객 양쪽 접점에서 동작. 내부 트리거로 외부 고객에게 액션 수행</span>
+</div>
+<div style="background:#F8FBFF;padding:1rem .6rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;border-top:1px solid var(--gray-200);border-left:1px solid var(--gray-200)">
+<span style="font-size:.84rem;font-weight:800;color:var(--navy)">Customer Agents</span>
+<span style="font-size:.66rem;color:var(--gray-600);margin-top:.3rem;line-height:1.35" data-i18n="customerAgentDesc">외부 고객이 직접 대면하는 에이전트. 웹·앱·메신저 등 고객 채널에 배포</span>
+</div>
+
+<!-- Header row -->
+<div style="background:#F8FBFF;padding:.6rem;display:flex;align-items:center;justify-content:center;border-top:1px solid var(--gray-200)"><span style="font-size:.7rem;font-weight:700;color:var(--navy)" data-i18n="deployChannel">배포 채널</span></div>
+<div style="background:#fff;padding:.6rem;text-align:center;border-top:1px solid var(--gray-200);border-left:1px solid var(--gray-200)"><span style="font-size:.78rem;font-weight:700;color:var(--navy)">Internal Channels</span></div>
+<div style="background:#fff;padding:.6rem;text-align:center;border-top:1px solid var(--gray-200);border-left:1px solid var(--gray-200)"><span style="font-size:.78rem;font-weight:700;color:var(--navy)">Internal/External Channels</span></div>
+<div style="background:#fff;padding:.6rem;text-align:center;border-top:1px solid var(--gray-200);border-left:1px solid var(--gray-200)"><span style="font-size:.78rem;font-weight:700;color:var(--navy)">External Channels</span></div>
+
+<!-- Row 2: With Simplified Setup -->
+<div style="background:#F8FBFF;padding:1rem .5rem;display:flex;align-items:center;justify-content:center;text-align:center;border-top:1px solid var(--gray-200)">
+<span style="font-size:.72rem;font-weight:800;color:var(--navy)">With Simplified Setup</span>
+</div>
+<div style="background:#fff;padding:1.2rem;border-top:1px solid var(--gray-200);border-left:1px solid var(--gray-200);display:flex;flex-direction:column;gap:.45rem">
+<div class="na-pill" onclick="toggleNaDesc(this)" data-desc="IT/HR 내부 직원 지원. 비밀번호 초기화, 복리후생 문의, 사내 정책 안내 등 자동 처리" style="background:#E8F4FD;border:1px solid #BDE0FE;border-radius:var(--radius-sm);padding:.4rem .7rem;min-height:36px;display:flex;flex-direction:column;justify-content:center;text-align:center;cursor:pointer;transition:all .2s">
+<div class="agent-name-row"><span style="font-size:.78rem;font-weight:700;color:var(--navy)">Paige</span><span class="agent-info-dot" data-tip="Employee Service Agent, 세일즈포스 자체개발 에이전트">?</span></div>
+<div style="font-size:.55rem;color:var(--gray-600)">사내 직원 문의·업무지원 에이전트</div>
+</div>
+<div class="na-pill" onclick="toggleNaDesc(this)" data-desc="재고 부족·배송 지연 등 공급망 이슈 감지 시 대응 플랜 자동 제안 및 관련 부서 알림" style="background:#E8F4FD;border:1px solid #BDE0FE;border-radius:var(--radius-sm);padding:.4rem .7rem;min-height:36px;display:flex;flex-direction:column;justify-content:center;text-align:center;cursor:pointer;transition:all .2s">
+<div class="agent-name-row"><span style="font-size:.78rem;font-weight:700;color:var(--navy)">Marshall</span><span class="agent-info-dot" data-tip="Supply Chain Agent, Regrello 인수 기반 에이전트">?</span></div>
+<div style="font-size:.55rem;color:var(--gray-600)">공급망 이슈 대응·운영 지원 에이전트</div>
+</div>
+<div class="na-pill" onclick="toggleNaDesc(this)" data-desc="Field Service 현장 기사의 작업 일정·부품 조회·완료 보고를 모바일에서 AI 보조" data-video="1zmVJNe4UJLE4oTAL0VmngmlzDpeWoJIb" style="background:#E8F4FD;border:1px solid #BDE0FE;border-radius:var(--radius-sm);padding:.4rem .7rem;min-height:36px;display:flex;flex-direction:column;justify-content:center;text-align:center;cursor:pointer;transition:all .2s">
+<div class="agent-name-row"><span style="font-size:.78rem;font-weight:700;color:var(--navy)">Felix</span><span class="agent-info-dot" data-tip="Field Service Agent, 세일즈포스 자체개발 에이전트">?</span></div>
+<div style="font-size:.55rem;color:var(--gray-600)">현장 업무 실행·리포팅 지원 에이전트</div>
+</div>
+</div>
+<div style="background:#fff;padding:1.2rem;border-top:1px solid var(--gray-200);border-left:1px solid var(--gray-200);display:flex;flex-direction:column;gap:.45rem">
+<div class="na-pill" onclick="toggleNaDesc(this)" data-desc="아웃바운드 SDR Agent. ICP 기반 타겟 기업 발굴, 개인화된 초기 접촉 메시지 자동 생성" style="background:#E8F4FD;border:1px solid #BDE0FE;border-radius:var(--radius-sm);padding:.4rem .7rem;min-height:36px;display:flex;flex-direction:column;justify-content:center;text-align:center;cursor:pointer;transition:all .2s">
+<div class="agent-name-row"><span style="font-size:.78rem;font-weight:700;color:var(--navy)">Hunter</span><span class="agent-info-dot" data-tip="Prospecting Agent, Bluebirds 인수 + 세일즈포스 자체개발 결합 에이전트">?</span></div>
+<div style="font-size:.55rem;color:var(--gray-600)">신규 리드 발굴·영업 기회 탐색 에이전트</div>
+</div>
+<div class="na-pill" onclick="toggleNaDesc(this)" data-desc="캠페인 세그먼트 생성, 이메일/소셜 콘텐츠 초안 작성, A/B 테스트 최적화" style="background:#E8F4FD;border:1px solid #BDE0FE;border-radius:var(--radius-sm);padding:.4rem .7rem;min-height:36px;display:flex;flex-direction:column;justify-content:center;text-align:center;cursor:pointer;transition:all .2s">
+<div class="agent-name-row"><span style="font-size:.78rem;font-weight:700;color:var(--navy)">Margo</span><span class="agent-info-dot" data-tip="Marketing Agent, Contentful 인수 기반 에이전트">?</span></div>
+<div style="font-size:.55rem;color:var(--gray-600)">마케팅 캠페인 실행·콘텐츠 운영 에이전트</div>
+</div>
+<div class="na-pill" onclick="toggleNaDesc(this)" data-desc="과거 성공 딜 패턴 분석 → 현재 딜에 맞는 가격·조건·타이밍 전략 코칭" style="background:#E8F4FD;border:1px solid #BDE0FE;border-radius:var(--radius-sm);padding:.4rem .7rem;min-height:36px;display:flex;flex-direction:column;justify-content:center;text-align:center;cursor:pointer;transition:all .2s">
+<div class="agent-name-row"><span style="font-size:.78rem;font-weight:700;color:var(--navy)">Archer</span><span class="agent-info-dot" data-tip="Revenue Cloud Deal Strategy Agent, 세일즈포스 자체개발 에이전트">?</span></div>
+<div style="font-size:.55rem;color:var(--gray-600)">딜 전략 수립·협상 가이드 에이전트</div>
+</div>
+</div>
+<div style="background:#fff;padding:1.2rem;border-top:1px solid var(--gray-200);border-left:1px solid var(--gray-200);display:flex;flex-direction:column;gap:.45rem">
+<div class="na-pill" onclick="toggleNaDesc(this)" data-desc="인바운드 리드 자동 스코어링. BANT 기준 적합도 판단 후 영업팀에 우선순위 전달" style="background:#E8F4FD;border:1px solid #BDE0FE;border-radius:var(--radius-sm);padding:.4rem .7rem;min-height:36px;display:flex;flex-direction:column;justify-content:center;text-align:center;cursor:pointer;transition:all .2s">
+<div class="agent-name-row"><span style="font-size:.78rem;font-weight:700;color:var(--navy)">Piper</span><span class="agent-info-dot" data-tip="Lead Qualification Agent, Qualified 인수 기반 에이전트">?</span></div>
+<div style="font-size:.55rem;color:var(--gray-600)">리드 적합도 평가·우선순위 분류 에이전트</div>
+</div>
+<div class="na-pill" onclick="toggleNaDesc(this)" data-desc="고객 문의 1차 자동 해결. FAQ·주문조회·반품 처리 후 미해결 건만 상담원 에스컬레이션" style="background:#E8F4FD;border:1px solid #BDE0FE;border-radius:var(--radius-sm);padding:.4rem .7rem;min-height:36px;display:flex;flex-direction:column;justify-content:center;text-align:center;cursor:pointer;transition:all .2s">
+<div class="agent-name-row"><span style="font-size:.78rem;font-weight:700;color:var(--navy)">Casey</span><span class="agent-info-dot" data-tip="Service Help Agent, 세일즈포스 자체개발 에이전트">?</span></div>
+<div style="font-size:.55rem;color:var(--gray-600)">고객 문의 응대·문제 해결 지원 에이전트</div>
+</div>
+<div class="na-pill" onclick="toggleNaDesc(this)" data-desc="Commerce 사이트 내 개인화 상품 추천, 장바구니 이탈 방지, 결제 안내까지 구매 전환 지원" style="background:#E8F4FD;border:1px solid #BDE0FE;border-radius:var(--radius-sm);padding:.4rem .7rem;min-height:36px;display:flex;flex-direction:column;justify-content:center;text-align:center;cursor:pointer;transition:all .2s">
+<div class="agent-name-row"><span style="font-size:.78rem;font-weight:700;color:var(--navy)">Carter</span><span class="agent-info-dot" data-tip="Commerce Shopping Agent, 세일즈포스 자체개발 에이전트">?</span></div>
+<div style="font-size:.55rem;color:var(--gray-600)">쇼핑 여정 안내·구매 전환 지원 에이전트</div>
+</div>
+</div>
+
+<!-- Row 3: Templated Agent -->
+<div style="background:#F8FBFF;padding:1rem .5rem;display:flex;align-items:center;justify-content:center;text-align:center;border-top:1px solid var(--gray-200)">
+<span style="font-size:.72rem;font-weight:800;color:var(--navy)">Templated Agent</span>
+</div>
+<div style="background:#fff;padding:1.2rem;border-top:1px solid var(--gray-200);border-left:1px solid var(--gray-200);display:flex;flex-direction:column;gap:.5rem">
+<div class="ca-pill" onclick="toggleCaDesc(this)" data-desc="RFP 문서를 업로드하면 리스크 항목·필수 요구사항·경쟁 비교 포인트를 자동 추출. Grid 기반으로 대량 RFP 병렬 분석 가능" style="background:#00C9A7;color:#fff;padding:.4rem .8rem;border-radius:var(--radius-sm);text-align:center;font-weight:700;font-size:.75rem;cursor:pointer;transition:all .2s">RFP Agent<br><span style="font-size:.62rem;font-weight:500;opacity:.95">제안요청서 분석·리스크 식별</span></div>
+<div class="ca-pill" onclick="toggleCaDesc(this)" data-desc="서비스 담당자가 고객 응대 중 실시간으로 답변 추천·관련 KB 문서 제안·에스컬레이션 판단 보조" style="background:#00C9A7;color:#fff;padding:.4rem .8rem;border-radius:var(--radius-sm);text-align:center;font-weight:700;font-size:.75rem;cursor:pointer;transition:all .2s">Service Rep Assistant<br><span style="font-size:.62rem;font-weight:500;opacity:.95">서비스 담당자 응대 보조</span></div>
+</div>
+<div style="background:#fff;padding:1.2rem;border-top:1px solid var(--gray-200);border-left:1px solid var(--gray-200);display:flex;flex-direction:column;gap:.5rem">
+<div class="ca-pill" onclick="toggleCaDesc(this)" data-desc="신규 고객 가입 후 환영 메일→초기 설정 가이드→첫 성공 체험까지 단계별 자동 안내. 이탈 징후 감지 시 사람에게 알림" style="background:#00C9A7;color:#fff;padding:.4rem .8rem;border-radius:var(--radius-sm);text-align:center;font-weight:700;font-size:.75rem;cursor:pointer;transition:all .2s">Customer Onboarding Agent<br><span style="font-size:.62rem;font-weight:500;opacity:.95">신규 고객 온보딩 절차 안내</span></div>
+<div class="ca-pill" onclick="toggleCaDesc(this)" data-desc="미응답 리드·휴면 고객에게 최적 타이밍에 맞춤 메시지 자동 발송. 반응 시 영업팀에 즉시 알림" style="background:#00C9A7;color:#fff;padding:.4rem .8rem;border-radius:var(--radius-sm);text-align:center;font-weight:700;font-size:.75rem;cursor:pointer;transition:all .2s">Engage With Prospects Agent<br><span style="font-size:.62rem;font-weight:500;opacity:.95">잠재고객 접점 유지·재참여 유도</span></div>
+</div>
+<div style="background:#fff;padding:1.2rem;border-top:1px solid var(--gray-200);border-left:1px solid var(--gray-200);display:flex;flex-direction:column;gap:.5rem">
+<div class="ca-pill" onclick="toggleCaDesc(this)" data-desc="'내 주문 어디 있어요?' 문의를 자동 처리. 주문번호로 실시간 배송 상태 조회 후 예상 도착일 안내" style="background:#00C9A7;color:#fff;padding:.4rem .8rem;border-radius:var(--radius-sm);text-align:center;font-weight:700;font-size:.75rem;cursor:pointer;transition:all .2s">WISMO Agent<br><span style="font-size:.62rem;font-weight:500;opacity:.95">배송/주문 상태 실시간 안내</span></div>
+<div class="ca-pill" onclick="toggleCaDesc(this)" data-desc="고객이 자연어로 일정 예약·변경·취소 요청 시 캘린더 연동해 자동 처리. 충돌 감지 및 대안 제안" style="background:#00C9A7;color:#fff;padding:.4rem .8rem;border-radius:var(--radius-sm);text-align:center;font-weight:700;font-size:.75rem;cursor:pointer;transition:all .2s">Scheduling Agent<br><span style="font-size:.62rem;font-weight:500;opacity:.95">일정 예약·변경 자동 처리</span></div>
+<div class="ca-pill" onclick="toggleCaDesc(this)" data-desc="고객 문의를 자동 분류(반품·결제·기술지원 등)하고 KB 기반 답변 생성. 복잡한 건은 적절한 담당자에게 라우팅" style="background:#00C9A7;color:#fff;padding:.4rem .8rem;border-radius:var(--radius-sm);text-align:center;font-weight:700;font-size:.75rem;cursor:pointer;transition:all .2s">Agentforce Service Agent<br><span style="font-size:.62rem;font-weight:500;opacity:.95">서비스 문의 분류·응답 자동화</span></div>
+</div>
+
+<!-- Row 4: Custom Agent -->
+<div style="background:#F8FBFF;padding:1rem .5rem;display:flex;align-items:center;justify-content:center;text-align:center;border-top:1px solid var(--gray-200)">
+<span style="font-size:.72rem;font-weight:800;color:var(--navy)">Custom Agent</span>
+</div>
+<div style="background:#fff;padding:1.2rem;border-top:1px solid var(--gray-200);border-left:1px solid var(--gray-200);display:flex;flex-direction:column;gap:.5rem">
+<div class="ca-pill" onclick="toggleCaDesc(this)" data-desc="주문 접수→재고 확인→출하 지시→배송 추적까지 주문 라이프사이클 전체를 자동화. 예외 건만 사람에게 알림" style="background:#FFB84D;color:#fff;padding:.4rem .8rem;border-radius:var(--radius-sm);text-align:center;font-weight:700;font-size:.75rem;cursor:pointer;transition:all .2s">OMS Agent<br><span style="font-size:.62rem;font-weight:500;opacity:.95">주문 관리·처리 자동화</span></div>
+<div class="ca-pill" onclick="toggleCaDesc(this)" data-desc="기존 고객 데이터(매출·활동·산업) 기반으로 계정별 확장 가능성 점수 산출. 영업팀이 집중할 계정 우선순위 자동 제안" style="background:#FFB84D;color:#fff;padding:.4rem .8rem;border-radius:var(--radius-sm);text-align:center;font-weight:700;font-size:.75rem;cursor:pointer;transition:all .2s">Account Qualification Agent<br><span style="font-size:.62rem;font-weight:500;opacity:.95">계정 적합도 평가·우선순위화</span></div>
+</div>
+<div style="background:#fff;padding:1.2rem;border-top:1px solid var(--gray-200);border-left:1px solid var(--gray-200);display:flex;flex-direction:column;gap:.5rem">
+<div class="ca-pill" onclick="toggleCaDesc(this)" data-desc="상품 구성·할인율·계약 조건을 자동 조합해 견적서 초안 생성. CPQ 규칙 기반으로 오류 방지" style="background:#FFB84D;color:#fff;padding:.4rem .8rem;border-radius:var(--radius-sm);text-align:center;font-weight:700;font-size:.75rem;cursor:pointer;transition:all .2s">Quoting Agent<br><span style="font-size:.62rem;font-weight:500;opacity:.95">견적 생성·검토·제안 보조</span></div>
+</div>
+<div style="background:#fff;padding:1.2rem;border-top:1px solid var(--gray-200);border-left:1px solid var(--gray-200);display:flex;flex-direction:column;gap:.5rem">
+<div class="ca-pill" onclick="toggleCaDesc(this)" data-desc="웹사이트·랜딩페이지 방문자와 AI가 실시간 대화해 리드 정보 수집. 적합도 판단 후 즉시 영업 라우팅" style="background:#FFB84D;color:#fff;padding:.4rem .8rem;border-radius:var(--radius-sm);text-align:center;font-weight:700;font-size:.75rem;cursor:pointer;transition:all .2s">LeadGen Agent<br><span style="font-size:.62rem;font-weight:500;opacity:.95">리드 발굴·유입 경로 확장</span></div>
+</div>
+</div>
+
+<div id="feature-type-matrix" style="display:grid;grid-template-columns:130px 1fr 1fr 1fr;grid-template-rows:auto auto auto;gap:0;margin-bottom:2rem;border:2px solid var(--navy);border-radius:var(--radius);overflow:hidden">
+<div style="grid-column:1 / -1;background:var(--navy);padding:.55rem .7rem;text-align:center;border-bottom:1px solid rgba(255,255,255,.2)"><span style="font-size:.78rem;font-weight:700;color:#fff">자동화 기능 유형 분류</span></div>
+<div style="background:#F8FBFF;padding:.75rem .7rem;display:flex;align-items:center;justify-content:center;text-align:center;border-top:1px solid var(--gray-200)"><span style="font-size:.78rem;font-weight:800;color:var(--navy)">구분</span></div>
+<div style="background:#fff;padding:.75rem .7rem;text-align:center;border-top:1px solid var(--gray-200);border-left:1px solid var(--gray-200)"><span style="font-size:.78rem;font-weight:700;color:var(--navy)">Salesforce UI/App 기반 작동 기능</span></div>
+<div style="background:#fff;padding:.75rem .7rem;text-align:center;border-top:1px solid var(--gray-200);border-left:1px solid var(--gray-200)"><span style="font-size:.78rem;font-weight:700;color:var(--navy)">External System/API Call 기반 작동 기능</span></div>
+<div style="background:#fff;padding:.75rem .7rem;text-align:center;border-top:1px solid var(--gray-200);border-left:1px solid var(--gray-200)"><span style="font-size:.78rem;font-weight:700;color:var(--navy)">Agent 관련 지원 기능</span></div>
+
+<div style="background:#F8FBFF;padding:1rem .7rem;display:flex;align-items:center;justify-content:center;text-align:center;border-top:1px solid var(--gray-200)"><span style="font-size:.78rem;font-weight:800;color:var(--navy)">Feature</span></div>
+<div style="background:#fff;padding:1rem;border-top:1px solid var(--gray-200);border-left:1px solid var(--gray-200);display:flex;flex-direction:column;gap:.45rem">
+<div class="feature-pill" data-feature="ui-set">UI Initiated Prompt Template / Screen Flow / Custom Button / Link / Autolaunched Flow / Record Trigger Flow</div>
+<div class="feature-pill" data-feature="inline">Inline Suggestions</div>
+</div>
+<div style="background:#fff;padding:1rem;border-top:1px solid var(--gray-200);border-left:1px solid var(--gray-200);display:flex;flex-direction:column;gap:.45rem">
+<div class="feature-pill" data-feature="apex-trigger">Apex Trigger</div>
+<div class="feature-pill" data-feature="apex-class">Apex Class / Scheduled / Batch Apex</div>
+<div class="feature-pill" data-feature="event-scheduled">Event Flow / Scheduled Flow</div>
+</div>
+<div style="background:#fff;padding:1rem;border-top:1px solid var(--gray-200);border-left:1px solid var(--gray-200);display:flex;flex-direction:column;gap:.45rem">
+<div class="feature-pill" data-feature="test-center">Test Center</div>
+<div class="feature-pill" data-feature="support-suite">Usage Reports / Agentforce Vibes / Grid</div>
+</div>
+</div>
+
+<div id="na-desc-box" style="display:none;margin-top:.8rem;margin-bottom:1rem;padding:.7rem 1rem;background:#F0F7FF;border:1px solid #BDE0FE;border-radius:var(--radius-sm);font-size:.78rem;color:#333;line-height:1.5"></div>
+<div id="ca-desc-box" style="display:none;margin-top:.8rem;margin-bottom:1rem;padding:.7rem 1rem;background:#F0FFF8;border:1px solid #A7E8C8;border-radius:var(--radius-sm);font-size:.78rem;color:#333;line-height:1.5"></div>
+
+<!-- 3. FAQ -->
+<div style="margin-top:1.2rem">
+<div style="font-size:.85rem;font-weight:700;color:var(--navy);margin-bottom:.8rem">FAQ</div>
+<div style="font-size:.72rem;color:var(--gray-600);margin-top:-.35rem;margin-bottom:.7rem">*비고: 본 내용은 세일즈포스 제품 전략 업데이트에 따라 변경될 수 있습니다. (2026년 8월 기준)</div>
+<div style="background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius);padding:1rem 1.2rem;display:flex;flex-direction:column;gap:.7rem">
+<div style="padding:.7rem .85rem;background:#F8FBFF;border:1px solid #BDE0FE;border-radius:var(--radius-sm);font-size:.8rem;color:#1f1f1f;line-height:1.5">
+<b>1. FIN은 어디에 포함되나요?</b><br>
+Fin은 Headless 360 레이어 안의 컴포넌트라기보다 <b>별도 브랜드 제품</b>으로 보는 게 맞습니다.<br>
+Salesforce 미사용 SMB 고객 대상의 독립 패키지로 유지되며, 내부 포지셔닝도 <b>Fin ≠ Casey(Agentforce Help Agent)</b>로 명확히 구분됩니다.<br>
+즉 Casey는 Salesforce 고객용 네이티브 Agent이고, Fin은 병렬로 존재하는 독립 상품입니다.
+</div>
+<div style="padding:.7rem .85rem;background:#F8FBFF;border:1px solid #BDE0FE;border-radius:var(--radius-sm);font-size:.8rem;color:#1f1f1f;line-height:1.5">
+<b>2. Momentum은 어디에 포함되나요?</b><br>
+Momentum은 화면에 노출되는 Named Agent 페르소나라기보다, 통화·이메일·미팅 데이터를 구조화해 Agent에게 공급하는 <b>입력/센싱(컨텍스트) 레이어</b>입니다.<br>
+실무 표현으로는 <b>"Agentforce is the brain, Momentum is the ears"</b>에 가깝고, Hunter·Archer 같은 Sales Agent가 참고할 근거 데이터를 채우는 백엔드 인텔리전스 역할입니다.<br>
+현재는 이 기능이 Agentforce for Sales(A4S) 네이티브 기능으로 통합되는 과도기이며, 기준 시점(9/20) 이후에는 A4S 내 기능으로 정리되는 방향입니다.
+</div>
+</div>
+</div>
+</div>
+
+<!-- VIEW: BROWSE ALL -->
+<div class="view" id="view-all">
+<div class="sec-label">All Contents</div>
+<div class="sec-title" data-i18n="browseTitle">전체 콘텐츠</div>
+<div class="sec-desc" data-i18n="browseDesc">4개 세그먼트별 콘텐츠 배치 현황</div>
+<div class="tree-wrap" id="browse-tree"></div>
+</div>
+
+</div>
+
+<script>
+let LANG=localStorage.getItem('ai-init-lang')||'ko';
+const T={
+heroSub:{ko:'CRM 사용 여부와 AI 역량 수준으로 고객을 4가지 세그먼트로 분류하고, 각 세그먼트에 맞는 콘텐츠를 추천합니다.',en:'Classifies customers into 4 segments by CRM adoption and AI readiness, and recommends tailored content for each segment.'},
+segments:{ko:'세그먼트',en:'Segments'},
+mainPurpose:{ko:'<b>목적</b>\n이 사이트는 고객의 CRM·AI 성숙도와 업무 맥락에 맞춰 Agentic Enterprise 전환 전략을 빠르게 이해하고, 바로 실행 가능한 제안 방향을 정리하기 위한 실무형 가이드입니다.<br><br>\n<b>만들게 된 이유</b>\n고객마다 CRM 도입 수준과 AI 이해도가 달라 같은 설명으로는 공감과 실행을 끌어내기 어려웠고, 제안 과정에서 무엇을 먼저 보여주고 어떤 메시지로 설득할지가 매번 달라 일관성이 떨어지는 문제가 있었습니다. 이 사이트는 현장의 혼선을 줄이고 고객 상황에 맞는 스토리·데모·아키텍처 포인트를 빠르게 정렬해 제안의 속도와 품질을 동시에 높이기 위해 만들었습니다.',en:'<b>Purpose</b>\nA practical guide for quickly understanding the Agentic Enterprise transformation strategy aligned to each customer\'s CRM/AI maturity and business context, and organizing actionable proposal directions.<br><br>\n<b>Why we built this</b>\nEvery customer has a different CRM adoption level and AI understanding, making it hard to resonate with a one-size-fits-all pitch. What to show first and which message to lead with kept changing, reducing consistency. This site reduces field confusion and quickly aligns stories, demos, and architecture talking points to each customer\'s situation — improving both speed and quality of proposals.'},
+tabGuide:{ko:'바로가기 Tab 설명',en:'Tab Guide'},
+btnAgents:{ko:'Agent에 대해 알아보기',en:'Explore Agent Types'},
+btnAgentsDesc:{ko:'<b>Agent 유형/활용 관점이 궁금하다면</b> 이 버튼을 눌러보세요. Internal/External 채널별 Agent 포지션, Headless Interface 개념, 실제 적용 시나리오를 한 번에 확인할 수 있습니다.',en:'<b>Curious about Agent types and use cases?</b> Click this button. You can review Agent positioning by Internal/External channel, the Headless Interface concept, and real-world scenarios all at once.'},
+btnSegments:{ko:'고객 세그먼트별 Approach 알아보기',en:'Segment-based Approach'},
+btnSegmentsDesc:{ko:'<b>고객 상태에 맞는 제안 전략이 필요하다면</b> 여기에서 시작하세요. CRM/AI 성숙도에 따라 추천 제품, 설명 포인트, 시나리오, 아키텍처 주의사항까지 단계별로 볼 수 있습니다.',en:'<b>Need a proposal strategy tailored to the customer\'s status?</b> Start here. View recommended products, talking points, scenarios, and architecture considerations step by step based on CRM/AI maturity.'},
+videoTitle:{ko:'Agentic Enterprise 소개 영상',en:'Agentic Enterprise Introduction Video'},
+videoDesc:{ko:'<b>Dreamforce 100일 뒤, 크리스마스가 찾아옵니다.</b><br>\n매년 Santa Company는 크리스마스를 완벽하게 준비해왔지만, 올해는 위기 상황에 놓입니다. 세상이 그 어느 때보다 빠르게 바뀌는 가운데, 전 세계의 착한 아이들(고객)이 기대하는 높은 기준을 계속 충족할 수 있을까요?<br><br>\n<b>해답은 Agentic Enterprise입니다.</b><br>\nApromore, Piper, Carter, Felix, Agentforce Coworker, Slackbot이 함께 등장하는 이 스토리는 Salesforce가 어떻게 크리스마스를 구해내는지 보여줍니다.<br><br>\n<b>영상 속 비유</b><br>\nSanta: 비즈니스 리더 / Elves: 임직원 / Children: 고객<br>\n또한 영상의 연출 자체도 Headless를 비유합니다. 엘프들의 뒷모습 장면은 사람이 실제로 일하는 UI/현장을, 화면 전체를 채우는 데모 장면은 에이전트가 작업을 처리하는 실행 레이어를 의미합니다. 즉, UI와 실행 레이어가 분리되어 있으면서도 유기적으로 연결되는 Headless 구조를 직관적으로 전달합니다.<br><br>\n<b>핵심 메시지</b><br>\n직원과 AI 에이전트가 하나의 팀으로 협업할 때, 복잡한 업무도 더 빠르고 정확하게 실행됩니다.<br><br>\n<b>Takeaway</b><br>\n단 100일만 있어도 어떤 조직이든 Agentic Enterprise로의 전환을 시작할 수 있습니다.',en:'<b>100 days after Dreamforce, Christmas arrives.</b><br>\nEvery year Santa Company has prepared Christmas perfectly, but this year they face a crisis. As the world changes faster than ever, can they keep meeting the high expectations of good children (customers) around the globe?<br><br>\n<b>The answer is the Agentic Enterprise.</b><br>\nFeaturing Apromore, Piper, Carter, Felix, Agentforce Coworker, and Slackbot — this story shows how Salesforce saves Christmas.<br><br>\n<b>Metaphors in the video</b><br>\nSanta: Business Leader / Elves: Employees / Children: Customers<br>\nThe cinematography itself metaphorizes Headless architecture. Scenes showing the elves from behind represent the human-facing UI/field, while full-screen demo scenes represent the agent execution layer. The separation yet seamless connection intuitively conveys the Headless architecture.<br><br>\n<b>Key Message</b><br>\nWhen employees and AI agents collaborate as one team, even complex tasks are executed faster and more accurately.<br><br>\n<b>Takeaway</b><br>\nWith just 100 days, any organization can begin its transformation to an Agentic Enterprise.'},
+segTitle:{ko:'고객 세그먼트 선택',en:'Select Customer Segment'},
+segDesc:{ko:'해당 고객의 CRM 사용 여부와 AI 역량을 기준으로 사분면을 클릭하세요',en:'Click a quadrant based on the customer\'s CRM usage and AI capability'},
+noCRM:{ko:'CRM 미사용',en:'No CRM'},
+usingCRM:{ko:'CRM 사용중',en:'Using CRM'},
+aiHigh:{ko:'AI 역량<br>높음',en:'AI Capability<br>High'},
+aiLow:{ko:'AI 역량<br>낮음',en:'AI Capability<br>Low'},
+descNocrmAi:{ko:'CRM 없지만 AI/개발 역량 보유<br>빠른 셀프 구축 가능',en:'No CRM but strong AI/dev capability<br>Can self-build quickly'},
+descCrmAi:{ko:'CRM + AI 역량 모두 보유<br>고도화·자동화 니즈',en:'Both CRM + AI capability<br>Advanced automation needs'},
+titleNocrmNoai:{ko:'완전 미도입',en:'No Adoption'},
+descNocrmNoai:{ko:'CRM도 없고 AI도 모름<br>기본 가치부터 설득 필요',en:'No CRM, no AI awareness<br>Needs basic value proposition'},
+titleCrmNoai:{ko:'CRM (AI 미경험)',en:'CRM (No AI)'},
+descCrmNoai:{ko:'CRM 쓰지만 AI 경험 없음<br>AI 가치 소개·첫 체험 필요',en:'Using CRM but no AI experience<br>Needs AI value intro & first touch'},
+tabGuideBtn:{ko:'추천 제품 가이드',en:'Product Guide'},
+tabDemoBtn:{ko:'추천 시나리오',en:'Scenarios'},
+tabArchBtn:{ko:'추천 아키텍처 가이드',en:'Architecture Guide'},
+tabContentBtn:{ko:'추천 고객 제안 자료',en:'Proposal Materials'},
+agentTitle:{ko:'AI Agent 유형 & 레벨링',en:'AI Agent Types & Leveling'},
+hiDesc:{ko:'Headless Interface는 CRM의 데이터, 로직, 거버넌스를 특정 UI에 종속시키지 않고, 어떤 인터페이스에서도 동일한 Agent, 데이터, 로직을 재사용할 수 있게 만드는 구조입니다.',en:'Headless Interface decouples CRM data, logic, and governance from specific UIs, enabling the same Agents, data, and logic to be reused across any interface.'},
+hiLink:{ko:'자세한 자료는 <a href="https://docs.google.com/presentation/d/1NI7gK0cmrm1Km9O1HkRjR0Pn1wkmbasCqgrqqH0OFnA/edit" target="_blank" rel="noopener noreferrer">여기에서 확인하세요</a>.',en:'See detailed materials <a href="https://docs.google.com/presentation/d/1NI7gK0cmrm1Km9O1HkRjR0Pn1wkmbasCqgrqqH0OFnA/edit" target="_blank" rel="noopener noreferrer">here</a>.'},
+licenseSummary:{ko:'라이선스/과금 핵심 정리',en:'License & Billing Summary'},
+subagentTitle:{ko:'라이센스별 Sub-agent 유형 소개',en:'Sub-agent Types by License'},
+licenseType:{ko:'라이센스 종류',en:'License Type'},
+agentType:{ko:'Agent 유형',en:'Agent Type'},
+employeeAgentDesc:{ko:'사내 직원 대상 업무 보조 에이전트. 내부 시스템에서만 동작',en:'Agents that assist internal employees. Operates within internal systems only'},
+hybridAgentDesc:{ko:'직원+고객 양쪽 접점에서 동작. 내부 트리거로 외부 고객에게 액션 수행',en:'Operates at both employee and customer touchpoints. Internally triggered, externally executed'},
+customerAgentDesc:{ko:'외부 고객이 직접 대면하는 에이전트. 웹·앱·메신저 등 고객 채널에 배포',en:'Customer-facing agents deployed on web, app, and messaging channels'},
+deployChannel:{ko:'배포 채널',en:'Deployment Channel'},
+browseTitle:{ko:'전체 콘텐츠',en:'All Contents'},
+browseDesc:{ko:'4개 세그먼트별 콘텐츠 배치 현황',en:'Content distribution across 4 segments'},
+// Rendering function strings
+segDef:{ko:'고객 세그먼트 정의',en:'Segment Definition'},
+custTraits:{ko:'고객 특징',en:'Customer Traits'},
+painPoints:{ko:'주요 페인포인트',en:'Key Pain Points'},
+exCompanies:{ko:'해당 기업 예시',en:'Example Companies'},
+prodPositioning:{ko:'제품 포지셔닝',en:'Product Positioning'},
+prodFeatures:{ko:'제품 특징',en:'Product Characteristics'},
+posGuide:{ko:'포지셔닝 가이드',en:'Positioning Guide'},
+recProducts:{ko:'추천 제품',en:'Recommended Products'},
+introHow:{ko:'이렇게 고객에게 소개하세요',en:'How to introduce to customers'},
+goToPage:{ko:'관련 페이지로 이동하기',en:'Go to related page'},
+emptyGuide:{ko:'해당 세그먼트의 제품 가이드를 준비 중입니다',en:'Product guide for this segment is being prepared'},
+emptyArch:{ko:'해당 세그먼트의 아키텍처 가이드를 준비 중입니다',en:'Architecture guide for this segment is being prepared'},
+emptyContent:{ko:'해당 세그먼트에 매핑된 콘텐츠가 아직 없습니다',en:'No content mapped to this segment yet'},
+emptyScenario:{ko:'해당 세그먼트에 매핑된 시나리오가 아직 없습니다',en:'No scenarios mapped to this segment yet'},
+archIntro:{ko:'이 세그먼트 고객 대상으로 설계 시 주의해야 할 패턴입니다.',en:'Architecture anti-patterns to watch for when designing for this segment.'},
+openMaterial:{ko:'자료 열기',en:'Open material'},
+videoSoon:{ko:'영상 준비중',en:'Video coming soon'},
+coreConcepts:{ko:'핵심 개념',en:'Core Concepts'},
+howItWorks:{ko:'동작 방식',en:'How it Works'},
+dataPerms:{ko:'데이터/권한',en:'Data & Permissions'},
+limitsRoadmap:{ko:'현재 한계 & 로드맵',en:'Limitations & Roadmap'},
+demoVideo:{ko:'데모 영상',en:'Demo Video'},
+connectVideo:{ko:'영상 ID를 연결하면 여기에 재생됩니다.',en:'Connect a video ID to play here.'},
+noVideoLinked:{ko:'연결된 데모 영상이 없습니다.',en:'No demo video available.'},
+opMode:{ko:'동작 방식',en:'How it Works'},
+slideCount:{ko:function(s,sc){return '슬라이드 '+s+'건, 시나리오 '+sc+'건';},en:function(s,sc){return s+' slides, '+sc+' scenarios';}},
+videoNotReg:{ko:'이 데모는 아직 영상이 등록되지 않았습니다.',en:'No video registered for this demo yet.'},
+videoUnreg:{ko:'영상 미등록',en:'No video'},
+coreEmpty:{ko:'Core CRM 데모 영상을 준비 중입니다.<br>Drive 폴더에 영상 업로드 후 여기에 추가됩니다.',en:'Core CRM demo videos are being prepared.<br>Videos will appear here once uploaded to the Drive folder.'},
+};
+function t(key){const v=T[key];if(!v)return key;return v[LANG]||v.ko||key;}
+function lf(obj,field){if(LANG==='en'&&obj[field+'_en'])return obj[field+'_en'];return obj[field];}
+function applyLang(){
+document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.dataset.i18n;if(T[k])el.textContent=T[k][LANG]||T[k].ko;});
+document.querySelectorAll('[data-i18n-html]').forEach(el=>{const k=el.dataset.i18nHtml;if(T[k])el.innerHTML=T[k][LANG]||T[k].ko;});
+document.getElementById('lang-ko').classList.toggle('active',LANG==='ko');
+document.getElementById('lang-en').classList.toggle('active',LANG==='en');
+document.documentElement.lang=LANG==='en'?'en':'ko';
+}
+function setLang(lang){
+LANG=lang;localStorage.setItem('ai-init-lang',lang);
+applyLang();initCounts();
+if(activeSeg){renderCallout(activeSeg);renderResults();}
+}
+const C=[
+// nocrm-noai: CRM 없고 AI도 모르는 기업
+{t:"AWTK26_Salesforce V-log (Customer Zero)",c:"AWTK SMB",seg:"nocrm-noai",sols:["Sales","Agentforce","Slack"],note:"<b>Pain:</b> CRM이 뭔지 와닿지 않음. 영업도구가 실무에서 어떻게 쓰이는지 감이 없어서 도입 필요성 자체를 느끼지 못함.<br><b>Solution:</b> 세일즈포스 영업팀이 자사 CRM을 직접 활용하는 모습을 브이로그로 공개. 'Customer Zero' 콘셉트로 실제 하루 업무 흐름을 체험 형태로 보여줌.",link:"https://drive.google.com/file/d/1XA1cCZ7sIOx1Zb1KSFN8GPVyMd8KxMl0/view",date:"2026-06"},
+{t:"[추리 게임] 결정적 계약 신호를 찾아라!",c:"AWTK SMB Booth",seg:"nocrm-noai",sols:["Sales","Service","Slack"],note:"<b>Pain:</b> 제품 소개가 딱딱해서 관심 없는 고객과의 첫 접점을 만들기 어려움. 기술에 흥미 없는 사람에게 CRM을 설명할 방법이 없음.<br><b>Solution:</b> 클릭형 추리 게임으로 '계약 성사 신호'를 찾아가는 인터랙티브 데모. 게임 하면서 자연스럽게 CRM 데이터의 가치를 체험.",link:"https://www.figma.com/proto/xgkmQ3FcO4rcPDpJqfhTYv/-PLAY-ATWK2026_SMB",date:"2026-06"},
+{t:"작지만 강한 팀을 완성하는 CRM 데이터의 힘",c:"SMB Webinar",seg:"nocrm-noai",sols:["Sales","Service","Marketing","Slack"],note:"<b>Pain:</b> 작은 팀에 CRM이 과하다는 인식. 감에 의존한 영업에서 벗어나지 못하고, 도입 비용이 부담되어 시작조차 못함.<br><b>Solution:</b> Free → Starter → Pro Suite 단계별 도입 가이드소규모 팀이 데이터 기반 의사결정으로 성장하는 로드맵을 비용 부담 없이 제시.",link:"https://docs.google.com/presentation/d/1-YS5bJwdh1RuAiTpRlyukU5lx6uFBb5MMbRsV175GFA/edit",date:"2026-03"},
+{t:"Comeup 행사 발표 Sales × Slack",c:"Comeup (스타트업)",seg:"nocrm-noai",sols:["Sales","Slack"],note:"<b>Pain:</b> 엔터프라이즈 CRM은 스타트업과 안 맞다는 선입견. 영업 커뮤니케이션이 슬랙·카톡·메일로 산발적이라 히스토리 유실.<br><b>Solution:</b> Sales Cloud + Slack 통합으로 스타트업이 빠르게 영업 프로세스를 체계화하는 방법을 컴업 행사에서 시연.",link:"https://drive.google.com/file/d/1rHEiDaLbW4jMcT0D3u_ekDkSoGRAR65u/view",date:"2025-12"},
+
+// nocrm-ai: CRM 안쓰지만 AI 잘하는 기업
+{t:"Salesforce DX Package (w.Claude)",c:"DX Package",seg:"nocrm-ai",sols:["Sales","Service"],note:"<b>Pain:</b> 개발팀이 있으니 SaaS 비용을 왜 내야 하나는 판단. 커스터마이징이 어렵다는 인식 때문에 직접 만드는 게 빠를 것 같음.<br><b>Solution:</b> Claude Code로 Salesforce 앱을 4시간 만에 셀프 빌드하는 과정을 가이드개발자가 직접 만들어보면서 플랫폼 확장성과 생산성을 체감.",link:"https://docs.google.com/presentation/d/1i6eooRJOjAMJ-Uh2hF2DVC-D6PpP2TQGi3CG2_GX8eQ/edit",date:"2026-07"},
+{t:"Hightech 산업 Salesforce 활용케이스",c:"Hightechforce",seg:"nocrm-ai",sols:["Agentforce","Industry Cloud"],note:"<b>Pain:</b> 우리 산업에 맞는 CRM 레퍼런스가 없음. 범용 CRM이 테크 기업의 복잡한 딜 구조에 적합한지 확신할 수 없음.<br><b>Solution:</b> 반도체·SW·SaaS 등 하이테크 산업군 특화 활용 사례 모음. AI 역량 보유 팀이 CRM으로 자연스럽게 확장하는 구체적 시나리오 제시.",link:"https://drive.google.com/file/d/12m8sMq0XznD1KERNKv0Nffv4awWgKN8l/view",date:"2024-07"},
+{t:"토스 Onboarding 데모",c:"토스/AWTK",seg:"nocrm-ai",sols:["Sales","Slack","Agentforce"],note:"<b>Pain:</b> 온보딩 과정에서 이탈률이 높음. 수작업 팔로업에 시간이 과다 소요되고 고객별 맞춤 대응이 불가능.<br><b>Solution:</b> 토스의 신규 고객 온보딩 프로세스를 Agentforce로 자동화. 기술력 있는 팀이 CRM+AI를 동시 도입해 온보딩 전환율을 높이는 시나리오.",link:"https://drive.google.com/file/d/1gQU8PPf1cuM1eXREw-bA4SSfntWS7LVT/view",date:"2025-06"},
+{t:"Claude Tag in Slack / Code Channel",c:"CSG Enablement",seg:"nocrm-ai",sols:["Slack","Claude","Agentforce"],note:"<b>Pain:</b> AI Agent가 개인 환경(IDE/터미널)에서만 동작해 팀 협업이 안 됨. Single Player AI로는 조직 확산이 불가능.<br><b>Solution:</b> Anthropic의 Claude Tag로 Slack 채널에서 Multiplayer AI 구현. Agent Identity, Ambient Mode, Code Channel 등으로 팀 전체가 AI와 협업하는 구조 소개.",link:"https://docs.google.com/presentation/d/1WX0XNkg0XWt6uwQMiy9LTtDPtNP6_bPJ5Khv3TFqigE/edit",date:"2026-08"},
+
+// crm-noai: CRM 쓰지만 AI 모르는 기업
+{t:"[Level 1] Marketing to Sales Process",c:"CBU Demo Asset",seg:"crm-noai",sols:["Sales","Marketing","Slack"],note:"<b>Pain:</b> 마케팅→영업 리드 전달이 끊겨 있음. 리드 전환율 추적 불가하고 부서간 사일로로 기회 유실.<br><b>Solution:</b> Pardot 리드 캡처 → 리드 라우팅 → Sales Cloud 기회관리까지 전체 프로세스 데모AI 없이도 현재 CRM을 더 잘 활용하는 방법을 보여준 뒤 AI 확장 유도.",link:"https://docs.google.com/presentation/d/12hbiVqBySmyWzP97cjro1EvxKrjHa_ZzWHFaQbI9j40/edit",date:"2025-09"},
+{t:"CBU Slack Webinar — Slack을 일하는 CRM으로",c:"CBU Webinar",seg:"crm-noai",sols:["Sales","Agentforce","Slack"],note:"<b>Pain:</b> CRM에 매번 로그인하기 번거로움. 영업팀이 CRM을 안 써서 데이터가 안 쌓이고, 인사이트를 뽑을 수가 없는 악순환.<br><b>Solution:</b> Slack AI + Sales Channel 연동으로 CRM 데이터를 대화 흐름 안에서 바로 활용. 기존 CRM 사용자에게 AI의 첫 경험을 자연스럽게 제공.",link:"https://drive.google.com/file/d/16AR75lk1vLZcAe7K6fMeDGwObC4O_V3b/view",date:"2025-11"},
+{t:"C-level Salesforce AI 비전 소개",c:"CXO dinner",seg:"crm-noai",sols:["Sales","Service","Agentforce","Slack"],note:"<b>Pain:</b> AI를 어디서부터 시작해야 할지 모름. 경영진 Buy-in이 안 되고 ROI를 설명할 근거가 없어 투자 결정이 지연.<br><b>Solution:</b> C-level 임원 대상으로 Salesforce AI Agent 비전과 전사 AI 전략을 디너 세션에서 소개. 경영진 레벨에서 AI 도입 방향을 정렬.",link:"https://drive.google.com/open?id=1TVlYOaLDnFJvCBCRk34DGJT5f-9mBeyM&authuser=0",date:"2026-05"},
+{t:"Agentforce로 시작하는 자율형 AI (기본 소개)",c:"추수용 자료",seg:"crm-noai",sols:["Agentforce"],note:"<b>Pain:</b> AI Agent가 뭔지 모름. 기존 챗봇과 뭐가 다른지 설명이 안 되고, 도입 후 뭘 할 수 있는지 그림이 안 그려짐.<br><b>Solution:</b> Coworker, Notebook AI, Grid, Agent Builder, Vibes 등 Agentforce 전체 기능을 총망라AI Agent 개념부터 실제 활용까지 단계별로 설명.",link:"https://docs.google.com/presentation/d/1EcgLRnfbcSM3bLuTxohyAuWXxg5nqj_gGmI0LyR35TU/edit",date:"2026-08"},
+{t:"[스타트업 혁신] 디에스오토 AI CRM 사례",c:"AWTK SMB Keynote",seg:"crm-noai",sols:["Sales","Marketing","Agentforce","Tableau"],note:"<b>Pain:</b> CRM 데이터는 쌓여 있는데 활용을 못하고 있음. AI 도입의 다음 단계가 뭔지 모르고 동종업계 레퍼런스도 부재.<br><b>Solution:</b> 중고차 중개 플랫폼 디에스오토가 CRM 데이터 기반으로 AI 마케팅을 확장한 성공 사례. CRM → AI 단계적 성장 경로의 실제 레퍼런스.",link:"https://drive.google.com/file/d/1xmGsyzh2FZinpAYtFJusl2Sc324KuwQs/view",date:"2026-06"},
+
+// crm-ai: CRM 쓰고 AI도 잘하는 기업
+{t:"[K-뷰티] 글로벌 성공 방정식",c:"AWTK K-Beauty",seg:"crm-ai",sols:["Tableau","Slackbot MCP","Headless"],note:"<b>Pain:</b> 글로벌 확장 시 채널별 데이터 파편화. 현지화·개인화를 수작업으로 처리하며 멀티 시스템 오케스트레이션이 너무 복잡.<br><b>Solution:</b> M.A.K.E 프레임워크 기반 K-뷰티 글로벌 진출 전략Tableau Next + Slackbot MCP + Headless Commerce로 마케팅·영업·커머스 E2E 자동화.",link:"https://docs.google.com/presentation/d/1YY5rd7vFViiRz4jAHByPkINEDCk1cx53JxVhxfHOi20/edit",date:"2026-06"},
+{t:"[Share] Headless360 CBU Webinar",c:"CBU Webinar 0728",seg:"crm-ai",sols:["Agentforce","Slack","Data 360"],note:"<b>Pain:</b> AI 도입은 하고 싶지만 보안·거버넌스 우려. 기존 시스템과 AI 통합이 복잡하고 데이터 신뢰성 확보 방법이 불명확.<br><b>Solution:</b> MCP/Trust Layer/거버넌스 기반 Headless 360 아키텍처 설계기존 CRM과 AI를 안전하게 통합하는 엔터프라이즈급 레퍼런스 아키텍처 제시.",link:"https://docs.google.com/presentation/d/1NI7gK0cmrm1Km9O1HkRjR0Pn1wkmbasCqgrqqH0OFnA/edit",date:"2026-07"},
+{t:"Claude Tag in Slack / Code Channel",c:"CSG Enablement",seg:"crm-ai",sols:["Slack","Claude","Agentforce"],note:"<b>Pain:</b> AI Agent 활용이 개인 레벨에 머물러 있고 조직 전체로 확산이 안 됨. 에이전트 작업 결과를 팀과 공유하려면 수동 복붙이 필요.<br><b>Solution:</b> Claude Tag의 Multiplayer AI 콘셉트로 Slack 채널 내에서 AI Agent와 팀 전체가 실시간 협업. Code Channel로 복잡한 프로젝트도 공유 워크스페이스에서 처리.",link:"https://docs.google.com/presentation/d/1WX0XNkg0XWt6uwQMiy9LTtDPtNP6_bPJ5Khv3TFqigE/edit",date:"2026-08"},
+];
+
+const SEG_META={
+'nocrm-noai':{title:'완전 미도입',title_en:'No Adoption',desc:'CRM X · AI X',
+callout:'<b>고객 특징:</b> CRM을 써본 적 없고 AI에도 관심이 적은 전통 기업 세그먼트로, 엑셀·수기로 고객을 관리하고 영업 프로세스가 체계화되지 않았으며 "우리는 아직 CRM이 필요 없다"는 인식이 강합니다.<br><b>주요 페인포인트:</b> 고객 데이터 유실, 감 의존 영업, 퇴사 시 히스토리 소멸, 성장 정체.<br><b>해당 기업 예시:</b> 지역 기반 유통사, 소규모 제조사, 오프라인 서비스 업체, 가족경영 도소매 업체.',
+callout_en:'<b>Customer Traits:</b> Traditional businesses with no CRM experience and little interest in AI. They manage customers via Excel or manually, lack structured sales processes, and believe "We don\'t need CRM yet."<br><b>Key Pain Points:</b> Customer data loss, gut-feeling sales, history disappears when employees leave, growth stagnation.<br><b>Example Companies:</b> Regional distributors, small manufacturers, offline service providers, family-run wholesale/retail.'},
+'nocrm-ai':{title:'Tech-savvy',title_en:'Tech-savvy',desc:'CRM X · AI O',
+callout:'<b>고객 특징:</b> 자체 개발팀이 있고 AI/자동화 역량은 높지만 CRM은 아직 도입하지 않은 기술 중심 기업이며, 내부 툴을 직접 만들어 쓰는 문화가 강하고 SaaS 비용에 민감해 "우리가 만드는 게 빠르다"는 마인드셋을 보유.<br><b>주요 페인포인트:</b> 자체 툴 유지보수 부담, 확장 시 한계, 고객 데이터가 코드 속에 파편화, 영업-개발 사일로.<br><b>해당 기업 예시:</b> AI 스타트업, B2B SaaS 기업, 커머스 테크 기업, IT 컨설팅/에이전시, 디지털 헬스케어 기업.',
+callout_en:'<b>Customer Traits:</b> Tech-centric companies with in-house dev teams and strong AI/automation capability, but no CRM adoption. Strong culture of building internal tools, cost-sensitive toward SaaS, with a "we can build it faster" mindset.<br><b>Key Pain Points:</b> Internal tool maintenance burden, scaling limitations, customer data fragmented in code, sales-dev silos.<br><b>Example Companies:</b> AI startups, B2B SaaS companies, commerce tech firms, IT consulting/agencies, digital healthcare companies.'},
+'crm-noai':{title:'CRM (AI 미경험)',title_en:'CRM (No AI)',desc:'CRM O · AI X',
+callout:'<b>고객 특징:</b> Salesforce 또는 타 CRM을 사용 중이지만 AI Agent를 아직 경험하지 못한 기업으로, CRM 데이터는 쌓여 있어도 활용도가 낮고 AI가 무엇을 해줄 수 있는지 체감하지 못하며 경영진의 AI Buy-in도 부족한 상태입니다.<br><b>주요 페인포인트:</b> 데이터는 있는데 인사이트가 없음, 수작업 반복, CRM 사용률 저조, AI ROI 불확실.<br><b>해당 기업 예시:</b> 성장 단계 제조사, 전문 유통사, 프랜차이즈 운영사, 보험/금융 영업조직, B2B 서비스 기업.',
+callout_en:'<b>Customer Traits:</b> Companies using Salesforce or other CRM but haven\'t experienced AI Agents. CRM data is accumulated but underutilized; they don\'t feel what AI can do and lack executive AI buy-in.<br><b>Key Pain Points:</b> Data exists but no insights, repetitive manual work, low CRM adoption, uncertain AI ROI.<br><b>Example Companies:</b> Growing manufacturers, specialty distributors, franchise operators, insurance/finance sales teams, B2B service companies.'},
+'crm-ai':{title:'AI-ready',title_en:'AI-ready',desc:'CRM O · AI O',
+callout:'<b>고객 특징:</b> CRM을 적극 활용하면서 AI/자동화에도 높은 역량과 기대를 가진 고도화 단계 기업으로, 이미 자동화 파이프라인을 운영하고 더 높은 수준의 통합·오케스트레이션을 원하며 보안·거버넌스 요구도 높습니다.<br><b>주요 페인포인트:</b> 멀티 시스템 통합 복잡도, AI 신뢰성·거버넌스 우려, 글로벌 확장 시 데이터 파편화, 풀 자동화 미달성.<br><b>해당 기업 예시:</b> 데이터 기반 커머스 기업, SaaS 스케일업, 멀티채널 유통사, 구독형 서비스 기업, 디지털 네이티브 브랜드.',
+callout_en:'<b>Customer Traits:</b> Advanced-stage companies actively using CRM with strong AI/automation capability and expectations. Already running automation pipelines, seeking higher-level integration/orchestration with strict security and governance requirements.<br><b>Key Pain Points:</b> Multi-system integration complexity, AI reliability/governance concerns, data fragmentation during global expansion, incomplete full automation.<br><b>Example Companies:</b> Data-driven commerce companies, SaaS scale-ups, multi-channel distributors, subscription services, digital native brands.'}
+};
+
+let activeSeg=null;
+let activeResultTab='guide';
+
+const SEG_GUIDE={
+'nocrm-noai':{
+position:'AI로 시작하는 첫 CRM',position_en:'First CRM, Starting with AI',
+summary:'CRM 첫 도입 고객에게 AI가 기본 포함된 제품으로 진입 장벽을 낮춤',summary_en:'Lower the entry barrier for first-time CRM customers with AI-included products',
+products:[
+{name:'Sales/Service Cloud',desc:'Starter Suite(월 $25~)로 CRM을 처음 시작할 수 있습니다. 영업·서비스·마케팅 기본 기능이 하나의 패키지에 모두 포함되어 있어 별도 조합이 필요 없습니다',desc_en:'Start CRM with Starter Suite ($25/mo). Sales, service, and marketing basics are all included in one package — no mix-and-match needed'},
+{name:'Commerce Cloud',desc:'Carter(AI 쇼핑 어시스턴트)가 동작하는 커머스 플랫폼입니다. 온라인 쇼핑몰에 배포하면 AI 기반 상품 추천·구매 전환을 바로 시작할 수 있습니다',desc_en:'Commerce platform where Carter (AI shopping assistant) operates. Deploy on your online store to start AI-powered product recommendations and purchase conversion immediately'},
+{name:'Agentforce',desc:'Customer Agent 중 Carter를 보여주세요. Simplified Setup(간소화 셋업)으로 복잡한 개발 없이도 빠르게 활성화할 수 있습니다',desc_en:'Show Carter among Customer Agents. Simplified Setup enables quick activation without complex development'},
+{name:'Coworker',desc:'Org 생성 시 자동으로 만들어지는 Search Agent만으로도 데이터 조회와 차트 확인이 가능합니다. 추가 구성 없이 기본 제공되는 기능으로 빠르게 시작할 수 있습니다',desc_en:'The Search Agent auto-created with the org already enables data lookup and chart review. Start quickly with built-in features, no additional setup required'},
+],
+positioning:'CRM 자체를 모르는 고객 → "AI가 포함된 CRM"으로 시작점을 낮춤. 별도 AI 프로젝트가 아니라 CRM 도입 = AI 도입임을 강조.',
+positioning_en:'For customers who don\'t know CRM → lower the starting point with "CRM that includes AI." Emphasize that CRM adoption = AI adoption, not a separate AI project.',
+antiPattern:'MCP·커스텀 에이전트·아키텍처 이야기 금지. 복잡성이 진입 장벽이 됨.',
+antiPattern_en:'Avoid MCP, custom agents, architecture discussions. Complexity becomes a barrier to entry.',
+archAntiPatterns:[
+{title:'사람 연결 없는 AI 챗봇',title_en:'AI Chatbot Without Human Escalation',desc:'AI가 답 못하는 상황에서 상담원 연결 경로가 없으면 고객이 이탈합니다. 반드시 "사람에게 넘기기" 버튼을 설계해야 합니다.',desc_en:'When AI can\'t answer and there\'s no path to a human agent, customers drop off. Always design a "hand off to human" button.',severity:'High',ref:{label:'Agentforce for Service - Escalation',url:'https://trailhead.salesforce.com/content/learn/modules/agentforce-service-agent-quick-look/explore-use-cases-for-agentforce-for-service'}},
+{title:'Agent 무한 반복 방지 미설정',title_en:'No Agent Infinite Loop Guard',desc:'AI가 같은 작업을 끝없이 반복하면 하루 사용량을 몇 분 만에 다 써버립니다. 최대 반복 횟수를 꼭 설정하세요.',desc_en:'If AI endlessly repeats the same task, daily usage gets consumed in minutes. Always set a max iteration count.',severity:'Critical',ref:{label:'Agentforce Basics - Subagents',url:'https://trailhead.salesforce.com/content/learn/modules/einstein-copilot-basics/explore-einstein-copilot'}},
+]
+},
+'nocrm-ai':{
+position:'Core 셀프 구축 + 커스텀 에이전트',position_en:'Core Self-Build + Custom Agents',
+summary:'기술력 있는 팀이 Sales/Service Cloud를 직접 구축하고, 커스텀 에이전트로 업무 자동화',summary_en:'Tech-capable teams self-build Sales/Service Cloud and automate workflows with custom agents',
+products:[
+{name:'Sales/Service Cloud',desc:'개발팀이 API-first(코드/API/CLI로 설정을 정의하고 자동화)로 셀프 구축할 수 있습니다. EE 라이선스 이상이면 SF Hosted MCP Server는 별도 비용 없이 포함됩니다',desc_en:'Dev teams can self-build API-first (define config and automate via code/API/CLI). EE license and above includes SF Hosted MCP Server at no extra cost',contentLink:'Salesforce DX Package'},
+{name:'Agentforce',desc:'Custom Agent를 자유자재로 만들 수 있다고 보여주세요. RFP 자동 분석, 주문 관리(OMS) 등 업무별 비즈니스 로직을 직접 빌드하고 배포할 수 있습니다',desc_en:'Show them they can freely build Custom Agents. Build and deploy business logic per use case — RFP auto-analysis, OMS, and more',internalLink:'RFP 리스크 분석 자동화'},
+{name:'Slack',desc:'Slackbot이 MCP Client 역할을 합니다. 별도 개발 없이 Slack 채널에서 Agent를 호출하고, CRM 데이터 조회·업데이트를 대화형으로 처리할 수 있습니다',desc_en:'Slackbot serves as an MCP Client. Call Agents from Slack channels and handle CRM data queries/updates conversationally — no development needed'},
+{name:'API Calls/Day',desc:'Custom Agent가 외부 시스템을 자주 호출하면 일일 API 기본 한도에 도달할 수 있습니다. 운영 전 사전 증설을 권장합니다',desc_en:'Custom Agents calling external systems frequently may hit daily API limits. Pre-scaling before production is recommended'},
+],
+positioning:'기술력 있는 팀 → "우리가 만든 것을 대체하는 게 아니라 연결하는 것". 셀프 구축 역량을 존중하고 커스텀 에이전트로 차별화.',
+positioning_en:'For tech-capable teams → "Not replacing what you built, but connecting it." Respect self-build capability and differentiate with custom agents.',
+antiPattern:'"CRM 기본기부터" 식의 접근 금지. 이미 기술 있는 팀에게 초보 가이드는 역효과.',
+antiPattern_en:'Avoid "start with CRM basics" approach. Beginner guides backfire with tech-savvy teams.',
+archAntiPatterns:[
+{title:'MCP 서버를 직접 만들지 마세요',desc:'개발팀이 "우리가 직접 만드는 게 빠르다"며 MCP를 자체 구현하면, Salesforce가 기본 제공하는 보안·모니터링이 전부 사라집니다. 꼭 필요한 경우가 아니면 Salesforce Hosted MCP를 그대로 쓰세요.',severity:'Critical',ref:{label:'MCP Solutions for Developers',url:'https://developer.salesforce.com/docs/einstein/genai/guide/mcp.html'}},
+{title:'비밀번호/키를 코드에 직접 넣지 마세요',desc:'.env 파일이나 코드에 API 키를 직접 넣으면, 서버가 한 번 뚫리면 고객사 전체 데이터가 노출됩니다. Named Credentials 또는 외부 Vault 서비스를 사용해야 합니다.',severity:'Critical',ref:{label:'Named Credentials',url:'https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_callouts_named_credentials.htm'}},
+{title:'AI 도구(Tool) 입력값 검증 필수',desc:'AI에게 "아무 값이나 넣어도 되는" 도구를 주면, 오타나 잘못된 형식의 데이터가 CRM에 그대로 들어갑니다. 허용 값 목록과 필수 항목을 명확하게 정의하세요.',severity:'High',ref:{label:'Build Agentforce Actions',url:'https://developer.salesforce.com/docs/ai/agentforce/guide/get-started-actions.html'}},
+{title:'OAuth 토큰이 로그에 평문 노출',desc:'catch-all 로그 구문이 Authorization 헤더를 통째로 출력하면, Splunk/Datadog에 Bearer 토큰이 그대로 저장됩니다. 로그에서 민감 헤더를 반드시 제거하세요.',severity:'High',ref:{label:'External Client App 보안',url:'https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/intro_oauth_and_connected_apps.htm'}},
+{title:'멀티테넌트 캐시에 유저 구분 없음',desc:'Redis/메모리 캐시 키에 사용자 ID를 안 넣으면, A 사용자의 CRM 데이터가 B에게 보여집니다. 모든 캐시 키에 사용자 식별자를 포함하세요.',severity:'High',ref:{label:'MCP Solutions for Developers',url:'https://developer.salesforce.com/docs/einstein/genai/guide/mcp.html'}},
+{title:'npm/pip 의존성 공급망 미관리',desc:'외부 MCP 서버의 패키지를 버전 고정 없이 쓰면 악성 의존성이 주입될 수 있습니다. lockfile 고정 + SCA 스캔을 적용하세요.',severity:'High',ref:{label:'MCP Solutions for Developers',url:'https://developer.salesforce.com/docs/einstein/genai/guide/mcp.html'}},
+{title:'Reactive 토큰 갱신 (401 받고 나서)',desc:'멀티 스텝 Tool 체인 도중 토큰이 만료되면 작업이 중단됩니다. 만료 전에 사전 갱신하는 스케줄러를 구현하세요.',severity:'Medium',ref:{label:'External Client App',url:'https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/intro_oauth_and_connected_apps.htm'}},
+{title:'PKCE를 잘못된 클라이언트에 적용',desc:'Public 클라이언트(CLI/데스크톱)는 PKCE 필수, 서버 간 연동은 Client Secret 사용. 잘못 매칭하면 인증이 실패하거나 보안이 약해집니다.',severity:'Medium',ref:{label:'External Client App',url:'https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/intro_oauth_and_connected_apps.htm'}},
+{title:'Agent API 응답에서 Regex로 ID 파싱',desc:'Agent API는 비구조화 텍스트를 반환합니다. 정규식으로 ID를 추출하면 응답 문구가 바뀔 때 바로 깨집니다. 구조화 데이터가 필요하면 A2A를 쓰세요.',severity:'High',ref:{label:'Asynchronous Apex',url:'https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_async_overview.htm'}},
+{title:'Apex MCP Tool 안에서 HTTP Callout',desc:'Apex 도구 내부에서 레코드마다 외부 API를 호출하면, 100개 callout 제한 + 120초 누적 제한에 금방 걸립니다. 외부 연산이 필요하면 외부 MCP로 분리하세요.',severity:'High',ref:{label:'Governor Limits',url:'https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_gov_limits.htm'}},
+{title:'Beta 기능을 프로덕션에 배포',desc:'Beta API는 예고 없이 변경됩니다. Sandbox에서 검증하고, 롤백 경로를 확보한 뒤에만 프로덕션에 적용하세요.',severity:'High',ref:{label:'Build Agentforce Actions',url:'https://developer.salesforce.com/docs/ai/agentforce/guide/get-started-actions.html'}},
+]
+},
+'crm-noai':{
+position:'쓰던 CRM에 AI 한 스푼',position_en:'A Spoonful of AI on Existing CRM',
+summary:'이미 쌓인 CRM 데이터 위에 AI Agent를 올려 즉시 인사이트 생성',summary_en:'Layer AI Agents on top of accumulated CRM data for instant insights',
+products:[
+{name:'Sales/Service Cloud',desc:'이미 사용 중인 CRM에 AI 기능을 업그레이드할 수 있습니다. EE 라이선스 이상이면 SF Hosted MCP Server도 별도 비용 없이 이미 포함되어 있습니다',desc_en:'Upgrade your existing CRM with AI capabilities. EE license and above already includes SF Hosted MCP Server at no extra cost'},
+{name:'Agentforce',desc:'Employee Agent 중 Paige(영업 코칭)와 Marshall(공급망 운영)을 보여주세요. Simplified Setup으로 복잡한 개발 과정 없이 빠르게 활성화할 수 있습니다',desc_en:'Show Paige (sales coaching) and Marshall (supply chain ops) among Employee Agents. Simplified Setup enables quick activation without complex development'},
+{name:'Coworker',desc:'미팅 준비·대화 요약·다음 액션 추천을 AI가 자동으로 처리합니다. 기존 CRM 데이터만 있으면 별도 데이터 준비 없이 바로 시작할 수 있습니다',desc_en:'AI auto-handles meeting prep, conversation summaries, and next action recommendations. Works immediately with existing CRM data — no separate data preparation needed'},
+],
+positioning:'CRM은 쓰지만 AI 경험 없는 고객 → "데이터는 이미 있다, AI를 올리기만 하면 된다". ROI를 빠르게 보여주는 Quick Win 시나리오 중심.',
+positioning_en:'For customers using CRM but with no AI experience → "Your data is already there, just add AI." Focus on Quick Win scenarios that show ROI fast.',
+antiPattern:'아키텍처·MCP 깊이 금지. "일단 써보세요" 체험 중심으로 접근.',
+antiPattern_en:'Avoid architecture/MCP deep dives. Lead with hands-on "just try it" experience.',
+archAntiPatterns:[
+{title:'AI가 개인정보를 자동으로 가려준다고 믿지 마세요',desc:'Agentforce 에이전트 경로에서는 현재 개인정보 마스킹이 꺼져 있습니다. AI에게 데이터를 넘기기 전에, 민감한 정보(이름·전화번호 등)를 미리 제거하는 단계를 직접 만들어야 합니다.',severity:'Critical',ref:{label:'Data Masking (Trust Layer)',url:'https://developer.salesforce.com/docs/einstein/genai/guide/data-masking.html'}},
+{title:'AI에게 너무 많은 권한을 주지 마세요',desc:'"모든 API 접근" 같은 넓은 권한을 주면, 키가 유출됐을 때 피해가 전체로 번집니다. AI가 실제 필요한 기능만 딱 골라서 최소 권한만 부여하세요.',severity:'High',ref:{label:'OAuth & Connected Apps',url:'https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/intro_oauth_and_connected_apps.htm'}},
+{title:'대량 수정/삭제 방지 장치 필수',desc:'AI가 실수로 수천 건 데이터를 한번에 바꾸거나 지워도, Salesforce는 자동으로 막아주지 않습니다. 한번에 처리할 수 있는 건수 제한 + 중요 작업 승인 단계 + 백업을 꼭 설정하세요.',severity:'High',ref:{label:'Governor Limits',url:'https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_gov_limits.htm'}},
+{title:'과도한 OAuth 스코프 (api full)',desc:'읽기 전용 Agent인데 scope를 full api로 열면, 토큰 유출 시 전체 org가 위험합니다. mcp_api, chatbot_api 등 필요한 스코프만 요청하세요.',severity:'Critical',ref:{label:'OAuth & Connected Apps',url:'https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/intro_oauth_and_connected_apps.htm'}},
+{title:'SOAP username/password 로그인 사용',desc:'SOAP login()은 Summer \'27에 퇴역 예정이며, 신규 org에서는 이미 제한됩니다. JWT Bearer 또는 Client Credentials Flow로 전환하세요.',severity:'Critical',ref:{label:'External Client App',url:'https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/intro_oauth_and_connected_apps.htm'}},
+{title:'읽기 전용인데 Full CRUD SObject 노출',desc:'Q&A용 Agent에게 sobject-all 서버를 열면 삭제/수정 표면이 불필요하게 넓어집니다. sobject-reads 서버를 사용하고 readOnlyHint를 설정하세요.',severity:'High',ref:{label:'MCP Solutions for Developers',url:'https://developer.salesforce.com/docs/einstein/genai/guide/mcp.html'}},
+{title:'Slack Agent 채널 권한 미스코핑',desc:'Slack 봇을 모든 채널+DM에 접근 가능하게 하면, 외부 파트너 채널에서 내부 Salesforce 데이터가 노출됩니다. Bot Token Scope를 필요 채널로 제한하세요.',severity:'High',ref:{label:'Agentforce for Service',url:'https://trailhead.salesforce.com/content/learn/modules/agentforce-service-agent-quick-look'}},
+{title:'SOQL in Loop (101 limit)',desc:'Apex Action에서 for루프 안에 SOQL을 넣으면, Agent가 반복 호출할 때 101개 제한에 바로 걸립니다. WHERE IN 절로 벌크 조회하세요.',severity:'High',ref:{label:'Governor Limits',url:'https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_gov_limits.htm'}},
+{title:'동기 Apex로 장시간 작업 (10초 타임아웃)',desc:'문서 생성·외부 API 호출 등 오래 걸리는 작업을 동기 Apex에서 실행하면 10초 제한에 걸립니다. Queueable/Future로 분리하고 상태 조회 Action을 별도로 만드세요.',severity:'Medium',ref:{label:'Asynchronous Apex',url:'https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_async_overview.htm'}},
+{title:'LLM 과다 호출 (Fat Tool 미적용)',desc:'필드 하나씩 개별 호출하면 불필요한 LLM 턴이 쌓여 비용·지연이 늘어납니다. 한 번에 필요한 모든 데이터를 반환하는 "Fat Tool" 패턴을 적용하세요.',severity:'Medium',ref:{label:'Build Agentforce Actions',url:'https://developer.salesforce.com/docs/ai/agentforce/guide/get-started-actions.html'}},
+{title:'복잡한 Action에 Flow 사용 (Apex 대신)',desc:'루프·서브플로 5개 이상의 복잡한 로직을 Flow로 만들면 거버너 제한에 취약합니다. 단순 작업은 Flow, 복잡한 데이터 처리는 Apex InvocableMethod를 쓰세요.',severity:'Medium',ref:{label:'Build Agentforce Actions',url:'https://developer.salesforce.com/docs/ai/agentforce/guide/get-started-actions.html'}},
+{title:'모호한 MCP Tool 이름/설명',desc:'doStuff, handleThings 같은 이름은 LLM이 도구를 잘못 선택하게 만듭니다. 의도를 명확히 드러내는 이름과 when-to-use 설명을 작성하세요.',severity:'High',ref:{label:'Build Agentforce Actions',url:'https://developer.salesforce.com/docs/ai/agentforce/guide/get-started-actions.html'}},
+{title:'Shield Event Monitoring 미배포',desc:'표준 Setup Audit Trail만으로는 Agent의 API 레벨 활동을 추적할 수 없습니다. 프로덕션 전에 Shield Event Monitoring을 반드시 활성화하세요.',severity:'High',ref:{label:'Event Monitoring',url:'https://trailhead.salesforce.com/content/learn/modules/event_monitoring'}},
+]
+},
+'crm-ai':{
+position:'멀티 에이전트 오케스트레이션',position_en:'Multi-Agent Orchestration',
+summary:'멀티 에이전트 오케스트레이션 + 데이터 통합 + 거버넌스까지 풀 스택',summary_en:'Full stack: multi-agent orchestration + data integration + governance',
+products:[
+{name:'Agentforce',desc:'Hunter(리드 발굴) + Piper(적합도 평가) + Margo(캠페인 실행) 조합을 보여주세요. 여러 Agent가 순차적으로 협업하는 멀티 에이전트 자동 체이닝을 시연할 수 있습니다',desc_en:'Show the Hunter (lead gen) + Piper (qualification) + Margo (campaign execution) combination. Demonstrate multi-agent auto-chaining where agents collaborate sequentially'},
+{name:'Marketing Cloud',desc:'Margo가 캠페인을 실행하는 플랫폼입니다. Agent가 Marketing Cloud Journey를 자동 트리거하고, 세그먼트별 콘텐츠를 최적화합니다',desc_en:'The platform where Margo executes campaigns. Agents auto-trigger Marketing Cloud Journeys and optimize content per segment'},
+{name:'Coworker',desc:'Org 내 활성화된 Agent들을 자동으로 발견하고 오케스트레이션하는 중앙 허브입니다. 사용자가 요청하면 적절한 Agent에게 위임합니다',desc_en:'Central hub that auto-discovers and orchestrates active Agents in the org. Delegates to the right Agent when a user makes a request'},
+{name:'Slack',desc:'Slackbot이 MCP Client 역할을 합니다. Slack 채널에서 자연어로 멀티 에이전트를 트리거하고 결과를 받아볼 수 있습니다',desc_en:'Slackbot serves as an MCP Client. Trigger multi-agent workflows via natural language in Slack channels and receive results'},
+{name:'Agent Fabric',desc:'Agent 동작 모니터링·권한 관리·감사 로그를 중앙에서 통합 관리하는 거버넌스 레이어입니다. 엔터프라이즈 보안 요구를 충족합니다',desc_en:'Governance layer for centralized agent monitoring, permission management, and audit logs. Meets enterprise security requirements'},
+{name:'Headless Add-on',desc:'외부 에이전트(ChatGPT, Copilot, 자체 AI 등)가 Salesforce를 호출하려면 필요한 Add-on입니다. A4X SKU 번들이면 무제한(unlimited) 사용 가능합니다',desc_en:'Required add-on for external agents (ChatGPT, Copilot, custom AI) to call Salesforce. Unlimited usage when bundled with A4X SKU'},
+{name:'Data Storage',desc:'Data Cloud에 외부 시스템 데이터를 적재할 때 스토리지 확장이 필요할 수 있습니다. Zero Copy(데이터 이동 없이 연결) 옵션과 비교해서 제안하세요',desc_en:'Storage expansion may be needed when loading external system data into Data Cloud. Compare with Zero Copy (connect without moving data) option'},
+{name:'API Calls/Day',desc:'멀티 에이전트 구성 시 Agent 간 호출이 곱해져 일일 API 사용량이 급증할 수 있습니다. 운영 전 모니터링 설정과 한도 증설을 권장합니다',desc_en:'Multi-agent setups multiply inter-agent calls, potentially spiking daily API usage. Pre-production monitoring setup and limit increases recommended'},
+],
+positioning:'고도화된 고객 → 아키텍처 깊이와 거버넌스로 차별화. "다른 AI 솔루션이 못하는 것 = Trust + Orchestration".',
+positioning_en:'For advanced customers → differentiate with architecture depth and governance. "What other AI solutions can\'t do = Trust + Orchestration."',
+antiPattern:'기본 기능 데모 금지. 이미 아는 내용 반복은 신뢰도 하락.',
+antiPattern_en:'Avoid basic feature demos. Repeating what they already know erodes credibility.',
+archAntiPatterns:[
+{title:'"만능 에이전트" 하나로 다 하려 하지 마세요',desc:'하나의 AI에게 영업·서비스·마케팅·HR 전부 맡기면, AI가 질문을 헷갈려서 엉뚱한 답을 합니다. 역할별로 전문 에이전트를 나누고, 관리자 에이전트가 적절한 곳에 전달하는 구조로 만드세요.',severity:'High',ref:{label:'Agentforce Subagents 구성',url:'https://trailhead.salesforce.com/content/learn/modules/einstein-copilot-basics/explore-einstein-copilot'}},
+{title:'장애 추적이 안 되는 구조',desc:'여러 시스템(외부 AI → MCP → Salesforce → MuleSoft)을 거치는데 각각 따로 로그를 남기면, 문제 생겼을 때 어디서 터졌는지 찾을 수 없습니다. 모든 단계에 같은 추적 ID(X-Correlation-Id)를 붙여야 합니다.',severity:'High',ref:{label:'Event Monitoring',url:'https://trailhead.salesforce.com/content/learn/modules/event_monitoring'}},
+{title:'시스템 간 통신에서 개인정보 노출',desc:'A2A(시스템-시스템 통신)가 프롬프트 인젝션은 막아주지만, 주민번호·전화번호 같은 개인정보를 자동으로 가려주진 않습니다. 보내는 데이터에서 민감 정보를 미리 빼거나 암호화하세요.',severity:'Critical',ref:{label:'Einstein Trust Layer',url:'https://developer.salesforce.com/docs/ai/agentforce/guide/trust.html'}},
+{title:'오래 걸리는 작업에 실시간 API 쓰지 마세요',desc:'Agent API는 2분이 지나면 자동으로 끊깁니다. 배치 처리나 승인 대기 같은 긴 작업은 비동기 방식(A2A Task)을 사용해야 중간에 끊기지 않습니다.',severity:'High',ref:{label:'Asynchronous Apex',url:'https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_async_overview.htm'}},
+{title:'외부 MCP에 API Gateway 미배치',desc:'외부 MCP 서버를 게이트웨이 없이 직접 노출하면, 서버 침해 시 Salesforce 인증정보까지 유출됩니다. MuleSoft Flex Gateway 또는 AWS API Gateway를 배치하세요.',severity:'High',ref:{label:'MCP Solutions for Developers',url:'https://developer.salesforce.com/docs/einstein/genai/guide/mcp.html'}},
+{title:'원시 필드명 노출 (Semantic Layer 없음)',desc:'Acct_ARR_FY25_Q3_Adj__c 같은 기술 필드명을 Agent에게 그대로 주면 LLM이 의미를 모릅니다. Data Cloud DMO 또는 Tableau Semantic Layer로 비즈니스 라벨을 매핑하세요.',severity:'Medium',ref:{label:'Build Agentforce Actions',url:'https://developer.salesforce.com/docs/ai/agentforce/guide/get-started-actions.html'}},
+{title:'Identity 통합 없이 중복 고객 데이터 노출',desc:'CRM·Marketing·Commerce에서 같은 고객이 3개 레코드로 존재하면 Agent가 엉뚱한 데이터로 액션합니다. Data Cloud Identity Resolution로 통합 프로필을 만드세요.',severity:'High',ref:{label:'Data Masking (Trust Layer)',url:'https://developer.salesforce.com/docs/einstein/genai/guide/data-masking.html'}},
+{title:'Marketing Journey 동의(Consent) 미검증',desc:'Agent가 MC Journey를 트리거할 때 수신 거부·GDPR 옵트아웃 고객에게도 발송됩니다. 반드시 ContactPointConsent를 먼저 조회하세요.',severity:'Critical',ref:{label:'Einstein Trust Layer',url:'https://developer.salesforce.com/docs/ai/agentforce/guide/trust.html'}},
+{title:'MuleSoft Flow가 Salesforce DB 직접 접근',desc:'JDBC로 직접 DB 쿼리하면 트리거·공유규칙·FLS가 모두 무시됩니다. 반드시 MuleSoft Salesforce Connector(REST/Bulk API)를 통해야 합니다.',severity:'High',ref:{label:'Governor Limits',url:'https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_gov_limits.htm'}},
+{title:'MCP Tool 버전 관리 미적용',desc:'Tool 스키마를 버전 없이 in-place로 바꾸면, 기존 Agent가 모두 깨집니다. Semantic Versioning(v1→v2)으로 관리하고 최소 1 릴리스 호환성을 유지하세요.',severity:'Medium',ref:{label:'Build Agentforce Actions',url:'https://developer.salesforce.com/docs/ai/agentforce/guide/get-started-actions.html'}},
+{title:'장기 승인 워크플로에 Agentforce 사용',desc:'Agentforce는 대화형 AI이며 수 주간 상태를 유지하는 승인 체인에 맞지 않습니다. Regrello 등 전용 워크플로 엔진에 위임하고 결과만 Salesforce에 돌려받으세요.',severity:'Medium',ref:{label:'Asynchronous Apex',url:'https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_async_overview.htm'}},
+{title:'외부 세션에서 Omni-Channel 에스컬레이션',desc:'Agent API/A2A는 라이브 메시징 세션이 없어서 Omni-Channel 전환이 실패합니다. Agent가 에스컬레이션을 추천하면, 외부에서 별도로 Messaging Route API를 호출하세요.',severity:'High',ref:{label:'Agentforce for Service - Escalation',url:'https://trailhead.salesforce.com/content/learn/modules/agentforce-service-agent-quick-look/explore-use-cases-for-agentforce-for-service'}},
+{title:'DML만 기록, Intent(의도) 미기록',desc:'누가 수정했는지는 남지만 "왜" 수정했는지(어떤 Tool, 어떤 프롬프트)가 없으면 감사·디버깅이 불가합니다. Agent_Audit_Log 커스텀 오브젝트로 의도를 함께 기록하세요.',severity:'High',ref:{label:'Event Monitoring',url:'https://trailhead.salesforce.com/content/learn/modules/event_monitoring'}},
+]
+}
+};
+
+function toggleHiDesc(el){
+const box=document.getElementById('hi-detail-box');
+const hiDetailMap={
+Coworker:{
+core:[
+'Coworker는 실행 엔진이 아니라 reasoning/retrieval 레이어입니다.',
+'실제 생성/수정 액션은 권한 있는 sub-agent에 위임합니다.'
+],
+operation:[
+'Org 내 활성 Agentforce를 자동 발견해 오케스트레이션합니다.',
+'Coworker는 sub-agent가 있어야 동작하는 구조지만, 설정을 켜면 sub-agent인 search agent가 자동 생성되어 org 데이터 검색·질의응답을 바로 수행할 수 있습니다.'
+],
+data:[
+'CRM, Slack, Data 360 연계 소스를 활용합니다.',
+'현재는 조회(R) 중심이며 생성/수정은 권한 있는 sub-agent가 필요합니다.'
+],
+limits:[
+'웹 검색/외부 에이전트 오케스트레이션은 로드맵입니다.',
+'레코드 생성/변경 권한(CRUD)은 2026년 9-10월 중 GA 예정입니다.'
+]
+}
+};
+const hiVideoMap={
+Claudeforce:'',
+Coworker:'',
+Lightning:'',
+Slack:'',
+'Albert & Slackbot':'',
+Teams:'',
+ChatGPT:'',
+Copilot:''
+};
+function renderHiSection(title,items){
+const body=items&&items.length
+?`<ul style="margin:.15rem 0 0;padding-left:1rem">${items.map(x=>`<li>${x}</li>`).join('')}</ul>`
+:`<div style="min-height:.95rem"></div>`;
+return `<div><b>${title}</b>${body}</div>`;
+}
+function renderHiLeft(name){
+const d=hiDetailMap[name]||{};
+const defaultCore=(el.dataset.desc||'').trim();
+const mergedCore=d.core&&d.core.length?d.core:(defaultCore?[defaultCore]:[]);
+return `<div style="display:flex;flex-direction:column;gap:.55rem">
+<div><b>${name} ${t('opMode')}</b></div>
+${renderHiSection(t('coreConcepts'),mergedCore)}
+${renderHiSection(t('howItWorks'),d.operation)}
+${renderHiSection(t('dataPerms'),d.data)}
+${renderHiSection(t('limitsRoadmap'),d.limits)}
+</div>`;
+}
+document.querySelectorAll('.hi-pill').forEach(p=>p.style.outline='none');
+if(box.style.display!=='none'&&box.dataset.active===el.textContent){
+box.textContent='';
+box.style.display='none';
+box.dataset.active='';
+return;
+}
+el.style.outline='2px solid var(--blue)';
+const leftContent=renderHiLeft(el.textContent);
+const videoId=(el.dataset.video||hiVideoMap[el.textContent]||'').trim();
+const rightPane=videoId
+?`<div style="border-radius:var(--radius-sm);overflow:hidden;border:1px solid var(--gray-200);background:#fff">
+<iframe src="https://drive.google.com/file/d/${videoId}/preview" style="width:100%;height:300px;border:none" allow="autoplay"></iframe>
+</div>`
+:`<div style="height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.35rem;padding:.9rem;background:#fff;border:1px dashed var(--gray-300);border-radius:var(--radius-sm);font-size:.74rem;color:var(--gray-600);text-align:center">
+<div style="font-weight:700;color:var(--navy)">${el.textContent} ${t('demoVideo')}</div>
+<div>${t('connectVideo')}</div>
+</div>`;
+box.innerHTML=`<div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(340px,.9fr);gap:.9rem;align-items:stretch">
+<div style="padding:.85rem .95rem;background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius-sm)">${leftContent}</div>
+${rightPane}
+</div>`;
+box.style.display='block';
+box.dataset.active=el.textContent;
+}
+
+function toggleNaDesc(el){
+const box=document.getElementById('na-desc-box');
+document.querySelectorAll('.na-pill').forEach(p=>p.style.outline='none');
+const nameEl=el.querySelector('.agent-name-row span');
+const name=nameEl?nameEl.textContent.trim():el.textContent.trim();
+if(box.style.display!=='none'&&box.dataset.active===name){
+box.style.display='none';
+box.dataset.active='';
+return;
+}
+el.style.outline='2px solid var(--blue)';
+const naDetailMap={
+Felix:`<div style="display:flex;flex-direction:column;gap:.7rem">
+<div>
+<div style="font-size:.72rem;font-weight:700;color:var(--navy);margin-bottom:.2rem">시나리오</div>
+<ul style="margin:0;padding-left:1rem">
+<li>Field Service 현장 기사의 작업 일정 확인, 부품 조회, 작업 완료 리포트를 모바일에서 AI로 보조</li>
+</ul>
+</div>
+<div>
+<div style="font-size:.72rem;font-weight:700;color:var(--navy);margin-bottom:.2rem">필수 라이선스</div>
+<ul style="margin:0;padding-left:1rem">
+<li>Agentforce for Field Service (A4FS) add-on SKU (EE/UE/PE 별도 SKU)</li>
+<li>A4FS SKU에는 사용자당 Tableau Next Standard Creator + Standard Consumer 각 1개 포함 (2026년 7월 기준)</li>
+<li>대안: Agentforce 1 Field Service Edition 사용 시 A4FS 포함 구성(Tableau Next, Slack, Sales Cloud, Premier Success 등)으로 일괄 제공</li>
+</ul>
+</div>
+<div>
+<div style="font-size:.72rem;font-weight:700;color:var(--navy);margin-bottom:.2rem">전제 조건 (Prerequisite)</div>
+<ul style="margin:0;padding-left:1rem">
+<li>표준 Field Service EE/UE 라이선스 + Agentforce SKU + Universal/Flex Credits 필요</li>
+<li>Voice-to-Form 등 특정 기능만 위한 RUL(Restricted Use License) 세부 과금은 공식 sub-SKU 가이드가 아직 명확하지 않음</li>
+</ul>
+</div>
+</div>`
+};
+const leftContent=naDetailMap[name]||el.dataset.desc;
+let rightPane=`<div style="height:100%;display:flex;align-items:center;justify-content:center;padding:.7rem;background:#fff;border:1px dashed var(--gray-300);border-radius:var(--radius-sm);font-size:.72rem;color:var(--gray-600)">${t('noVideoLinked')}</div>`;
+if(el.dataset.video){
+rightPane=`<div style="border-radius:var(--radius-sm);overflow:hidden;border:1px solid var(--gray-200);background:#fff"><iframe src="https://drive.google.com/file/d/${el.dataset.video}/preview" style="width:100%;height:300px;border:none" allow="autoplay"></iframe></div>`;
+}
+let html=`<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.8rem;align-items:stretch">
+<div style="padding:.7rem .8rem;background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius-sm);font-size:.78rem;color:#333;line-height:1.5">${leftContent}</div>
+${rightPane}
+</div>`;
+box.innerHTML=html;
+box.style.display='block';
+box.dataset.active=name;
+}
+
+function toggleCaDesc(el){
+const box=document.getElementById('ca-desc-box');
+document.querySelectorAll('.ca-pill').forEach(p=>p.style.outline='none');
+const name=el.querySelector('span')?el.textContent.split('\n')[0].trim():el.textContent.trim();
+if(box.style.display!=='none'&&box.dataset.active===name){
+box.style.display='none';
+box.dataset.active='';
+return;
+}
+el.style.outline='2px solid #00C9A7';
+box.textContent=el.dataset.desc;
+box.style.display='block';
+box.dataset.active=name;
+}
+
+function initCounts(){
+Object.keys(SEG_META).forEach(seg=>{
+const slideCnt=C.filter(x=>x.seg===seg).length;
+const scenarioCnt=SCENARIOS.filter(d=>d.segs&&d.segs.includes(seg)).length;
+const cntEl=document.getElementById('cnt-'+seg);
+if(cntEl){const fn=T.slideCount[LANG];cntEl.textContent=typeof fn==='function'?fn(slideCnt,scenarioCnt):slideCnt+' / '+scenarioCnt;}
+});
+}
+
+function selectSeg(seg,skipHistory){
+activeSeg=seg;
+activeResultTab='guide';
+document.querySelectorAll('.seg-cell').forEach(c=>c.classList.remove('active'));
+document.getElementById('seg-'+seg).classList.add('active');
+document.getElementById('tab-guide').classList.add('active');
+document.getElementById('tab-arch').classList.remove('active');
+document.getElementById('tab-content').classList.remove('active');
+document.getElementById('tab-demo').classList.remove('active');
+const wrap=document.getElementById('results');
+const callout=document.getElementById('seg-callout');
+wrap.style.display='block';
+callout.style.display='block';
+renderCallout(seg);
+renderResults();
+if(!skipHistory) history.pushState({view:'map',seg:seg,tab:'guide'},'');
+}
+
+function switchResultTab(tab,skipHistory){
+activeResultTab=tab;
+document.getElementById('tab-guide').classList.toggle('active',tab==='guide');
+document.getElementById('tab-arch').classList.toggle('active',tab==='arch');
+document.getElementById('tab-content').classList.toggle('active',tab==='content');
+document.getElementById('tab-demo').classList.toggle('active',tab==='demo');
+renderResults();
+if(!skipHistory) history.pushState({view:'map',seg:activeSeg,tab:tab},'');
+}
+
+function renderResults(){
+const el=document.getElementById('result-cards');
+const wrap=document.getElementById('results');
+const calloutRow=document.getElementById('callout-row');
+const positioningBox=document.getElementById('seg-positioning-box');
+const meta=SEG_META[activeSeg];
+const g=SEG_GUIDE[activeSeg];
+if(!meta){
+el.innerHTML='';
+return;
+}
+renderCallout(activeSeg);
+if(g){
+calloutRow.style.gridTemplateColumns='1fr 1fr';
+positioningBox.style.display='block';
+positioningBox.innerHTML=`<div style="font-size:.7rem;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.5px;margin-bottom:.3rem">${t('prodPositioning')}</div><div class="seg-callout-title">${lf(g,'position')}</div>
+<div data-sync-row="1" style="padding-top:.7rem;border-top:1px solid #BDE0FE;margin-bottom:.6rem">
+<div style="font-size:.9rem;font-weight:700;color:var(--navy);margin-bottom:.2rem">${t('prodFeatures')}</div>
+<div class="seg-callout-body">${lf(g,'summary')}</div>
+</div>
+<div data-sync-row="2" style="padding-top:.7rem;border-top:1px solid #BDE0FE;margin-bottom:.6rem">
+<div style="font-size:.9rem;font-weight:700;color:var(--navy);margin-bottom:.2rem">${t('posGuide')}</div>
+<div class="seg-callout-body">${lf(g,'positioning')}</div>
+</div>
+<div data-sync-row="3" style="padding-top:.6rem;border-top:1px solid #BDE0FE">
+<div style="font-size:.9rem;font-weight:700;color:var(--navy);margin-bottom:.2rem">Anti-Pattern</div>
+<div class="seg-callout-body" style="color:#555">${lf(g,'antiPattern')}</div>
+</div>`;
+}else{
+calloutRow.style.gridTemplateColumns='1fr';
+positioningBox.style.display='none';
+positioningBox.innerHTML='';
+}
+if(activeResultTab==='guide'){
+el.classList.remove('demo-grid-3');
+if(g){
+let html=`<div style="display:grid;grid-template-columns:260px 1fr;gap:.9rem 1rem;align-items:start">
+<div style="font-size:.82rem;font-weight:700;color:var(--navy);margin-bottom:.2rem">${t('recProducts')}</div>
+<div style="font-size:.82rem;font-weight:700;color:var(--navy);margin-bottom:.2rem">${t('introHow')}</div>`;
+html+=g.products.map(p=>{
+const introText=lf(p,'pitch')||lf(p,'intro')||lf(p,'desc');
+const goLabel=t('goToPage');
+const btnHtml=p.contentLink?`<a href="#" onclick="event.preventDefault();goToContent('${p.contentLink}')" class="res-pill" style="white-space:nowrap">${goLabel}</a>`:p.internalLink?`<a href="#" onclick="event.preventDefault();goToScenario('${p.internalLink}')" class="res-pill" style="white-space:nowrap">${goLabel}</a>`:p.link?`<a href="${p.link}" target="_blank" class="res-pill" style="white-space:nowrap">${goLabel}</a>`:`<span class="res-pill" style="opacity:.8;cursor:default;white-space:nowrap">${goLabel}</span>`;
+return `<div class="ccard" style="margin-bottom:.1rem;min-height:86px;display:flex;align-items:center">
+<div class="ccard-header"><span class="ccard-title" style="color:var(--navy)">${p.name}</span></div>
+</div>
+<div class="ccard" style="margin-bottom:.1rem;min-height:86px;display:flex;align-items:center;justify-content:space-between;gap:.8rem">
+<div class="ccard-summary" style="margin-top:0">${introText}</div>
+${btnHtml}
+</div>`;
+}).join('');
+html+=`</div>`;
+el.innerHTML=html;
+}else{
+el.innerHTML='<div class="empty-state">'+t('emptyGuide')+'</div>';
+}
+}else if(activeResultTab==='arch'){
+el.classList.remove('demo-grid-3');
+if(g&&g.archAntiPatterns&&g.archAntiPatterns.length){
+const sevColor={Critical:'#D32F2F',High:'var(--orange)'};
+let html=`<div style="margin-bottom:1rem;padding:1rem 1.2rem;background:#FFF8F0;border:1px solid #FFD9A0;border-left:4px solid var(--orange);border-radius:var(--radius)">
+<div style="font-size:.7rem;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:.5px;margin-bottom:.3rem">Architecture Anti-Patterns</div>
+<div style="font-size:.78rem;color:#333">${t('archIntro')} <span style="font-size:.68rem;color:var(--gray-600)">(Headless 360 Anti-Pattern Review)</span></div>
+</div>`;
+html+=g.archAntiPatterns.map(ap=>`<div style="margin-bottom:.6rem;padding:.8rem 1rem;background:#fff;border:1px solid var(--gray-200);border-left:3px solid ${sevColor[ap.severity]||'var(--gray-300)'};border-radius:var(--radius-sm)">
+<div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem">
+<span style="font-size:.6rem;font-weight:700;color:#fff;background:${sevColor[ap.severity]||'#666'};padding:2px 6px;border-radius:3px">${ap.severity}</span>
+<span style="font-size:.8rem;font-weight:700;color:var(--navy)">${lf(ap,'title')}</span>
+</div>
+<div style="font-size:.75rem;color:#444;line-height:1.5">${lf(ap,'desc')}</div>
+${ap.ref?`<div style="margin-top:.4rem"><a href="${ap.ref.url}" target="_blank" style="font-size:.68rem;color:var(--blue);text-decoration:none;font-weight:600">📄 ${ap.ref.label} →</a></div>`:''}
+</div>`).join('');
+el.innerHTML=html;
+}else{
+el.innerHTML='<div class="empty-state">'+t('emptyArch')+'</div>';
+}
+}else if(activeResultTab==='content'){
+el.classList.remove('demo-grid-3');
+const items=C.filter(x=>x.seg===activeSeg);
+if(items.length){
+el.innerHTML=items.map(cardHtml).join('');
+}else{
+el.innerHTML='<div class="empty-state">'+t('emptyContent')+'</div>';
+}
+}else{
+el.classList.remove('demo-grid-3');
+const items=SCENARIOS.filter(d=>d.segs&&d.segs.includes(activeSeg));
+if(items.length){
+const groups={};
+items.forEach(d=>{if(!groups[d.scenario])groups[d.scenario]=[];groups[d.scenario].push(d);});
+let html='';
+Object.keys(groups).forEach(scenario=>{
+html+=`<div style="font-size:.9rem;font-weight:700;color:var(--navy);margin-top:1.2rem;margin-bottom:.5rem;padding-bottom:.4rem;border-bottom:2px solid var(--blue)">${scenario}</div>`;
+html+=groups[scenario].map(scenarioCardHtml).join('');
+});
+el.innerHTML=html;
+}else{
+el.innerHTML='<div class="empty-state">'+t('emptyScenario')+'</div>';
+}
+}
+wrap.style.display='block';
+const calloutRowEl=document.getElementById('callout-row');
+if(calloutRowEl){
+const rowRect=calloutRowEl.getBoundingClientRect();
+const targetTop=window.scrollY+rowRect.top-((window.innerHeight-rowRect.height)/2);
+window.scrollTo({top:Math.max(0,targetTop),behavior:'smooth'});
+}
+syncCalloutSectionHeights();
+}
+
+function renderCallout(seg){
+const meta=SEG_META[seg];
+const callout=document.getElementById('seg-callout');
+if(!meta||!callout) return;
+callout.style.display='block';
+const raw=lf(meta,'callout')||'';
+const koMarkers=['고객 특징','주요 페인포인트','해당 기업 예시'];
+const enMarkers=['Customer Traits','Key Pain Points','Example Companies'];
+const markers=LANG==='en'?enMarkers:koMarkers;
+const labels=[t('custTraits'),t('painPoints'),t('exCompanies')];
+const intro=raw.startsWith('<b>'+markers[0]+':</b>')?'':raw.split('<br><b>')[0];
+const extractSection=(label)=>{
+const re=new RegExp(`<b>${label}:<\\/b>\\s*([\\s\\S]*?)(?=<br><b>|$)`);
+const m=raw.match(re);
+return m?m[1].trim():'';
+};
+const sections=[extractSection(markers[0]),extractSection(markers[1]),extractSection(markers[2])];
+let sectionHtml='';
+sections.forEach((s,i)=>{
+if(s){
+const isLast=i===sections.length-1||!sections.slice(i+1).some(x=>x);
+sectionHtml+=`<div data-sync-row="${i+1}" style="padding-top:.7rem;border-top:1px solid #BDE0FE;${isLast?'':'margin-bottom:.6rem'}"><div style="font-size:.9rem;font-weight:700;color:var(--navy);margin-bottom:.2rem">${labels[i]}</div><div class="seg-callout-body">${s}</div></div>`;
+}
+});
+callout.innerHTML=`<div style="font-size:.7rem;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.5px;margin-bottom:.3rem">${t('segDef')}</div><div class="seg-callout-title">${lf(meta,'title')} <span style="font-size:.72rem;font-weight:500;color:var(--gray-600)">${meta.desc}</span></div>${intro?`<div class="seg-callout-body" style="margin-bottom:.8rem">${intro}</div>`:''}${sectionHtml}`;
+}
+
+function syncCalloutSectionHeights(){
+const left=document.getElementById('seg-callout');
+const right=document.getElementById('seg-positioning-box');
+if(!left||!right||right.style.display==='none') return;
+['1','2','3'].forEach(row=>{
+const leftRow=left.querySelector(`[data-sync-row="${row}"]`);
+const rightRow=right.querySelector(`[data-sync-row="${row}"]`);
+if(!leftRow||!rightRow) return;
+leftRow.style.minHeight='';
+rightRow.style.minHeight='';
+const h=Math.max(leftRow.offsetHeight,rightRow.offsetHeight);
+leftRow.style.minHeight=h+'px';
+rightRow.style.minHeight=h+'px';
+});
+}
+
+function scenarioCardHtml(d){
+const solBadges=d.sols?d.sols.map(s=>'<span class="badge badge-sol">'+s+'</span>').join(''):'';
+const hasVideos=d.videos&&d.videos.length>0;
+let videosHtml='';
+if(hasVideos){
+videosHtml=`<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.6rem;margin-top:.8rem">`+d.videos.map((v,i)=>{
+const iframeSrc=v.ytId?'https://www.youtube.com/embed/'+v.ytId:'https://drive.google.com/file/d/'+v.driveId+'/preview';
+return `<div style="padding:.6rem;background:#FAFAFA;border:1px solid var(--gray-200);border-radius:var(--radius-sm)">
+<div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.4rem">
+<span style="background:var(--blue);color:#fff;font-size:.6rem;font-weight:700;padding:2px 7px;border-radius:999px">Step ${i+1}</span>
+<span style="font-size:.78rem;font-weight:700;color:var(--navy)">${v.step}</span>
+</div>
+<div style="font-size:.72rem;color:var(--gray-600);margin-bottom:.5rem">${v.desc}</div>
+<div style="border-radius:var(--radius-sm);overflow:hidden;border:1px solid var(--gray-200)">
+<iframe src="${iframeSrc}" style="width:100%;height:180px;border:none" allow="autoplay;encrypted-media" allowfullscreen></iframe>
+</div>
+</div>`;
+}).join('')+`</div>`;
+}else{
+videosHtml=`<div style="margin-top:.6rem;padding:.5rem .8rem;background:#FFF8F0;border:1px solid #FFD9A0;border-radius:var(--radius-sm);font-size:.72rem;color:var(--orange);font-weight:600">${t('videoSoon')}</div>`;
+}
+return `<div class="ccard" style="margin-bottom:1rem;${hasVideos?'':'opacity:.85'}">
+<div class="ccard-header">
+<span class="ccard-title" style="color:var(--navy)">${d.title}</span>
+</div>
+<div class="ccard-badges" style="margin-top:.3rem">${solBadges}</div>
+<div class="ccard-summary" style="margin-top:.4rem">${d.desc}</div>
+<div style="margin-top:.6rem;padding:.6rem .8rem;background:#F0F7FF;border-radius:var(--radius-sm);border-left:3px solid var(--blue);font-size:.78rem;color:#333;line-height:1.5">
+<span style="font-weight:700;color:var(--navy);font-size:.68rem;text-transform:uppercase;letter-spacing:.3px">Talking Point</span><br>${d.tp}
+</div>
+${videosHtml}
+</div>`;
+}
+
+function cardHtml(item){
+return `<div class="ccard">
+<div class="ccard-header">
+<a class="ccard-title" href="${item.link||'#'}" target="_blank">${item.t}</a>
+<span class="ccard-date">${item.date}</span>
+</div>
+<div class="ccard-badges">${item.sols.map(s=>'<span class="badge badge-sol">'+s+'</span>').join('')}</div>
+<div class="ccard-summary">${item.note}</div>
+${item.link?'<div style="margin-top:.8rem"><a class="res-pill" href="'+item.link+'" target="_blank">'+t('openMaterial')+'</a></div>':''}
+</div>`;
+}
+
+// 시나리오 데이터 — 유즈케이스 기반, 세그먼트별 매핑, 토킹포인트 포함
+// videos: [{step:"단계명", desc:"세부설명", driveId/ytId}] — 시나리오당 여러 영상 가능
+const SCENARIOS=[
+// --- 미팅 준비 & 고객 리서치 ---
+{scenario:"미팅 준비 & 고객 리서치",title:"고객현황 요약 + 뉴스",desc:"미팅 전 고객사 뉴스·재무·히스토리를 AI가 자동 브리핑",tp:"'미팅 10분 전에 고객사 뉴스 검색하시죠? 이걸 AI가 매일 아침 자동으로 해줍니다'",sols:["Agentforce"],segs:["nocrm-noai","crm-noai","crm-ai"],videos:[
+{step:"고객사 뉴스·재무 자동 브리핑",desc:"미팅 전 고객사 최신 뉴스·재무정보를 AI가 자동 요약하는 화면",driveId:"140hUciH2rvHCbx7y0htevLJAVUzitj6c"},
+]},
+{scenario:"미팅 준비 & 고객 리서치",title:"Grid 웹 검색 확장",desc:"Grid에서 외부 웹 정보까지 검색해 고객 인사이트를 보강",tp:"'CRM 안의 데이터만으론 부족할 때, 외부 뉴스·공시까지 한 화면에서'",sols:["Agentforce","Grid"],segs:["crm-noai","crm-ai"],videos:[
+{step:"외부 웹 검색으로 인사이트 보강",desc:"Grid 내에서 외부 웹 정보를 통합 검색하는 과정",driveId:"1aS29E78QwYc2U56WJsWqu0RqdahmFxNg"},
+]},
+{scenario:"미팅 준비 & 고객 리서치",title:"Slack 내부 정보 요약",desc:"Slack 채널에 흩어진 고객 관련 내부 논의를 AI가 요약",tp:"'미팅 전에 Slack 뒤져보는 시간, AI가 30초로 줄여줍니다'",sols:["Slack","Agentforce"],segs:["crm-noai","crm-ai"],videos:[
+{step:"Slack 채널 요약 요청",desc:"미팅 전 관련 Slack 채널 대화를 AI에게 요약 요청하는 장면",driveId:"1smd5PSHpi7ocREKQYcUr0sQfdXW5dNde"},
+]},
+
+// --- 미팅 후 CRM 업데이트 ---
+{scenario:"미팅 후 자동 업데이트",title:"미팅 후 CRM 자동 갱신",desc:"미팅 종료 후 메모·다음 액션·영업 단계를 AI가 CRM에 자동 기록",tp:"'미팅 끝나고 CRM 업데이트 안 하는 영업팀, 이걸로 해결됩니다. 데이터가 쌓여야 인사이트가 나옵니다'",sols:["Agentforce","Sales Cloud"],segs:["crm-noai","crm-ai"],videos:[
+{step:"미팅 메모 → CRM 자동 반영",desc:"미팅 종료 후 AI가 메모·액션아이템·영업단계를 자동 기록하는 과정",driveId:"1L_JPSz7mN4sbrAyWo59Yqry_Bi0ctbKD"},
+]},
+
+// --- 리스크 감지 & 인사이트 ---
+{scenario:"딜 리스크 감지 & 인사이트",title:"리스크 신호 슬랙 알림",desc:"딜 이상징후(미응답, 경쟁사 언급, 일정 지연 등)를 AI가 감지해 Slack으로 알림",tp:"'파이프라인 100개 딜 중 위험한 5개를 AI가 먼저 찾아줍니다. 매니저가 매일 리뷰 안 해도 됩니다'",sols:["Agentforce","Slack"],segs:["crm-ai"],videos:[]},
+{scenario:"딜 리스크 감지 & 인사이트",title:"Custom Agent: RFP 리스크 분석 자동화 (Grid + MCP)",desc:"100페이지 RFP 문서를 업로드하면 Grid가 병렬 분석 → 리스크 항목·필수 요건·경쟁사 비교 포인트를 5분 내 구조화. MCP로 사내 과거 제안서 DB도 연결",tp:"'개발팀이 직접 만들면 3개월, Agentforce로 만들면 2주. 그리고 같은 Grid 파이프라인으로 CS QA·HR 스크리닝까지 확장됩니다'",sols:["Agentforce","Grid","MCP"],segs:["nocrm-ai","crm-ai"],videos:[
+{step:"RFP 문서 업로드 & 리스크 분석",desc:"Grid에 RFP 문서를 올리면 AI가 리스크 항목을 자동 추출",driveId:"10iszMsOVO67w1bSH7t-aGUwKzsGre4d7"},
+]},
+
+// --- 사후 액션 자동화 (MCP) ---
+{scenario:"사후 액션 자동화",title:"인시던트 대응 이메일 자동 발송",desc:"서비스 인시던트 발생 시 MCP 통해 이메일 초안 자동 작성·발송",tp:"'장애 발생 → 영향 고객 파악 → 사과 메일 발송, 이 3단계를 사람 대신 Agent가 5분 안에 처리합니다'",sols:["Agentforce","MCP"],segs:["nocrm-ai","crm-ai"],videos:[
+{step:"인시던트 감지 → 이메일 자동 발송",desc:"MCP를 통해 인시던트 발생 시 영향 고객에게 자동 이메일 발송",driveId:"16igjvqOy_Wwc8XjQgyfjPSFzPhmvdDJr"},
+]},
+{scenario:"사후 액션 자동화",title:"외부 툴 연동 액션 (Canva/Jira 등)",desc:"AI가 판단한 다음 액션을 Canva·Jira 등 외부 툴에 직접 실행",tp:"'마케팅 요청을 Jira에 직접 생성하고, Canva에서 에셋을 만들고 — CRM 안에서 다 됩니다'",sols:["Agentforce","MCP","Canva"],segs:["nocrm-ai","crm-ai"],videos:[
+{step:"Canva/Jira 연동 액션 실행",desc:"AI가 다음 액션을 판단하고 Canva·Jira에 직접 실행하는 과정",ytId:"oMdx0espkaM"},
+]},
+{scenario:"사후 액션 자동화",title:"Slack Skill 기반 고객 콘텐츠 자동 발송",desc:"승인 완료 시 고객에게 데모 영상·자료를 자동 발송",tp:"'영업이 승인 누르면 고객에게 맞춤 콘텐츠가 바로 갑니다. 팔로업 누락이 사라집니다'",sols:["Slack","Agentforce"],segs:["crm-noai","crm-ai"],videos:[
+{step:"Slack에서 승인 → 고객 자동 발송",desc:"Slack Skill로 승인 후 고객에게 맞춤 콘텐츠가 자동 전달되는 흐름",driveId:"1xA4HP7NkRVcG4CPE9jjEm9-076LZhuV_"},
+]},
+
+// --- 고객 대응 자동화 (AICC) ---
+{scenario:"고객 대응 자동화 (AICC)",title:"AI 챗봇 고객 응대 — Human in Loop",desc:"AI가 1차 응대하고 복잡한 건만 사람에게 넘기는 하이브리드 AICC",tp:"'CS 인력 채용 어려우시죠? AI가 70% 처리하고 나머지 30%만 사람이 합니다. 인건비 ROI 바로 나옵니다'",sols:["Agentforce","Service Cloud"],segs:["nocrm-noai","nocrm-ai","crm-noai"],videos:[
+{step:"AI 1차 응대 + 에스컬레이션",desc:"AI가 고객 문의를 처리하고 복잡한 건을 사람에게 넘기는 과정",driveId:"1FaY7sKRcL19RxtuT-Cnv1JUgDmebUF_I"},
+]},
+{scenario:"고객 대응 자동화 (AICC)",title:"AICC 확장 — 멀티채널·고도화",desc:"카카오톡·웹·앱 등 멀티채널로 확장된 AI 고객 응대",tp:"'카카오톡으로 들어오는 문의도 같은 AI가 처리합니다. 채널 추가할 때마다 사람 추가할 필요 없습니다'",sols:["Agentforce","Service Cloud"],segs:["nocrm-noai","crm-noai"],videos:[
+{step:"멀티채널 AICC 데모",desc:"카카오톡·웹·앱 등 여러 채널에서 동일 AI가 응대하는 모습",driveId:"1wiPqU_dY0YPg500P5AayWNU87Slc5cQc"},
+]},
+
+// --- 영업 파이프라인 자동화 ---
+{scenario:"영업 파이프라인 자동화",title:"영업단계 자동 전환 (멀티 에이전트)",desc:"여러 Agent가 협업해 딜 단계를 자동 진행시키는 멀티 에이전트 오케스트레이션",tp:"'영업 단계 수동으로 바꾸는 거, 이제 Agent가 조건 충족되면 자동으로 합니다. 포캐스팅 정확도가 올라갑니다'",sols:["Agentforce","Sales Cloud"],segs:["crm-ai"],videos:[
+{step:"멀티 에이전트 오케스트레이션",desc:"여러 Agent가 협업해 영업 단계를 자동 전환하는 과정",driveId:"1Z1P5GlNZ3WKXbG30Sy4BMRaoaQsPVWIz"},
+]},
+{scenario:"영업 파이프라인 자동화",title:"리드 너처링 자동화",desc:"리드 유입 → 스코어링 → 맞춤 팔로업까지 Agent가 자동 수행",tp:"'마케팅에서 넘어온 리드, 영업이 연락 안 해서 식는 거 막아줍니다. AI가 최적 타이밍에 자동 터치합니다'",sols:["Agentforce","Marketing"],segs:["crm-noai","crm-ai"],videos:[]},
+
+// --- 마케팅 & 성과 추적 ---
+{scenario:"마케팅 성과 & 조직 확산",title:"마케팅 리드 퀄리티 대시보드",desc:"Slackbot이 리드 퀄리티를 자동 리뷰하고 대시보드로 공유",tp:"'마케팅팀이 가져온 리드가 진짜 좋은 리드인지, AI가 데이터로 증명해줍니다'",sols:["Slack","Agentforce","Marketing"],segs:["crm-noai","crm-ai"],videos:[
+{step:"Slackbot 리드 퀄리티 리포트",desc:"Slackbot이 리드 퀄리티를 자동 리뷰해 대시보드 공유하는 과정",driveId:"1-0FH0U7P2yD_WvflWW1cOjP_7-7XY7Sv"},
+]},
+{scenario:"마케팅 성과 & 조직 확산",title:"Best Practice 기반 프로젝트 초안 자동 생성",desc:"과거 성공 사례를 학습해 신규 프로젝트 계획을 자동 초안",tp:"'신입이 와도 베테랑처럼 프로젝트를 시작할 수 있습니다. 조직의 노하우가 AI에 축적됩니다'",sols:["Slack","Agentforce"],segs:["crm-ai"],videos:[
+{step:"Best Practice 학습 → 프로젝트 초안",desc:"과거 성공 프로젝트를 참고해 신규 프로젝트 계획을 자동 생성",driveId:"1bOclxisK9QL_6Dk_GiCt88W81alIjPFo"},
+]},
+];
+
+const DEMOS=SCENARIOS;
+const CAT_COLORS={'효율 × Assist':'#0070D2','효과 × Assist':'#5A1BA9','효율 × Automate':'#DD7A01','효과 × Automate':'#04844B'};
+const CAT_DESC={'효율 × Assist':'업무 시간 단축 · 반복 감소 + 사람 보조','효과 × Assist':'딜 성사율 · 고객 만족 ↑ + 인사이트 제공','효율 × Automate':'반복/행정 업무 무인화','효과 × Automate':'성과 자동 추적 · 조직 확산'};
+
+const CORE_DEMOS=[];
+
+function selectDemoCat(cat){
+document.querySelectorAll('.demo-cat-btn').forEach(b=>b.classList.remove('active'));
+document.getElementById('dcat-'+cat).classList.add('active');
+document.querySelectorAll('.demo-cat-section').forEach(s=>s.classList.remove('active'));
+document.getElementById('dsec-'+cat).classList.add('active');
+document.getElementById('video-player').style.display='none';
+document.getElementById('demo-ax-sections').innerHTML='';
+if(cat==='ax'){}
+else{renderCoreDemos();}
+}
+
+function renderCoreDemos(){
+const sections=document.getElementById('demo-ax-sections');
+if(!CORE_DEMOS.length){
+sections.innerHTML='<div class="empty-state">'+t('coreEmpty')+'</div>';
+return;
+}
+}
+
+function renderDemoGrid(){selectAxCell('효율 × Assist');}
+
+function selectAxCell(cat){
+document.querySelectorAll('.ax-m-cell').forEach(c=>c.classList.remove('active'));
+const idMap={'효과 × Assist':'axc-ea','효과 × Automate':'axc-eau','효율 × Assist':'axc-la','효율 × Automate':'axc-lau'};
+document.getElementById(idMap[cat]).classList.add('active');
+document.getElementById('video-player').style.display='none';
+
+const items=DEMOS.filter(d=>d.cat===cat);
+const color=CAT_COLORS[cat]||'#333';
+const sections=document.getElementById('demo-ax-sections');
+sections.innerHTML=`<div style="margin-top:1.5rem">
+<div style="display:flex;align-items:center;gap:.6rem;margin-bottom:1rem">
+<div style="width:4px;height:28px;border-radius:2px;background:${color}"></div>
+<div>
+<div style="font-size:1rem;font-weight:700;color:${color}">${cat}</div>
+<div style="font-size:.75rem;color:var(--gray-600)">${CAT_DESC[cat]||''}</div>
+</div>
+</div>
+<div class="demo-grid">${items.map(v=>{
+const gi=DEMOS.indexOf(v);
+return `<div class="demo-card${(v.driveId||v.ytId)?'':' no-video'}" id="dc-${gi}" onclick="playVideo(${gi})">
+<div class="demo-thumb"><div class="play-icon"></div></div>
+<div class="demo-info">
+<h4>[${v.id}] ${v.title}</h4>
+<p>${v.desc}</p>
+${!(v.driveId||v.ytId)?'<span style="font-size:.6rem;color:var(--orange);font-weight:600">'+t('videoUnreg')+'</span>':''}
+</div></div>`;}).join('')}
+</div></div>`;
+sections.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function playVideo(i){
+const v=DEMOS[i];
+if(!v.driveId&&!v.ytId){alert(t('videoNotReg'));return;}
+const player=document.getElementById('video-player');
+const src=v.ytId?'https://www.youtube.com/embed/'+v.ytId:'https://drive.google.com/file/d/'+v.driveId+'/preview';
+document.getElementById('vplayer-iframe').src=src;
+document.getElementById('vplayer-title').textContent='['+v.id+'] '+v.title;
+document.getElementById('vplayer-desc').textContent=v.desc+' — '+v.cat;
+player.style.display='block';
+document.querySelectorAll('.demo-card').forEach(c=>c.classList.remove('playing'));
+document.getElementById('dc-'+i).classList.add('playing');
+player.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function showView(v,skipHistory){
+document.querySelectorAll('.view').forEach(el=>el.classList.remove('active'));
+document.getElementById('view-'+v).classList.add('active');
+document.querySelectorAll('.topnav-links a').forEach(a=>a.classList.toggle('active',a.dataset.view===v));
+if(v==='all')renderBrowseTree();
+if(!skipHistory) history.pushState({view:v,seg:activeSeg,tab:activeResultTab},'');
+}
+
+window.addEventListener('popstate',function(e){
+const s=e.state;
+if(!s){showView('map',true);return;}
+showView(s.view||'map',true);
+if(s.seg){activeSeg=s.seg;selectSeg(s.seg,true);}
+if(s.tab){activeResultTab=s.tab;switchResultTab(s.tab,true);}
+});
+history.replaceState({view:'map',seg:null,tab:'guide'},'');
+
+function goToContent(titleKeyword){
+switchResultTab('content');
+setTimeout(()=>{
+const cards=document.querySelectorAll('#result-cards .ccard, #result-cards [class*="ccard"]');
+let target=null;
+cards.forEach(c=>{if(c.textContent.includes(titleKeyword))target=c;});
+if(target){
+target.scrollIntoView({behavior:'smooth',block:'center'});
+target.style.outline='3px solid var(--blue)';
+target.style.background='#F0F7FF';
+setTimeout(()=>{target.style.outline='';target.style.background='';},3000);
+}
+},300);
+}
+
+function goToScenario(titleKeyword){
+switchResultTab('demo');
+setTimeout(()=>{
+const cards=document.querySelectorAll('#result-cards .ccard, #result-cards [class*="ccard"]');
+let target=null;
+cards.forEach(c=>{if(c.textContent.includes(titleKeyword))target=c;});
+if(target){
+target.scrollIntoView({behavior:'smooth',block:'center'});
+target.style.outline='3px solid var(--blue)';
+target.style.background='#F0F7FF';
+setTimeout(()=>{target.style.outline='';target.style.background='';},3000);
+}
+},300);
+}
+
+function goToAgent(agentName){
+history.pushState({view:'agents',seg:activeSeg,tab:activeResultTab},'');
+showView('agents',true);
+const allPills=[...document.querySelectorAll('.na-pill'),...document.querySelectorAll('.hi-pill'),...document.querySelectorAll('.ca-pill')];
+const target=allPills.find(p=>{
+const text=p.textContent.trim();
+return text.includes(agentName);
+});
+if(target){
+setTimeout(()=>{
+target.scrollIntoView({behavior:'smooth',block:'center'});
+target.click();
+target.style.outline='3px solid var(--blue)';
+setTimeout(()=>{target.style.outline='';},2500);
+},200);
+}
+}
+
+function renderBrowseTree(){
+const tree=document.getElementById('browse-tree');
+const segs=['nocrm-noai','nocrm-ai','crm-noai','crm-ai'];
+tree.innerHTML='<ul class="tree-level">'+segs.map(seg=>{
+const items=C.filter(x=>x.seg===seg);
+const meta=SEG_META[seg];
+return `<li class="tree-node">
+<div class="node-card node-root">
+<div class="node-top">
+<span class="node-title">${lf(meta,'title')} (${meta.desc})</span>
+<span class="node-count">${items.length}건</span>
+</div>
+</div>
+<ul class="tree-children">${items.map(x=>`<li class="tree-node">
+<div class="node-card node-step">
+<div class="node-top"><span class="node-title">${x.t}</span><span class="node-count">${x.date}</span></div>
+</div></li>`).join('')}</ul>
+</li>`;
+}).join('')+'</ul>';
+}
+
+function initLicenseRules(){
+const buttons=[...document.querySelectorAll('.license-filter-btn')];
+const titleEl=document.getElementById('license-rule-title');
+const bodyEl=document.getElementById('license-rule-body');
+if(!buttons.length||!titleEl||!bodyEl) return;
+const matrixPills=[...document.querySelectorAll('#agent-license-matrix .na-pill, #agent-license-matrix .ca-pill')];
+const featurePills=[...document.querySelectorAll('#feature-type-matrix .feature-pill')];
+const normalize=(s)=>String(s||'').trim().toLowerCase().replace(/\s+/g,'');
+const getAgentName=(el)=>{
+if(el.classList.contains('na-pill')){
+const nameEl=el.querySelector('.agent-name-row span');
+return nameEl?nameEl.textContent.trim():'';
+}
+const firstTextNode=[...el.childNodes].find(n=>n.nodeType===Node.TEXT_NODE&&n.textContent&&n.textContent.trim());
+if(firstTextNode) return firstTextNode.textContent.trim();
+const br=el.querySelector('br');
+if(br&&br.previousSibling&&br.previousSibling.textContent){
+return br.previousSibling.textContent.trim();
+}
+const raw=el.textContent||'';
+return raw.trim();
+};
+matrixPills.forEach(p=>{p.dataset.agentKey=normalize(getAgentName(p));});
+function applyLicenseAgentHighlight(agentNames){
+const target=new Set((agentNames||[]).map(normalize));
+matrixPills.forEach(p=>{
+const key=p.dataset.agentKey||'';
+const matched=target.has(key);
+p.classList.toggle('license-match',matched);
+p.classList.toggle('license-dim',!matched);
+});
+}
+function applyFeatureHighlight(features){
+if(!featurePills.length) return;
+if(!features||!features.length){
+featurePills.forEach(p=>{p.classList.remove('license-match');p.classList.remove('license-dim');});
+return;
+}
+const target=new Set(features);
+featurePills.forEach(p=>{
+const matched=target.has(p.dataset.feature||'');
+p.classList.toggle('license-match',matched);
+p.classList.toggle('license-dim',!matched);
+});
+}
+const rules={
+'A1E - Agentforce 1 Edition':{
+title:'A1E 과금 규칙 요약',
+body:'내부 트리거(직원이 직접 사용하는 employee-facing 사용)는 A1E/A4X 조건 충족 시 Unmetered로 처리할 수 있습니다. 다만 외부/고객 채널로 나가는 인터랙션 또는 시스템 자동 트리거는 항상 Metered(Flex Credits 소비)로 처리됩니다.',
+agents:['Paige','Felix','Hunter','Casey','RFP Agent','Service Rep Assistant','OMS Agent','Account Qualification Agent','Quoting Agent'],
+features:['ui-set','inline']
+},
+'A4X - Agentforce Add-on':{
+title:'A4X 과금 규칙 요약',
+body:'A4X도 내부 트리거(직원 사용) 영역에서는 Unmetered 적용 대상입니다. 그러나 자동화·스케줄러·외부 채널 호출 등 시스템/외부 트리거는 Flex Credits 기반 Metered 과금이 적용됩니다.',
+agents:['Paige','Felix','Hunter','Casey','RFP Agent','Service Rep Assistant','OMS Agent','Account Qualification Agent','Quoting Agent'],
+features:['ui-set','inline']
+},
+'AELA - Agentforce Enterprise License Agreement':{
+title:'AELA 과금 규칙 요약',
+body:'AELA는 계약 형태에 따라 범위가 달라집니다(Velocity / Unlimited). 일반적으로 내부 사용 외에도 확장성이 높지만, 실제 무제한 적용 범위는 계약 조건 기준으로 확인해야 합니다.',
+agents:['Paige','Felix','Hunter','Casey','Carter','RFP Agent','Service Rep Assistant','Customer Onboarding Agent','Engage With Prospects Agent','WISMO Agent','Scheduling Agent','Agentforce Service Agent','OMS Agent','Account Qualification Agent','Quoting Agent','LeadGen Agent'],
+features:['ui-set','inline','apex-trigger','apex-class','event-scheduled','test-center','support-suite']
+},
+'Flex Credits - Usage-based credits':{
+title:'Flex Credits 과금 규칙 요약',
+body:'Unmetered 대상이 아닌 모든 실행(외부/고객 채널 인터랙션, 시스템 자동 트리거, Data 360 쿼리 등)은 Flex Credits로 소비됩니다.',
+agents:['Paige','Felix','Hunter','Margo','Archer','Casey','Carter','RFP Agent','Service Rep Assistant','Customer Onboarding Agent','Engage With Prospects Agent','WISMO Agent','Scheduling Agent','Agentforce Service Agent','OMS Agent','Account Qualification Agent','Quoting Agent','LeadGen Agent'],
+features:['ui-set','inline','apex-trigger','apex-class','event-scheduled','test-center','support-suite']
+},
+'AUL - Agentforce User License + Flex Credits':{
+title:'AUL 과금 규칙 요약',
+body:'AUL은 floor-level 사용자 라이선스로 Unmetered tier가 없어 사용이 Metered로 처리됩니다. 즉, 실제 에이전트 사용은 Flex Credits와 함께 설계해야 합니다.',
+agents:['Paige','Felix','Hunter','Margo','Archer','Casey','Carter','RFP Agent','Service Rep Assistant','Customer Onboarding Agent','Engage With Prospects Agent','WISMO Agent','Scheduling Agent','Agentforce Service Agent','OMS Agent','Account Qualification Agent','Quoting Agent','LeadGen Agent'],
+features:['ui-set','inline','apex-trigger','apex-class','event-scheduled','test-center','support-suite']
+},
+'별도 라이센스 필요':{
+title:'별도 라이센스 필요 요약',
+body:'기본 번들 외 별도 라이선스 검토가 필요한 항목입니다.',
+agents:['Piper']
+},
+'미정':{
+title:'미정 항목 요약',
+body:'현재 기준으로 제품/계약 정책 확정 전 항목입니다.',
+agents:['Marshall','Margo','Archer']
+}
+};
+buttons.forEach(btn=>{
+btn.addEventListener('click',()=>{
+buttons.forEach(b=>b.classList.remove('active'));
+btn.classList.add('active');
+const key=btn.textContent.trim();
+const rule=rules[key];
+if(!rule) return;
+titleEl.textContent=rule.title;
+bodyEl.textContent=rule.body;
+applyLicenseAgentHighlight(rule.agents||[]);
+applyFeatureHighlight(rule.features||[]);
+});
+});
+}
+
+initCounts();
+initLicenseRules();
+applyLang();
+</script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+name: Deploy to Salesforce
+
+on:
+  push:
+    paths:
+      - 'ai-initiative/segment-content-map-c.html'
+      - 'force-app/**'
+    branches:
+      - main
+      - cursor/add-salesforce-mcp-rule
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Salesforce CLI
+        run: npm install -g @salesforce/cli
+
+      - name: Authenticate to Salesforce
+        run: |
+          echo "${{ secrets.SFDX_AUTH_URL }}" > auth_url.txt
+          sf org login sfdx-url --sfdx-url-file auth_url.txt --alias orgfarm --set-default
+          rm auth_url.txt
+
+      - name: Copy HTML to Static Resource
+        run: cp ai-initiative/segment-content-map-c.html force-app/main/default/staticresources/SegmentContentMapC.html
+
+      - name: Deploy to Salesforce
+        run: |
+          sf project deploy start \
+            --target-org orgfarm \
+            --source-dir force-app/main/default/staticresources/SegmentContentMapC.html \
+            --source-dir force-app/main/default/staticresources/SegmentContentMapC.resource-meta.xml
