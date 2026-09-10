@@ -70,7 +70,7 @@ body{font-family:'Salesforce Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',s
 .toggle-btn{background:none;border:1px solid var(--gray-200);border-radius:var(--radius-sm);padding:.35rem .8rem;font-size:.82rem;font-weight:600;color:var(--gray-600);cursor:pointer;transition:all .2s}
 .toggle-btn:hover{border-color:var(--blue);color:var(--blue)}
 .toggle-btn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
-.seg-callout{background:#fff;border:1px solid #BDE0FE;border-left:4px solid var(--blue);border-radius:var(--radius-sm);padding:1.2rem 1.5rem;margin-bottom:1.2rem;line-height:1.7}
+.seg-callout{background:#fff;border:1px solid #BDE0FE;border-radius:var(--radius-sm);padding:1.2rem 1.5rem;margin-bottom:1.2rem;line-height:1.7}
 .seg-callout-title{font-size:1.08rem;font-weight:700;color:var(--navy);margin-bottom:.4rem}
 .seg-callout-body{font-size:.92rem;color:#333}
 .seg-callout-body b{color:var(--navy);font-size:1rem;font-weight:700}
@@ -237,28 +237,28 @@ body{font-family:'Salesforce Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',s
 <div class="toc-group open" data-toc-group="main">
 <button type="button" class="toc-group-btn" onclick="tocGo('main')"><span class="toc-group-ico view-main"><svg viewBox="0 0 24 24" fill="none"><path d="M4 10.5L12 4l8 6.5V20a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1v-9.5z" stroke="#2563EB" stroke-width="1.8" stroke-linejoin="round"/></svg></span><span>Overview</span><span class="toc-chevron" onclick="event.stopPropagation();tocToggleGroup('main')">▾</span></button>
 <div class="toc-children">
-<a class="toc-link" onclick="tocGo('main','section-main-video')"><span class="toc-link-ico"><svg viewBox="0 0 24 24" fill="none"><rect x="3.5" y="6" width="17" height="12" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M10 9.5v5l4.5-2.5L10 9.5z" fill="currentColor"/></svg></span><span class="toc-link-text">소개 영상</span><span class="toc-link-arrow">›</span></a>
-<a class="toc-link" onclick="tocGo('main','section-main-guide')"><span class="toc-link-ico"><svg viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.7"/><rect x="13" y="4" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.7"/><rect x="4" y="13" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.7"/></svg></span><span class="toc-link-text">섹션 안내</span><span class="toc-link-arrow">›</span></a>
+<a class="toc-link" onclick="tocGo('main','section-main-video')"><span class="toc-link-ico"><svg viewBox="0 0 24 24" fill="none"><rect x="3.5" y="6" width="17" height="12" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M10 9.5v5l4.5-2.5L10 9.5z" fill="currentColor"/></svg></span><span class="toc-link-text toc-i18n" data-ko="소개 영상" data-en="Intro Video">소개 영상</span><span class="toc-link-arrow">›</span></a>
+<a class="toc-link" onclick="tocGo('main','section-main-guide')"><span class="toc-link-ico"><svg viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.7"/><rect x="13" y="4" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.7"/><rect x="4" y="13" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.7"/></svg></span><span class="toc-link-text toc-i18n" data-ko="섹션 안내" data-en="Section Guide">섹션 안내</span><span class="toc-link-arrow">›</span></a>
 </div>
 </div>
 <div class="toc-group open" data-toc-group="agents">
-<button type="button" class="toc-group-btn" onclick="tocGo('agents')"><span class="toc-group-ico agents"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3.5l1.7 4.2 4.5.4-3.4 3 1.1 4.4L12 13.8 8.1 15.5l1.1-4.4-3.4-3 4.5-.4L12 3.5z" stroke="#7C3AED" stroke-width="1.6" stroke-linejoin="round"/></svg></span><span>Agent 가이드북</span><span class="toc-chevron" onclick="event.stopPropagation();tocToggleGroup('agents')">▾</span></button>
+<button type="button" class="toc-group-btn" onclick="tocGo('agents')"><span class="toc-group-ico agents"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3.5l1.7 4.2 4.5.4-3.4 3 1.1 4.4L12 13.8 8.1 15.5l1.1-4.4-3.4-3 4.5-.4L12 3.5z" stroke="#7C3AED" stroke-width="1.6" stroke-linejoin="round"/></svg></span><span class="toc-i18n" data-ko="Agent 가이드북" data-en="Agent Guidebook">Agent 가이드북</span><span class="toc-chevron" onclick="event.stopPropagation();tocToggleGroup('agents')">▾</span></button>
 <div class="toc-children">
-<div style="font-size:.82rem;font-weight:700;color:#9CA3AF;text-transform:uppercase;letter-spacing:.5px;padding:.4rem .45rem .2rem;margin-top:.1rem">아키텍처 이해하기</div>
+<div style="font-size:.82rem;font-weight:700;color:#9CA3AF;text-transform:uppercase;letter-spacing:.5px;padding:.4rem .45rem .2rem;margin-top:.1rem"><span class="toc-i18n" data-ko="아키텍처 이해하기" data-en="Architecture">아키텍처 이해하기</span></div>
 <a class="toc-link" onclick="tocGo('agents','section-headless')"><span class="toc-link-ico"><svg viewBox="0 0 24 24" fill="none"><rect x="4" y="5" width="16" height="11" rx="1.5" stroke="currentColor" stroke-width="1.8"/><path d="M8 19h8M12 16v3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span><span class="toc-link-text">Headless Interface</span><span class="toc-link-arrow">›</span></a>
-<a class="toc-link" onclick="tocGo('agents','section-subagent')"><span class="toc-link-ico"><svg viewBox="0 0 24 24" fill="none"><circle cx="8" cy="9" r="2.2" stroke="currentColor" stroke-width="1.7"/><circle cx="16" cy="9" r="2.2" stroke="currentColor" stroke-width="1.7"/><path d="M4.5 18c.7-2.4 2.2-3.5 3.5-3.5S10.8 15.6 11.5 18M12.5 18c.7-2.4 2.2-3.5 3.5-3.5S18.8 15.6 19.5 18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span><span class="toc-link-text">Sub-agent 유형</span><span class="toc-link-arrow">›</span></a>
-<a class="toc-link" onclick="tocGo('agents','section-agency')"><span class="toc-link-ico"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6.2 6.2l2.8 2.8M15 15l2.8 2.8M17.8 6.2 15 9M9 15l-2.8 2.8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span><span class="toc-link-text">Agent 설계·운영 기반</span><span class="toc-link-arrow">›</span></a>
-<a class="toc-link" onclick="tocGo('agents','section-feature')"><span class="toc-link-ico"><svg viewBox="0 0 24 24" fill="none"><path d="M5 7h14M5 12h14M5 17h9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="17.5" cy="17" r="2.2" stroke="currentColor" stroke-width="1.6"/></svg></span><span class="toc-link-text">호출·자동화 경로</span><span class="toc-link-arrow">›</span></a>
-<a class="toc-link" onclick="tocGo('agents','section-faq')"><span class="toc-link-ico"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.8"/><path d="M9.6 9.4a2.4 2.4 0 1 1 3.5 2.1c-.7.4-1.1.9-1.1 1.7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="12" cy="16.4" r="1" fill="currentColor"/></svg></span><span class="toc-link-text">이외 에이전트 소개</span><span class="toc-link-arrow">›</span></a>
-<div style="font-size:.82rem;font-weight:700;color:#9CA3AF;text-transform:uppercase;letter-spacing:.5px;padding:.6rem .45rem .2rem;border-top:1px solid #E8E8E6;margin-top:.3rem">라이선스 이해하기</div>
-<a class="toc-link" onclick="tocGo('agents','section-license-summary')"><span class="toc-link-ico"><svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span><span class="toc-link-text">Headless 라이선스</span><span class="toc-link-arrow">›</span></a>
-<a class="toc-link" onclick="tocGo('agents','section-license-filter')"><span class="toc-link-ico"><svg viewBox="0 0 24 24" fill="none"><path d="M3 4h18l-7 8v5l-4 2V12L3 4z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span><span class="toc-link-text">Sub-agent 라이선스</span><span class="toc-link-arrow">›</span></a>
+<a class="toc-link" onclick="tocGo('agents','section-subagent')"><span class="toc-link-ico"><svg viewBox="0 0 24 24" fill="none"><circle cx="8" cy="9" r="2.2" stroke="currentColor" stroke-width="1.7"/><circle cx="16" cy="9" r="2.2" stroke="currentColor" stroke-width="1.7"/><path d="M4.5 18c.7-2.4 2.2-3.5 3.5-3.5S10.8 15.6 11.5 18M12.5 18c.7-2.4 2.2-3.5 3.5-3.5S18.8 15.6 19.5 18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span><span class="toc-link-text toc-i18n" data-ko="Sub-agent 유형" data-en="Sub-agent Types">Sub-agent 유형</span><span class="toc-link-arrow">›</span></a>
+<a class="toc-link" onclick="tocGo('agents','section-agency')"><span class="toc-link-ico"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6.2 6.2l2.8 2.8M15 15l2.8 2.8M17.8 6.2 15 9M9 15l-2.8 2.8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span><span class="toc-link-text toc-i18n" data-ko="Agent 설계·운영 기반" data-en="Agent Design & Ops">Agent 설계·운영 기반</span><span class="toc-link-arrow">›</span></a>
+<a class="toc-link" onclick="tocGo('agents','section-feature')"><span class="toc-link-ico"><svg viewBox="0 0 24 24" fill="none"><path d="M5 7h14M5 12h14M5 17h9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="17.5" cy="17" r="2.2" stroke="currentColor" stroke-width="1.6"/></svg></span><span class="toc-link-text toc-i18n" data-ko="호출·자동화 경로" data-en="Invocation & Automation">호출·자동화 경로</span><span class="toc-link-arrow">›</span></a>
+<a class="toc-link" onclick="tocGo('agents','section-faq')"><span class="toc-link-ico"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.8"/><path d="M9.6 9.4a2.4 2.4 0 1 1 3.5 2.1c-.7.4-1.1.9-1.1 1.7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="12" cy="16.4" r="1" fill="currentColor"/></svg></span><span class="toc-link-text toc-i18n" data-ko="이외 에이전트 소개" data-en="Other Agents">이외 에이전트 소개</span><span class="toc-link-arrow">›</span></a>
+<div style="font-size:.82rem;font-weight:700;color:#9CA3AF;text-transform:uppercase;letter-spacing:.5px;padding:.6rem .45rem .2rem;border-top:1px solid #E8E8E6;margin-top:.3rem"><span class="toc-i18n" data-ko="라이선스 이해하기" data-en="Licensing">라이선스 이해하기</span></div>
+<a class="toc-link" onclick="tocGo('agents','section-license-summary')"><span class="toc-link-ico"><svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span><span class="toc-link-text toc-i18n" data-ko="Headless 라이선스" data-en="Headless License">Headless 라이선스</span><span class="toc-link-arrow">›</span></a>
+<a class="toc-link" onclick="tocGo('agents','section-license-filter')"><span class="toc-link-ico"><svg viewBox="0 0 24 24" fill="none"><path d="M3 4h18l-7 8v5l-4 2V12L3 4z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span><span class="toc-link-text toc-i18n" data-ko="Sub-agent 라이선스" data-en="Sub-agent License">Sub-agent 라이선스</span><span class="toc-link-arrow">›</span></a>
 </div>
 </div>
 <div class="toc-group open" data-toc-group="map">
-<button type="button" class="toc-group-btn" onclick="tocGo('map')"><span class="toc-group-ico map"><svg viewBox="0 0 24 24" fill="none"><path d="M4.5 7.5l5-2.5 5 2.5 5-2.5v12l-5 2.5-5-2.5-5 2.5v-12z" stroke="#16A34A" stroke-width="1.7" stroke-linejoin="round"/><path d="M9.5 5v12M14.5 7.5v12" stroke="#16A34A" stroke-width="1.6"/></svg></span><span>Go-to-Market 전략</span><span class="toc-chevron" onclick="event.stopPropagation();tocToggleGroup('map')">▾</span></button>
+<button type="button" class="toc-group-btn" onclick="tocGo('map')"><span class="toc-group-ico map"><svg viewBox="0 0 24 24" fill="none"><path d="M4.5 7.5l5-2.5 5 2.5 5-2.5v12l-5 2.5-5-2.5-5 2.5v-12z" stroke="#16A34A" stroke-width="1.7" stroke-linejoin="round"/><path d="M9.5 5v12M14.5 7.5v12" stroke="#16A34A" stroke-width="1.6"/></svg></span><span class="toc-i18n" data-ko="Go-to-Market 전략" data-en="Go-to-Market Strategy">Go-to-Market 전략</span><span class="toc-chevron" onclick="event.stopPropagation();tocToggleGroup('map')">▾</span></button>
 <div class="toc-children">
-<a class="toc-link" onclick="tocGo('map','section-segment')"><span class="toc-link-ico"><svg viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.7"/><rect x="13" y="4" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.7"/><rect x="4" y="13" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.7"/><rect x="13" y="13" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.7"/></svg></span><span class="toc-link-text">세그먼트 선택</span><span class="toc-link-arrow">›</span></a>
+<a class="toc-link" onclick="tocGo('map','section-segment')"><span class="toc-link-ico"><svg viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.7"/><rect x="13" y="4" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.7"/><rect x="4" y="13" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.7"/><rect x="13" y="13" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.7"/></svg></span><span class="toc-link-text toc-i18n" data-ko="세그먼트 선택" data-en="Select Segment">세그먼트 선택</span><span class="toc-link-arrow">›</span></a>
 <a class="toc-link" onclick="selectSeg('nocrm-noai');tocGo('map')"><span class="toc-link-text">CRM ✗ · AI ✗</span><span class="toc-link-arrow">›</span></a>
 <a class="toc-link" onclick="selectSeg('nocrm-ai');tocGo('map')"><span class="toc-link-text">CRM ✗ · AI ✓</span><span class="toc-link-arrow">›</span></a>
 <a class="toc-link" onclick="selectSeg('crm-noai');tocGo('map')"><span class="toc-link-text">CRM ✓ · AI ✗</span><span class="toc-link-arrow">›</span></a>
@@ -266,9 +266,9 @@ body{font-family:'Salesforce Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',s
 </div>
 </div>
 <div class="toc-group open" data-toc-group="all">
-<button type="button" class="toc-group-btn" onclick="tocGo('all')"><span class="toc-group-ico all"><svg viewBox="0 0 24 24" fill="none"><path d="M5 7h14M5 12h14M5 17h14" stroke="#EA580C" stroke-width="1.8" stroke-linecap="round"/></svg></span><span>콘텐츠 라이브러리</span><span class="toc-chevron" onclick="event.stopPropagation();tocToggleGroup('all')">▾</span></button>
+<button type="button" class="toc-group-btn" onclick="tocGo('all')"><span class="toc-group-ico all"><svg viewBox="0 0 24 24" fill="none"><path d="M5 7h14M5 12h14M5 17h14" stroke="#EA580C" stroke-width="1.8" stroke-linecap="round"/></svg></span><span class="toc-i18n" data-ko="콘텐츠 라이브러리" data-en="Content Library">콘텐츠 라이브러리</span><span class="toc-chevron" onclick="event.stopPropagation();tocToggleGroup('all')">▾</span></button>
 <div class="toc-children">
-<a class="toc-link" onclick="tocGo('all','section-browse')"><span class="toc-link-ico"><svg viewBox="0 0 24 24" fill="none"><path d="M5 6.5h6.5L14 9h5v9.5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-12a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.7"/><path d="M8 13h8M8 16.5h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span><span class="toc-link-text">전체 콘텐츠</span><span class="toc-link-arrow">›</span></a>
+<a class="toc-link" onclick="tocGo('all','section-browse')"><span class="toc-link-ico"><svg viewBox="0 0 24 24" fill="none"><path d="M5 6.5h6.5L14 9h5v9.5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-12a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.7"/><path d="M8 13h8M8 16.5h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span><span class="toc-link-text toc-i18n" data-ko="전체 콘텐츠" data-en="All Contents">전체 콘텐츠</span><span class="toc-link-arrow">›</span></a>
 </div>
 </div>
 </nav>
@@ -288,29 +288,29 @@ body{font-family:'Salesforce Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',s
 <div style="max-width:800px">
 
 <div style="margin-bottom:2.5rem">
-<h2 style="font-size:1.6rem;font-weight:800;color:var(--navy);margin-bottom:1rem">목적</h2>
-<div style="font-size:.95rem;color:#333;line-height:1.7">
+<h2 style="font-size:1.6rem;font-weight:800;color:var(--navy);margin-bottom:1rem" data-i18n="startPurposeTitle">목적</h2>
+<div style="font-size:.95rem;color:#333;line-height:1.7" data-i18n-html="startPurposeBody">
 이 사이트는 고객의 CRM·AI 성숙도와 업무 맥락에 맞춰 <b>Agentic Enterprise 전환 전략</b>을 빠르게 이해하고, 바로 실행 가능한 제안 방향을 정리하기 위한 실무형 가이드입니다.
 </div>
 </div>
 
 <div style="margin-bottom:2.5rem">
-<h2 style="font-size:1.6rem;font-weight:800;color:var(--navy);margin-bottom:1rem">만들게 된 이유</h2>
-<div style="font-size:.95rem;color:#333;line-height:1.7">
+<h2 style="font-size:1.6rem;font-weight:800;color:var(--navy);margin-bottom:1rem" data-i18n="startReasonTitle">만들게 된 이유</h2>
+<div style="font-size:.95rem;color:#333;line-height:1.7" data-i18n-html="startReasonBody">
 고객마다 CRM 도입 수준과 AI 이해도가 달라 같은 설명으로는 공감과 실행을 끌어내기 어려웠고, 제안 과정에서 무엇을 먼저 보여주고 어떤 메시지로 설득할지가 매번 달라 일관성이 떨어지는 문제가 있었습니다. 이 사이트는 현장의 혼선을 줄이고 고객 상황에 맞는 스토리·데모·아키텍처 포인트를 빠르게 정렬해 제안의 속도와 품질을 동시에 높이기 위해 만들었습니다.
 </div>
 </div>
 
 <div style="margin-bottom:2.5rem">
-<h2 style="font-size:1.6rem;font-weight:800;color:var(--navy);margin-bottom:1rem">주의사항</h2>
-<div style="font-size:.95rem;color:#333;line-height:1.7">
+<h2 style="font-size:1.6rem;font-weight:800;color:var(--navy);margin-bottom:1rem" data-i18n="startDisclaimerTitle">주의사항</h2>
+<div style="font-size:.95rem;color:#333;line-height:1.7" data-i18n-html="startDisclaimerBody">
 글로벌에서 지속적으로 제품이 업데이트되고 라이선스 정책이 변경되고 있습니다. 이 사이트의 모든 내용은 <b>참고용</b>으로만 활용하시고, 실제 제안·계약 시에는 반드시 최신 정책을 확인하는 <b>검증 절차를 거쳐야 합니다.</b>
 </div>
 </div>
 
 <hr style="border:none;border-top:1px solid var(--gray-200);margin:2rem 0">
 
-<h2 style="font-size:1.6rem;font-weight:800;color:var(--navy);margin-bottom:1.2rem">업데이트 이력</h2>
+<h2 style="font-size:1.6rem;font-weight:800;color:var(--navy);margin-bottom:1.2rem" data-i18n="startChangelogTitle">업데이트 이력</h2>
 
 <div style="display:flex;gap:2rem;margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid var(--gray-200)">
 <div style="flex-shrink:0;min-width:100px">
@@ -318,9 +318,9 @@ body{font-family:'Salesforce Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',s
 <div style="font-size:.82rem;color:var(--gray-600);margin-top:.2rem">Sep 8, 2026</div>
 </div>
 <div style="flex:1">
-<div style="font-size:1.05rem;font-weight:700;color:#111;margin-bottom:.25rem">사이트 최초 공개</div>
-<div style="font-size:.82rem;color:var(--gray-600);margin-bottom:.6rem">제작자: Yeonsu Yang</div>
-<div style="font-size:.9rem;color:#444;line-height:1.65">
+<div style="font-size:1.05rem;font-weight:700;color:#111;margin-bottom:.25rem" data-i18n="startV1Title">사이트 최초 공개</div>
+<div style="font-size:.82rem;color:var(--gray-600);margin-bottom:.6rem" data-i18n="startV1Credit">제작자: Yeonsu Yang</div>
+<div style="font-size:.9rem;color:#444;line-height:1.65" data-i18n-html="startV1Desc">
 고객 세그먼트별 콘텐츠 맵, Headless Interface 비교, Sub-agent 유형 소개, 라이선스 과금 매트릭스, FAQ를 포함한 초기 버전을 공개했습니다.
 <ul style="margin-top:.6rem;padding-left:1.2rem;display:flex;flex-direction:column;gap:.35rem">
 <li><b>4개 세그먼트:</b> 완전 미도입 / Tech-savvy / CRM(AI 미경험) / AI-ready</li>
@@ -364,19 +364,19 @@ Santa: 비즈니스 리더 / Elves: 임직원 / Children: 고객<br>
 <div style="font-size:1.03rem;font-weight:700;color:var(--navy);margin-bottom:.8rem" data-i18n="sectionGuideTitle">섹션 안내</div>
 <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem">
 <div onclick="showView('agents')" style="background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius);padding:1.2rem;cursor:pointer;transition:all .2s;border-top:3px solid #7C3AED" onmouseover="this.style.boxShadow='0 4px 12px rgba(0,0,0,.08)'" onmouseout="this.style.boxShadow='none'">
-<div style="font-size:1.05rem;font-weight:700;color:var(--navy);margin-bottom:.5rem">Agent 가이드북</div>
-<div style="font-size:.88rem;color:#555;line-height:1.55">Headless Interface, Sub-agent, Agent 설계·운영 기반, 호출·자동화 경로를 이해하고, 라이선스 과금 체계를 정리합니다.</div>
-<div style="margin-top:.8rem;font-size:.82rem;font-weight:600;color:#7C3AED">살펴보기 →</div>
+<div style="font-size:1.05rem;font-weight:700;color:var(--navy);margin-bottom:.5rem" data-i18n="overviewAgentTitle">Agent 가이드북</div>
+<div style="font-size:.88rem;color:#555;line-height:1.55" data-i18n="overviewAgentDesc">Headless Interface, Sub-agent, Agent 설계·운영 기반, 호출·자동화 경로를 이해하고, 라이선스 과금 체계를 정리합니다.</div>
+<div style="margin-top:.8rem;font-size:.82rem;font-weight:600;color:#7C3AED" data-i18n="overviewExplore">살펴보기 →</div>
 </div>
 <div onclick="showView('map')" style="background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius);padding:1.2rem;cursor:pointer;transition:all .2s;border-top:3px solid #16A34A" onmouseover="this.style.boxShadow='0 4px 12px rgba(0,0,0,.08)'" onmouseout="this.style.boxShadow='none'">
-<div style="font-size:1.05rem;font-weight:700;color:var(--navy);margin-bottom:.5rem">Go-to-Market 전략</div>
-<div style="font-size:.88rem;color:#555;line-height:1.55">고객 세그먼트별 에디션 추천, 시나리오, 아키텍처 가이드, 제안 자료를 안내합니다.</div>
-<div style="margin-top:.8rem;font-size:.82rem;font-weight:600;color:#16A34A">살펴보기 →</div>
+<div style="font-size:1.05rem;font-weight:700;color:var(--navy);margin-bottom:.5rem" data-i18n="overviewGtmTitle">Go-to-Market 전략</div>
+<div style="font-size:.88rem;color:#555;line-height:1.55" data-i18n="overviewGtmDesc">고객 세그먼트별 에디션 추천, 시나리오, 아키텍처 가이드, 제안 자료를 안내합니다.</div>
+<div style="margin-top:.8rem;font-size:.82rem;font-weight:600;color:#16A34A" data-i18n="overviewExplore">살펴보기 →</div>
 </div>
 <div onclick="showView('all')" style="background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius);padding:1.2rem;cursor:pointer;transition:all .2s;border-top:3px solid #EA580C" onmouseover="this.style.boxShadow='0 4px 12px rgba(0,0,0,.08)'" onmouseout="this.style.boxShadow='none'">
-<div style="font-size:1.05rem;font-weight:700;color:var(--navy);margin-bottom:.5rem">콘텐츠 라이브러리</div>
-<div style="font-size:.88rem;color:#555;line-height:1.55">4개 세그먼트별 전체 콘텐츠를 한 곳에서 탐색하고 자료 링크로 바로 이동합니다.</div>
-<div style="margin-top:.8rem;font-size:.82rem;font-weight:600;color:#EA580C">살펴보기 →</div>
+<div style="font-size:1.05rem;font-weight:700;color:var(--navy);margin-bottom:.5rem" data-i18n="overviewContentTitle">콘텐츠 라이브러리</div>
+<div style="font-size:.88rem;color:#555;line-height:1.55" data-i18n="overviewContentDesc">4개 세그먼트별 전체 콘텐츠를 한 곳에서 탐색하고 자료 링크로 바로 이동합니다.</div>
+<div style="margin-top:.8rem;font-size:.82rem;font-weight:600;color:#EA580C" data-i18n="overviewExplore">살펴보기 →</div>
 </div>
 </div>
 </div>
@@ -426,7 +426,7 @@ Santa: 비즈니스 리더 / Elves: 임직원 / Children: 고객<br>
 <div id="results" style="display:none;animation:fadeIn .3s ease">
 <div id="callout-row" style="display:grid;grid-template-columns:1fr;gap:1rem;align-items:stretch">
 <div class="seg-callout" id="seg-callout"></div>
-<div id="seg-positioning-box" style="display:none;padding:1.2rem 1.5rem;background:#fff;border:1px solid #BDE0FE;border-left:4px solid var(--blue);border-radius:var(--radius)"></div>
+<div id="seg-positioning-box" style="display:none;padding:1.2rem 1.5rem;background:#fff;border:1px solid #BDE0FE;border-radius:var(--radius)"></div>
 </div>
 <div style="display:flex;gap:.5rem;margin-top:2rem;margin-bottom:1rem">
 <button class="toggle-btn active" id="tab-guide" onclick="switchResultTab('guide')" style="padding:.5rem 1.2rem;font-size:.93rem" data-i18n="tabGuideBtn">에디션 추천 가이드</button>
@@ -444,7 +444,7 @@ Santa: 비즈니스 리더 / Elves: 임직원 / Children: 고객<br>
 <div class="sec-label">Agent Guidebook</div>
 <div class="sec-title" data-i18n="agentTitle">Agent 가이드북</div>
 
-<div style="font-size:1.25rem;font-weight:800;color:var(--navy);margin-top:1.5rem;margin-bottom:1.5rem">아키텍처 이해하기</div>
+<div style="font-size:1.25rem;font-weight:800;color:var(--navy);margin-top:1.5rem;margin-bottom:1.5rem" data-i18n="bodyArchTitle">아키텍처 이해하기</div>
 
 <!-- 1. Headless Interface 차트 (별도 섹션) -->
 <div id="section-headless" style="margin-bottom:2.5rem">
@@ -510,45 +510,45 @@ Santa: 비즈니스 리더 / Elves: 임직원 / Children: 고객<br>
 <span style="font-size:.82rem;font-weight:800;color:var(--navy)">With Simplified Setup</span>
 </div>
 <div style="background:#fff;padding:1.2rem;border-top:1px solid var(--gray-200);border-left:1px solid var(--gray-200);display:flex;flex-direction:column;gap:.45rem">
-<div class="na-pill" onclick="toggleNaDesc(this)" data-desc="IT/HR 내부 직원 지원. 비밀번호 초기화, 복리후생 문의, 사내 정책 안내 등 자동 처리" data-desc-en="IT/HR internal employee support. Auto-handles password resets, benefits inquiries, and company policy guidance" style="background:#E8F4FD;border:1px solid #BDE0FE;border-radius:var(--radius-sm);padding:.4rem .7rem;min-height:36px;display:flex;flex-direction:column;justify-content:center;text-align:center;cursor:pointer;transition:all .2s">
-<div class="agent-name-row"><span style="font-size:.88rem;font-weight:700;color:var(--navy)">Paige</span><span class="agent-info-dot" data-tip="Employee Service Agent, 세일즈포스 자체개발 에이전트">?</span></div>
-<div class="agent-sub" style="font-size:.65rem;color:var(--gray-600)" data-sub-ko="사내 직원 문의·업무지원 에이전트" data-sub-en="Employee inquiry & work support agent">사내 직원 문의·업무지원 에이전트</div>
+<div class="na-pill" onclick="toggleNaDesc(this)" data-desc="IT와 HR 요청을 함께 처리하는 통합 임직원(Employee) 서비스 에이전트. Slack·포털에서 VPN 리셋, 복리후생, PTO 등 자동 해결" data-desc-en="Integrated Employee Service agent for IT & HR. Auto-resolves VPN reset, benefits, PTO, and similar tickets in Slack/portals" style="background:#E8F4FD;border:1px solid #BDE0FE;border-radius:var(--radius-sm);padding:.4rem .7rem;min-height:36px;display:flex;flex-direction:column;justify-content:center;text-align:center;cursor:pointer;transition:all .2s">
+<div class="agent-name-row"><span style="font-size:.88rem;font-weight:700;color:var(--navy)">Paige</span><span class="agent-info-dot" data-tip="Employee Service Agent (IT & HR), 세일즈포스 자체개발 에이전트">?</span></div>
+<div class="agent-sub" style="font-size:.65rem;color:var(--gray-600)" data-sub-ko="임직원 IT·HR 서비스 에이전트" data-sub-en="Employee IT & HR service agent">임직원 IT·HR 서비스 에이전트</div>
 </div>
-<div class="na-pill" onclick="toggleNaDesc(this)" data-desc="재고 부족·배송 지연 등 공급망 이슈 감지 시 대응 플랜 자동 제안 및 관련 부서 알림" data-desc-en="Auto-suggests response plans when supply chain issues detected (inventory shortage, delivery delays) and notifies relevant departments" style="background:#E8F4FD;border:1px solid #BDE0FE;border-radius:var(--radius-sm);padding:.4rem .7rem;min-height:36px;display:flex;flex-direction:column;justify-content:center;text-align:center;cursor:pointer;transition:all .2s">
-<div class="agent-name-row"><span style="font-size:.88rem;font-weight:700;color:var(--navy)">Marshall</span><span class="agent-info-dot" data-tip="Supply Chain Agent, Regrello 인수 기반 에이전트">?</span></div>
-<div class="agent-sub" style="font-size:.65rem;color:var(--gray-600)" data-sub-ko="공급망 이슈 대응·운영 지원 에이전트" data-sub-en="Supply chain issue response & ops support agent">공급망 이슈 대응·운영 지원 에이전트</div>
+<div class="na-pill" onclick="toggleNaDesc(this)" data-desc="백오피스 프로세스 전반의 인간+에이전틱 협업을 지원하는 운영 에이전트 (제조업 MFG 전용, Agentforce Operations)" data-desc-en="Operations agent for human + agentic collaboration across back-office processes (Manufacturing MFG only, Agentforce Operations)" style="background:#E8F4FD;border:1px solid #BDE0FE;border-radius:var(--radius-sm);padding:.4rem .7rem;min-height:36px;display:flex;flex-direction:column;justify-content:center;text-align:center;cursor:pointer;transition:all .2s">
+<div class="agent-name-row"><span style="font-size:.88rem;font-weight:700;color:var(--navy)">Marshall</span><span class="agent-info-dot" data-tip="Agentforce Operations, Regrello 인수 기반 에이전트">?</span></div>
+<div class="agent-sub" style="font-size:.65rem;color:var(--gray-600)" data-sub-ko="백오피스 운영·협업 에이전트 (MFG 전용)" data-sub-en="Back-office ops agent (MFG only)">백오피스 운영·협업 에이전트 (MFG 전용)</div>
 </div>
-<div class="na-pill" onclick="toggleNaDesc(this)" data-desc="Field Service 현장 기사의 작업 일정·부품 조회·완료 보고를 모바일에서 AI 보조" data-desc-en="AI-assists field service technicians with work schedules, parts lookup, and completion reports on mobile" data-video="1zmVJNe4UJLE4oTAL0VmngmlzDpeWoJIb" style="background:#E8F4FD;border:1px solid #BDE0FE;border-radius:var(--radius-sm);padding:.4rem .7rem;min-height:36px;display:flex;flex-direction:column;justify-content:center;text-align:center;cursor:pointer;transition:all .2s">
-<div class="agent-name-row"><span style="font-size:.88rem;font-weight:700;color:var(--navy)">Felix</span><span class="agent-info-dot" data-tip="Field Service Agent, 세일즈포스 자체개발 에이전트">?</span></div>
-<div class="agent-sub" style="font-size:.65rem;color:var(--gray-600)" data-sub-ko="현장 업무 실행·리포팅 지원 에이전트" data-sub-en="Field work execution & reporting support agent">현장 업무 실행·리포팅 지원 에이전트</div>
+<div class="na-pill" onclick="toggleNaDesc(this)" data-desc="Voice-to-Form으로 현장 작업을 안내하는 필드 에이전트 (Announced)" data-desc-en="Field agent that guides on-site work with Voice-to-Form (Announced)" data-video="1zmVJNe4UJLE4oTAL0VmngmlzDpeWoJIb" style="background:#E8F4FD;border:1px solid #BDE0FE;border-radius:var(--radius-sm);padding:.4rem .7rem;min-height:36px;display:flex;flex-direction:column;justify-content:center;text-align:center;cursor:pointer;transition:all .2s">
+<div class="agent-name-row"><span style="font-size:.88rem;font-weight:700;color:var(--navy)">Felix</span><span class="agent-info-dot" data-tip="Field Service Agent (Announced), 세일즈포스 자체개발 에이전트">?</span></div>
+<div class="agent-sub" style="font-size:.65rem;color:var(--gray-600)" data-sub-ko="현장 Voice-to-Form 안내 에이전트" data-sub-en="Field Voice-to-Form guidance agent">현장 Voice-to-Form 안내 에이전트</div>
 </div>
 </div>
 <div style="background:#fff;padding:1.2rem;border-top:1px solid var(--gray-200);border-left:1px solid var(--gray-200);display:flex;flex-direction:column;gap:.45rem">
-<div class="na-pill" onclick="toggleNaDesc(this)" data-desc="아웃바운드 SDR Agent. ICP 기반 타겟 기업 발굴, 개인화된 초기 접촉 메시지 자동 생성" data-desc-en="Outbound SDR Agent. ICP-based target company discovery, auto-generates personalized initial contact messages" style="background:#E8F4FD;border:1px solid #BDE0FE;border-radius:var(--radius-sm);padding:.4rem .7rem;min-height:36px;display:flex;flex-direction:column;justify-content:center;text-align:center;cursor:pointer;transition:all .2s">
+<div class="na-pill" onclick="toggleNaDesc(this)" data-desc="아웃바운드 세일즈 에이전트. 리서치부터 아웃리치까지, 장기 협업형 프로스펙팅 (Pilot/10월 GA)" data-desc-en="Outbound sales agent from research to outreach; long-horizon prospecting (Pilot / Oct GA)" style="background:#E8F4FD;border:1px solid #BDE0FE;border-radius:var(--radius-sm);padding:.4rem .7rem;min-height:36px;display:flex;flex-direction:column;justify-content:center;text-align:center;cursor:pointer;transition:all .2s">
 <div class="agent-name-row"><span style="font-size:.88rem;font-weight:700;color:var(--navy)">Hunter</span><span class="agent-info-dot" data-tip="Prospecting Agent, Bluebirds 인수 + 세일즈포스 자체개발 결합 에이전트">?</span></div>
-<div class="agent-sub" style="font-size:.65rem;color:var(--gray-600)" data-sub-ko="신규 리드 발굴·영업 기회 탐색 에이전트" data-sub-en="New lead discovery & sales opportunity exploration agent">신규 리드 발굴·영업 기회 탐색 에이전트</div>
+<div class="agent-sub" style="font-size:.65rem;color:var(--gray-600)" data-sub-ko="아웃바운드 프로스펙팅 에이전트" data-sub-en="Outbound prospecting agent">아웃바운드 프로스펙팅 에이전트</div>
 </div>
-<div class="na-pill" onclick="toggleNaDesc(this)" data-desc="캠페인 세그먼트 생성, 이메일/소셜 콘텐츠 초안 작성, A/B 테스트 최적화" data-desc-en="Campaign segment creation, email/social content drafting, A/B test optimization" style="background:#E8F4FD;border:1px solid #BDE0FE;border-radius:var(--radius-sm);padding:.4rem .7rem;min-height:36px;display:flex;flex-direction:column;justify-content:center;text-align:center;cursor:pointer;transition:all .2s">
+<div class="na-pill" onclick="toggleNaDesc(this)" data-desc="캠페인을 E2E로 기획·실행하는 자기최적화형 마케팅 에이전트" data-desc-en="Self-optimizing marketing agent for end-to-end campaign planning and execution" style="background:#E8F4FD;border:1px solid #BDE0FE;border-radius:var(--radius-sm);padding:.4rem .7rem;min-height:36px;display:flex;flex-direction:column;justify-content:center;text-align:center;cursor:pointer;transition:all .2s">
 <div class="agent-name-row"><span style="font-size:.88rem;font-weight:700;color:var(--navy)">Margo</span><span class="agent-info-dot" data-tip="Marketing Agent, Contentful 인수 기반 에이전트">?</span></div>
-<div class="agent-sub" style="font-size:.65rem;color:var(--gray-600)" data-sub-ko="마케팅 캠페인 실행·콘텐츠 운영 에이전트" data-sub-en="Marketing campaign execution & content ops agent">마케팅 캠페인 실행·콘텐츠 운영 에이전트</div>
+<div class="agent-sub" style="font-size:.65rem;color:var(--gray-600)" data-sub-ko="캠페인 E2E 마케팅 에이전트" data-sub-en="E2E campaign marketing agent">캠페인 E2E 마케팅 에이전트</div>
 </div>
-<div class="na-pill" onclick="toggleNaDesc(this)" data-desc="과거 성공 딜 패턴 분석 → 현재 딜에 맞는 가격·조건·타이밍 전략 코칭" data-desc-en="Analyzes past successful deal patterns → coaches pricing, terms, and timing strategies for current deals" style="background:#E8F4FD;border:1px solid #BDE0FE;border-radius:var(--radius-sm);padding:.4rem .7rem;min-height:36px;display:flex;flex-direction:column;justify-content:center;text-align:center;cursor:pointer;transition:all .2s">
+<div class="na-pill" onclick="toggleNaDesc(this)" data-desc="직접 판매자를 위한 always-on 딜 전략가" data-desc-en="Always-on deal strategist for direct sellers" style="background:#E8F4FD;border:1px solid #BDE0FE;border-radius:var(--radius-sm);padding:.4rem .7rem;min-height:36px;display:flex;flex-direction:column;justify-content:center;text-align:center;cursor:pointer;transition:all .2s">
 <div class="agent-name-row"><span style="font-size:.88rem;font-weight:700;color:var(--navy)">Archer</span><span class="agent-info-dot" data-tip="Revenue Cloud Deal Strategy Agent, 세일즈포스 자체개발 에이전트">?</span></div>
-<div class="agent-sub" style="font-size:.65rem;color:var(--gray-600)" data-sub-ko="딜 전략 수립·협상 가이드 에이전트" data-sub-en="Deal strategy & negotiation coaching agent">딜 전략 수립·협상 가이드 에이전트</div>
+<div class="agent-sub" style="font-size:.65rem;color:var(--gray-600)" data-sub-ko="딜 전략 always-on 에이전트" data-sub-en="Always-on deal strategy agent">딜 전략 always-on 에이전트</div>
 </div>
 </div>
 <div style="background:#fff;padding:1.2rem;border-top:1px solid var(--gray-200);border-left:1px solid var(--gray-200);display:flex;flex-direction:column;gap:.45rem">
-<div class="na-pill" onclick="toggleNaDesc(this)" data-desc="인바운드 리드 자동 스코어링. BANT 기준 적합도 판단 후 영업팀에 우선순위 전달" data-desc-en="Inbound lead auto-scoring. Evaluates qualification via BANT criteria and prioritizes for the sales team" style="background:#E8F4FD;border:1px solid #BDE0FE;border-radius:var(--radius-sm);padding:.4rem .7rem;min-height:36px;display:flex;flex-direction:column;justify-content:center;text-align:center;cursor:pointer;transition:all .2s">
-<div class="agent-name-row"><span style="font-size:.88rem;font-weight:700;color:var(--navy)">Piper</span><span class="agent-info-dot" data-tip="Lead Qualification Agent, Qualified 인수 기반 에이전트">?</span></div>
-<div class="agent-sub" style="font-size:.65rem;color:var(--gray-600)" data-sub-ko="리드 적합도 평가·우선순위 분류 에이전트" data-sub-en="Lead qualification & priority scoring agent">리드 적합도 평가·우선순위 분류 에이전트</div>
+<div class="na-pill" onclick="toggleNaDesc(this)" data-desc="인바운드 파이프라인 생성 에이전트. 웹사이트·인박스에서 리드 자격 검증·전환 (GA)" data-desc-en="Inbound pipeline generation agent. Qualifies and converts leads from website and inbox (GA)" style="background:#E8F4FD;border:1px solid #BDE0FE;border-radius:var(--radius-sm);padding:.4rem .7rem;min-height:36px;display:flex;flex-direction:column;justify-content:center;text-align:center;cursor:pointer;transition:all .2s">
+<div class="agent-name-row"><span style="font-size:.88rem;font-weight:700;color:var(--navy)">Piper</span><span class="agent-info-dot" data-tip="Inbound Pipeline / Lead Qualification Agent, Qualified 인수 기반 에이전트">?</span></div>
+<div class="agent-sub" style="font-size:.65rem;color:var(--gray-600)" data-sub-ko="인바운드 파이프라인 생성 에이전트" data-sub-en="Inbound pipeline generation agent">인바운드 파이프라인 생성 에이전트</div>
 </div>
-<div class="na-pill" onclick="toggleNaDesc(this)" data-desc="고객 문의 1차 자동 해결. FAQ·주문조회·반품 처리 후 미해결 건만 상담원 에스컬레이션" data-desc-en="Auto-resolves tier-1 customer inquiries. Handles FAQ, order lookup, returns processing, then escalates unresolved to human agents" style="background:#E8F4FD;border:1px solid #BDE0FE;border-radius:var(--radius-sm);padding:.4rem .7rem;min-height:36px;display:flex;flex-direction:column;justify-content:center;text-align:center;cursor:pointer;transition:all .2s">
-<div class="agent-name-row"><span style="font-size:.88rem;font-weight:700;color:var(--navy)">Casey</span><span class="agent-info-dot" data-tip="Service Help Agent, 세일즈포스 자체개발 에이전트">?</span></div>
-<div class="agent-sub" style="font-size:.65rem;color:var(--gray-600)" data-sub-ko="고객 문의 응대·문제 해결 지원 에이전트" data-sub-en="Customer inquiry & issue resolution agent">고객 문의 응대·문제 해결 지원 에이전트</div>
+<div class="na-pill" onclick="toggleNaDesc(this)" data-desc="대고객(외부) 케이스 해결 에이전트(구 Help Agent). 음성·SMS·WhatsApp·웹챗 전 채널 (GA)" data-desc-en="External customer case-resolution agent (formerly Help Agent). Voice/SMS/WhatsApp/web chat (GA)" style="background:#E8F4FD;border:1px solid #BDE0FE;border-radius:var(--radius-sm);padding:.4rem .7rem;min-height:36px;display:flex;flex-direction:column;justify-content:center;text-align:center;cursor:pointer;transition:all .2s">
+<div class="agent-name-row"><span style="font-size:.88rem;font-weight:700;color:var(--navy)">Casey</span><span class="agent-info-dot" data-tip="Help Agent / Customer Service Agent, 세일즈포스 자체개발 에이전트">?</span></div>
+<div class="agent-sub" style="font-size:.65rem;color:var(--gray-600)" data-sub-ko="대고객 케이스 해결 에이전트" data-sub-en="Customer case resolution agent">대고객 케이스 해결 에이전트</div>
 </div>
-<div class="na-pill" onclick="toggleNaDesc(this)" data-desc="Commerce 사이트 내 개인화 상품 추천, 장바구니 이탈 방지, 결제 안내까지 구매 전환 지원" data-desc-en="Personalized product recommendations on Commerce sites, cart abandonment prevention, and checkout guidance for purchase conversion" style="background:#E8F4FD;border:1px solid #BDE0FE;border-radius:var(--radius-sm);padding:.4rem .7rem;min-height:36px;display:flex;flex-direction:column;justify-content:center;text-align:center;cursor:pointer;transition:all .2s">
+<div class="na-pill" onclick="toggleNaDesc(this)" data-desc="탐색–체크아웃 커머스 여정용 쇼퍼 에이전트(인챗 체크아웃 포함)" data-desc-en="Shopper agent for browse-to-checkout journeys including in-chat checkout" style="background:#E8F4FD;border:1px solid #BDE0FE;border-radius:var(--radius-sm);padding:.4rem .7rem;min-height:36px;display:flex;flex-direction:column;justify-content:center;text-align:center;cursor:pointer;transition:all .2s">
 <div class="agent-name-row"><span style="font-size:.88rem;font-weight:700;color:var(--navy)">Carter</span><span class="agent-info-dot" data-tip="Commerce Shopping Agent, 세일즈포스 자체개발 에이전트">?</span></div>
-<div class="agent-sub" style="font-size:.65rem;color:var(--gray-600)" data-sub-ko="쇼핑 여정 안내·구매 전환 지원 에이전트" data-sub-en="Shopping journey & purchase conversion agent">쇼핑 여정 안내·구매 전환 지원 에이전트</div>
+<div class="agent-sub" style="font-size:.65rem;color:var(--gray-600)" data-sub-ko="커머스 쇼퍼 에이전트" data-sub-en="Commerce shopper agent">커머스 쇼퍼 에이전트</div>
 </div>
 </div>
 
@@ -679,7 +679,7 @@ Agentforce 도입 전후를 잇는 Discover → Simulate → Implement → Monit
 <!-- 4. 라이선스 이해하기 -->
 <hr style="border:none;border-top:1px solid var(--gray-200);margin:2.5rem 0 0">
 <div id="section-license-summary" style="margin-top:1.5rem">
-<div class="license-h2">라이선스 이해하기</div>
+<div class="license-h2" data-i18n="bodyLicenseTitle">라이선스 이해하기</div>
 
 <div class="license-h3">Headless 관련 라이선스 소개</div>
 <div class="intro-video-desc" style="margin-top:0;margin-bottom:1.5rem" id="hi-desc-box">
@@ -701,16 +701,16 @@ Agentforce 도입 전후를 잇는 Discover → Simulate → Implement → Monit
 <div class="license-filter-group">
 <span class="license-group-label">Unmetered</span>
 <div class="license-filter-row">
-<button type="button" class="license-filter-btn" data-tip="A1E — Agentforce 1 Edition ($550 pupm)&#10;Agentforce 최상위 번들 라이선스입니다. Headless(MCP 서버 접근)와 보유한 A4X 라이선스를 포함합니다. Unmetered 대상이지만 사람이 직접 트리거하는 employee-facing 사용에만 적용되고, 자동화·시스템 트리거·외부 대상 사용은 Flex Credits를 소비합니다.">A1E - Agentforce 1 Edition</button>
-<button type="button" class="license-filter-btn" data-tip="A4X — Agentforce Add-on ($125 pupm)&#10;클라우드별 Agentforce 기능(Sales, Service, Field Service, Industries 등)을 제공하는 add-on 라이선스입니다. Agentforce Coworker, Headless add-on, Tableau Next를 포함하며, Unmetered 대상이지만 human-initiated 제약이 동일하게 적용됩니다.">A4X - Agentforce Add-on</button>
-<button type="button" class="license-filter-btn" data-tip="AELA — Agentforce Enterprise License Agreement&#10;소비(Flex Credits), 시트 라이선스, 서비스를 결합한 맞춤형 번들 계약입니다. Velocity와 Unlimited SKU가 있으며, 무제한 Flex credits/Data 360/Headless 사용이 필요한 고객에게 적합합니다.">AELA - Agentforce Enterprise License Agreement</button>
+<button type="button" class="license-filter-btn" data-tip="A1E — Agentforce 1 Edition ($550 pupm)&#10;Agentforce 최상위 번들 라이선스입니다. Headless(MCP 서버 접근)와 보유한 A4X 라이선스를 포함합니다. Unmetered 대상이지만 사람이 직접 트리거하는 employee-facing 사용에만 적용되고, 자동화·시스템 트리거·외부 대상 사용은 Flex Credits를 소비합니다." data-tip-en="A1E — Agentforce 1 Edition ($550 pupm)&#10;Top-tier Agentforce bundle license. Includes Headless (MCP server access) and A4X license. Unmetered for employee-facing (human-triggered) use only; automation, system triggers, and external-facing use consume Flex Credits.">A1E - Agentforce 1 Edition</button>
+<button type="button" class="license-filter-btn" data-tip="A4X — Agentforce Add-on ($125 pupm)&#10;클라우드별 Agentforce 기능(Sales, Service, Field Service, Industries 등)을 제공하는 add-on 라이선스입니다. Agentforce Coworker, Headless add-on, Tableau Next를 포함하며, Unmetered 대상이지만 human-initiated 제약이 동일하게 적용됩니다." data-tip-en="A4X — Agentforce Add-on ($125 pupm)&#10;Add-on license providing per-cloud Agentforce features (Sales, Service, Field Service, Industries, etc.). Includes Agentforce Coworker, Headless add-on, Tableau Next. Unmetered but same human-initiated constraint applies.">A4X - Agentforce Add-on</button>
+<button type="button" class="license-filter-btn" data-tip="AELA — Agentforce Enterprise License Agreement&#10;소비(Flex Credits), 시트 라이선스, 서비스를 결합한 맞춤형 번들 계약입니다. Velocity와 Unlimited SKU가 있으며, 무제한 Flex credits/Data 360/Headless 사용이 필요한 고객에게 적합합니다." data-tip-en="AELA — Agentforce Enterprise License Agreement&#10;Custom bundle contract combining consumption (Flex Credits), seat licenses, and services. Velocity and Unlimited SKUs available; suited for customers needing unlimited Flex credits/Data 360/Headless usage.">AELA - Agentforce Enterprise License Agreement</button>
 </div>
 </div>
 <div class="license-filter-group">
 <span class="license-group-label">Metered</span>
 <div class="license-filter-row">
-<button type="button" class="license-filter-btn" data-tip="Flex Credits&#10;Agentforce/Data 360 사용량 기반 소비 크레딧입니다. 시스템 트리거 자동화, Data 360 Queries 등 Unmetered 대상이 아닌 모든 사용은 Flex Credits로 차감되며, 인터랙션당 약 10 Flex(=$0.05 list)가 표준 소비량입니다.">Flex Credits - Usage-based credits</button>
-<button type="button" class="license-filter-btn" data-tip="AUL — Agentforce User License ($5/user/month)&#10;CRM 접근이 필요 없는 employee를 위한 최소 권한 라이선스입니다. Slack 및 기본 Salesforce UI 기반 상호작용만 가능하며(Custom object 접근 불가), Unmetered tier가 없어 모든 사용이 Metered로 과금됩니다.">AUL - Agentforce User License + Flex Credits</button>
+<button type="button" class="license-filter-btn" data-tip="Flex Credits&#10;Agentforce/Data 360 사용량 기반 소비 크레딧입니다. 시스템 트리거 자동화, Data 360 Queries 등 Unmetered 대상이 아닌 모든 사용은 Flex Credits로 차감되며, 인터랙션당 약 10 Flex(=$0.05 list)가 표준 소비량입니다." data-tip-en="Flex Credits&#10;Usage-based consumption credits for Agentforce/Data 360. All non-Unmetered usage (system-triggered automation, Data 360 Queries, etc.) is deducted from Flex Credits. Standard consumption is ~10 Flex (=$0.05 list) per interaction.">Flex Credits - Usage-based credits</button>
+<button type="button" class="license-filter-btn" data-tip="AUL — Agentforce User License ($5/user/month)&#10;CRM 접근이 필요 없는 employee를 위한 최소 권한 라이선스입니다. Slack 및 기본 Salesforce UI 기반 상호작용만 가능하며(Custom object 접근 불가), Unmetered tier가 없어 모든 사용이 Metered로 과금됩니다." data-tip-en="AUL — Agentforce User License ($5/user/month)&#10;Minimum permission license for employees who don't need CRM access. Only Slack and basic Salesforce UI interactions (no Custom object access). No Unmetered tier — all usage is Metered.">AUL - Agentforce User License + Flex Credits</button>
 </div>
 </div>
 <div class="license-filter-group">
@@ -726,7 +726,7 @@ Agentforce 도입 전후를 잇는 Discover → Simulate → Implement → Monit
 </div>
 
 <div class="license-mapping-right">
-<div class="license-h4">Sub-agent × 라이선스 매핑</div>
+<div class="license-h4" data-i18n="bodySubagentMapping">Sub-agent × 라이선스 매핑</div>
 <div id="license-rule-box" class="license-rule-box" hidden>
 <div id="license-rule-title" class="license-rule-title"></div>
 <div id="license-rule-body" class="license-rule-body"></div>
@@ -835,9 +835,9 @@ segDef:{ko:'고객 세그먼트 정의',en:'Segment Definition'},
 custTraits:{ko:'고객 특징',en:'Customer Traits'},
 painPoints:{ko:'주요 페인포인트',en:'Key Pain Points'},
 exCompanies:{ko:'해당 기업 예시',en:'Example Companies'},
-prodPositioning:{ko:'제품 포지셔닝',en:'Product Positioning'},
-prodFeatures:{ko:'제품 특징',en:'Product Characteristics'},
-posGuide:{ko:'포지셔닝 가이드',en:'Positioning Guide'},
+prodPositioning:{ko:'이 고객의 핵심 니즈',en:'Customer Core Need'},
+prodFeatures:{ko:'첫 미팅 오프닝',en:'First Meeting Opener'},
+posGuide:{ko:'왜 이 에디션인가',en:'Why This Edition'},
 recProducts:{ko:'추천 제품',en:'Recommended Products'},
 introHow:{ko:'이렇게 고객에게 소개하세요',en:'How to introduce to customers'},
 goToPage:{ko:'관련 페이지로 이동하기',en:'Go to related page'},
@@ -879,6 +879,42 @@ licenseSummaryItem3:{ko:'<b>Headless Platform Interaction</b> 과금(외부 에�
 licenseSummaryItem4:{ko:'과금 트리거는 인터페이스마다 다릅니다. Slack·Lightning에서 Agent를 실행하면 <b>AUL + Flex Credits</b>가, 외부 모델이 Salesforce를 MCP/API로만 조회하면 <b>Headless Platform Interaction</b>이 적용됩니다.',en:'Billing triggers differ by interface. Running an Agent in Slack or Lightning falls under <b>AUL + Flex Credits</b>, while an external model querying Salesforce only via MCP/API falls under <b>Headless Platform Interaction</b>.'},
 licenseOtherLabel:{ko:'별도 라이선스 필요',en:'Separate License Required'},
 licenseUndecidedLabel:{ko:'미정',en:'Undecided'},
+tocIntroVideo:{ko:'소개 영상',en:'Intro Video'},
+tocSectionGuide:{ko:'섹션 안내',en:'Section Guide'},
+tocAgentGuidebook:{ko:'Agent 가이드북',en:'Agent Guidebook'},
+tocArchitecture:{ko:'아키텍처 이해하기',en:'Architecture'},
+tocSubagentType:{ko:'Sub-agent 유형',en:'Sub-agent Types'},
+tocAgentDesign:{ko:'Agent 설계·운영 기반',en:'Agent Design & Ops'},
+tocInvocation:{ko:'호출·자동화 경로',en:'Invocation & Automation'},
+tocOtherAgents:{ko:'이외 에이전트 소개',en:'Other Agents'},
+tocLicensing:{ko:'라이선스 이해하기',en:'Licensing'},
+tocHeadlessLicense:{ko:'Headless 라이선스',en:'Headless License'},
+tocSubagentLicense:{ko:'Sub-agent 라이선스',en:'Sub-agent License'},
+tocGtm:{ko:'Go-to-Market 전략',en:'Go-to-Market Strategy'},
+tocSegmentSelect:{ko:'세그먼트 선택',en:'Select Segment'},
+tocContentLib:{ko:'콘텐츠 라이브러리',en:'Content Library'},
+tocAllContents:{ko:'전체 콘텐츠',en:'All Contents'},
+startPurposeTitle:{ko:'목적',en:'Purpose'},
+startPurposeBody:{ko:'이 사이트는 고객의 CRM·AI 성숙도와 업무 맥락에 맞춰 <b>Agentic Enterprise 전환 전략</b>을 빠르게 이해하고, 바로 실행 가능한 제안 방향을 정리하기 위한 실무형 가이드입니다.',en:'A practical guide to quickly understand <b>Agentic Enterprise transformation strategies</b> tailored to your customer\'s CRM/AI maturity and business context, and align actionable proposal directions.'},
+startReasonTitle:{ko:'만들게 된 이유',en:'Why We Built This'},
+startReasonBody:{ko:'고객마다 CRM 도입 수준과 AI 이해도가 달라 같은 설명으로는 공감과 실행을 끌어내기 어려웠고, 제안 과정에서 무엇을 먼저 보여주고 어떤 메시지로 설득할지가 매번 달라 일관성이 떨어지는 문제가 있었습니다. 이 사이트는 현장의 혼선을 줄이고 고객 상황에 맞는 스토리·데모·아키텍처 포인트를 빠르게 정렬해 제안의 속도와 품질을 동시에 높이기 위해 만들었습니다.',en:'Every customer has a different CRM adoption level and AI understanding, making it hard to resonate with a one-size-fits-all pitch. What to show first and which message to lead with kept changing, reducing consistency. This site reduces field confusion and quickly aligns stories, demos, and architecture talking points to each customer\'s situation — improving both speed and quality of proposals.'},
+startDisclaimerTitle:{ko:'주의사항',en:'Disclaimer'},
+startDisclaimerBody:{ko:'글로벌에서 지속적으로 제품이 업데이트되고 라이선스 정책이 변경되고 있습니다. 이 사이트의 모든 내용은 <b>참고용</b>으로만 활용하시고, 실제 제안·계약 시에는 반드시 최신 정책을 확인하는 <b>검증 절차를 거쳐야 합니다.</b>',en:'Products are continuously updated and licensing policies change globally. All content on this site should be used for <b>reference only</b>. For actual proposals and contracts, you must <b>verify against the latest policies.</b>'},
+startChangelogTitle:{ko:'업데이트 이력',en:'Changelog'},
+startV1Title:{ko:'사이트 최초 공개',en:'Initial Site Launch'},
+startV1Credit:{ko:'제작자: Yeonsu Yang',en:'Created by: Yeonsu Yang'},
+startV1Desc:{ko:'고객 세그먼트별 콘텐츠 맵, Headless Interface 비교, Sub-agent 유형 소개, 라이선스 과금 매트릭스, FAQ를 포함한 초기 버전을 공개했습니다.<ul style="margin-top:.6rem;padding-left:1.2rem;display:flex;flex-direction:column;gap:.35rem"><li><b>4개 세그먼트:</b> 완전 미도입 / Tech-savvy / CRM(AI 미경험) / AI-ready</li><li><b>Headless Interface:</b> Claudeforce, Coworker, Slack, Slackbot, Lightning, Teams, ChatGPT, Copilot 비교</li><li><b>콘텐츠:</b> 세그먼트별 제품 가이드, 시나리오, 아키텍처 가이드, 고객 제안 자료</li><li><b>다국어:</b> 한국어/영어 전환 지원</li></ul>',en:'Released initial version including customer segment content maps, Headless Interface comparison, Sub-agent type overview, license billing matrix, and FAQ.<ul style="margin-top:.6rem;padding-left:1.2rem;display:flex;flex-direction:column;gap:.35rem"><li><b>4 Segments:</b> No Adoption / Tech-savvy / CRM (No AI) / AI-ready</li><li><b>Headless Interface:</b> Claudeforce, Coworker, Slack, Slackbot, Lightning, Teams, ChatGPT, Copilot comparison</li><li><b>Content:</b> Segment-specific product guides, scenarios, architecture guides, proposal materials</li><li><b>Multilingual:</b> Korean/English toggle support</li></ul>'},
+overviewAgentTitle:{ko:'Agent 가이드북',en:'Agent Guidebook'},
+overviewAgentDesc:{ko:'Headless Interface, Sub-agent, Agent 설계·운영 기반, 호출·자동화 경로를 이해하고, 라이선스 과금 체계를 정리합니다.',en:'Understand Headless Interface, Sub-agents, Agent design & operations, invocation & automation paths, and organize the licensing/billing framework.'},
+overviewGtmTitle:{ko:'Go-to-Market 전략',en:'Go-to-Market Strategy'},
+overviewGtmDesc:{ko:'고객 세그먼트별 에디션 추천, 시나리오, 아키텍처 가이드, 제안 자료를 안내합니다.',en:'Provides edition recommendations, scenarios, architecture guides, and proposal materials per customer segment.'},
+overviewContentTitle:{ko:'콘텐츠 라이브러리',en:'Content Library'},
+overviewContentDesc:{ko:'4개 세그먼트별 전체 콘텐츠를 한 곳에서 탐색하고 자료 링크로 바로 이동합니다.',en:'Browse all content across 4 segments in one place and jump directly to resource links.'},
+overviewExplore:{ko:'살펴보기 →',en:'Explore →'},
+bodyArchTitle:{ko:'아키텍처 이해하기',en:'Architecture'},
+bodyLicenseTitle:{ko:'라이선스 이해하기',en:'Licensing'},
+bodySubagentMapping:{ko:'Sub-agent × 라이선스 매핑',en:'Sub-agent × License Mapping'},
+sectionGuideTitle:{ko:'섹션 안내',en:'Section Guide'},
 };
 function t(key){const v=T[key];if(!v)return key;return v[LANG]||v.ko||key;}
 function lf(obj,field){if(LANG==='en'&&obj[field+'_en'])return obj[field+'_en'];return obj[field];}
@@ -888,6 +924,13 @@ document.querySelectorAll('[data-i18n-html]').forEach(el=>{const k=el.dataset.i1
 document.querySelectorAll('.agent-sub').forEach(el=>{
 const txt=LANG==='en'&&el.dataset.subEn?el.dataset.subEn:el.dataset.subKo;
 if(txt) el.textContent=txt;
+});
+document.querySelectorAll('.toc-i18n').forEach(el=>{
+el.textContent=LANG==='en'&&el.dataset.en?el.dataset.en:el.dataset.ko||el.textContent;
+});
+document.querySelectorAll('[data-tip-en]').forEach(el=>{
+if(!el.dataset.tipKo) el.dataset.tipKo=el.dataset.tip;
+el.dataset.tip=LANG==='en'?el.dataset.tipEn:el.dataset.tipKo;
 });
 document.getElementById('lang-ko').classList.toggle('active',LANG==='ko');
 document.getElementById('lang-en').classList.toggle('active',LANG==='en');
@@ -926,17 +969,17 @@ const C=[
 
 const SEG_META={
 'nocrm-noai':{title:'완전 미도입',title_en:'No Adoption',desc:'CRM X · AI X',
-callout:'<b>고객 특징:</b> CRM을 써본 적 없고 AI에도 관심이 적은 전통 기업 세그먼트로, 엑셀·수기로 고객을 관리하고 영업 프로세스가 체계화되지 않았으며 "우리는 아직 CRM이 필요 없다"는 인식이 강합니다.<br><b>주요 페인포인트:</b> 고객 데이터 유실, 감 의존 영업, 퇴사 시 히스토리 소멸, 성장 정체.<br><b>해당 기업 예시:</b> 지역 기반 유통사, 소규모 제조사, 오프라인 서비스 업체, 가족경영 도소매 업체.',
-callout_en:'<b>Customer Traits:</b> Traditional businesses with no CRM experience and little interest in AI. They manage customers via Excel or manually, lack structured sales processes, and believe "We don\'t need CRM yet."<br><b>Key Pain Points:</b> Customer data loss, gut-feeling sales, history disappears when employees leave, growth stagnation.<br><b>Example Companies:</b> Regional distributors, small manufacturers, offline service providers, family-run wholesale/retail.'},
+callout:'<b>고객 특징:</b> CRM 미사용, AI 관심 적음. 엑셀·수기로 고객 관리, 영업 프로세스 미체계화.<br><b>주요 페인포인트:</b> 고객 데이터 유실, 감 의존 영업, 퇴사 시 히스토리 소멸.<br><b>해당 기업 예시:</b> 지역 유통사, 소규모 제조사, 오프라인 서비스 업체.',
+callout_en:'<b>Customer Traits:</b> No CRM, little AI interest. Manual customer management, unstructured sales process.<br><b>Key Pain Points:</b> Customer data loss, gut-feeling sales, history disappears when employees leave.<br><b>Example Companies:</b> Regional distributors, small manufacturers, offline service providers.'},
 'nocrm-ai':{title:'Tech-savvy',title_en:'Tech-savvy',desc:'CRM X · AI O',
-callout:'<b>고객 특징:</b> 자체 개발팀이 있고 AI/자동화 역량은 높지만 CRM은 아직 도입하지 않은 기술 중심 기업이며, 내부 툴을 직접 만들어 쓰는 문화가 강하고 SaaS 비용에 민감해 "우리가 만드는 게 빠르다"는 마인드셋을 보유.<br><b>주요 페인포인트:</b> 자체 툴 유지보수 부담, 확장 시 한계, 고객 데이터가 코드 속에 파편화, 영업-개발 사일로.<br><b>해당 기업 예시:</b> AI 스타트업, B2B SaaS 기업, 커머스 테크 기업, IT 컨설팅/에이전시, 디지털 헬스케어 기업.',
-callout_en:'<b>Customer Traits:</b> Tech-centric companies with in-house dev teams and strong AI/automation capability, but no CRM adoption. Strong culture of building internal tools, cost-sensitive toward SaaS, with a "we can build it faster" mindset.<br><b>Key Pain Points:</b> Internal tool maintenance burden, scaling limitations, customer data fragmented in code, sales-dev silos.<br><b>Example Companies:</b> AI startups, B2B SaaS companies, commerce tech firms, IT consulting/agencies, digital healthcare companies.'},
+callout:'<b>고객 특징:</b> 자체 개발팀 보유, AI/자동화 역량 높음. 내부 툴 직접 구축, SaaS 비용에 민감.<br><b>주요 페인포인트:</b> 자체 툴 유지보수 부담, 확장 한계, 고객 데이터 파편화.<br><b>해당 기업 예시:</b> AI 스타트업, B2B SaaS, 커머스 테크, IT 컨설팅.',
+callout_en:'<b>Customer Traits:</b> In-house dev team, strong AI/automation capability. Builds internal tools, cost-sensitive to SaaS.<br><b>Key Pain Points:</b> Internal tool maintenance burden, scaling limits, fragmented customer data.<br><b>Example Companies:</b> AI startups, B2B SaaS, commerce tech, IT consulting.'},
 'crm-noai':{title:'CRM (AI 미경험)',title_en:'CRM (No AI)',desc:'CRM O · AI X',
-callout:'<b>고객 특징:</b> Salesforce 또는 타 CRM을 사용 중이지만 AI Agent를 아직 경험하지 못한 기업으로, CRM 데이터는 쌓여 있어도 활용도가 낮고 AI가 무엇을 해줄 수 있는지 체감하지 못하며 경영진의 AI Buy-in도 부족한 상태입니다.<br><b>주요 페인포인트:</b> 데이터는 있는데 인사이트가 없음, 수작업 반복, CRM 사용률 저조, AI ROI 불확실.<br><b>해당 기업 예시:</b> 성장 단계 제조사, 전문 유통사, 프랜차이즈 운영사, 보험/금융 영업조직, B2B 서비스 기업.',
-callout_en:'<b>Customer Traits:</b> Companies using Salesforce or other CRM but haven\'t experienced AI Agents. CRM data is accumulated but underutilized; they don\'t feel what AI can do and lack executive AI buy-in.<br><b>Key Pain Points:</b> Data exists but no insights, repetitive manual work, low CRM adoption, uncertain AI ROI.<br><b>Example Companies:</b> Growing manufacturers, specialty distributors, franchise operators, insurance/finance sales teams, B2B service companies.'},
+callout:'<b>고객 특징:</b> CRM 사용 중이지만 AI Agent 미경험. 데이터는 쌓여있으나 활용도 낮음, 경영진 AI Buy-in 부족.<br><b>주요 페인포인트:</b> 데이터는 있는데 인사이트 없음, 수작업 반복, AI ROI 불확실.<br><b>해당 기업 예시:</b> 성장 단계 제조사, 전문 유통사, 보험/금융 영업조직.',
+callout_en:'<b>Customer Traits:</b> Using CRM but no AI Agent experience. Data accumulated but underutilized, lack of executive AI buy-in.<br><b>Key Pain Points:</b> Data exists but no insights, repetitive manual work, uncertain AI ROI.<br><b>Example Companies:</b> Growing manufacturers, specialty distributors, insurance/finance sales teams.'},
 'crm-ai':{title:'AI-ready',title_en:'AI-ready',desc:'CRM O · AI O',
-callout:'<b>고객 특징:</b> CRM을 적극 활용하면서 AI/자동화에도 높은 역량과 기대를 가진 고도화 단계 기업으로, 이미 자동화 파이프라인을 운영하고 더 높은 수준의 통합·오케스트레이션을 원하며 보안·거버넌스 요구도 높습니다.<br><b>주요 페인포인트:</b> 멀티 시스템 통합 복잡도, AI 신뢰성·거버넌스 우려, 글로벌 확장 시 데이터 파편화, 풀 자동화 미달성.<br><b>해당 기업 예시:</b> 데이터 기반 커머스 기업, SaaS 스케일업, 멀티채널 유통사, 구독형 서비스 기업, 디지털 네이티브 브랜드.',
-callout_en:'<b>Customer Traits:</b> Advanced-stage companies actively using CRM with strong AI/automation capability and expectations. Already running automation pipelines, seeking higher-level integration/orchestration with strict security and governance requirements.<br><b>Key Pain Points:</b> Multi-system integration complexity, AI reliability/governance concerns, data fragmentation during global expansion, incomplete full automation.<br><b>Example Companies:</b> Data-driven commerce companies, SaaS scale-ups, multi-channel distributors, subscription services, digital native brands.'}
+callout:'<b>고객 특징:</b> CRM 적극 활용 + AI 역량 보유. 자동화 파이프라인 운영 중, 통합·오케스트레이션 니즈, 보안·거버넌스 요구 높음.<br><b>주요 페인포인트:</b> 멀티 시스템 통합 복잡도, AI 거버넌스 우려, 글로벌 확장 시 데이터 파편화.<br><b>해당 기업 예시:</b> 데이터 기반 커머스, SaaS 스케일업, 멀티채널 유통사, 디지털 네이티브 브랜드.',
+callout_en:'<b>Customer Traits:</b> Active CRM usage + AI capability. Running automation pipelines, needs integration/orchestration, high security/governance requirements.<br><b>Key Pain Points:</b> Multi-system integration complexity, AI governance concerns, data fragmentation in global expansion.<br><b>Example Companies:</b> Data-driven commerce, SaaS scale-ups, multi-channel distributors, digital native brands.'}
 };
 
 let activeSeg=null;
@@ -944,10 +987,10 @@ let activeResultTab='guide';
 
 const SEG_GUIDE={
 'nocrm-noai':{
-position:'<span style="background:#0176D3;color:#fff;padding:2px 8px;border-radius:4px;font-size:.85rem">Core $195/user/mo</span> CRM + AI 기본기 세팅',
-position_en:'<span style="background:#0176D3;color:#fff;padding:2px 8px;border-radius:4px;font-size:.85rem">Core $195/user/mo</span> CRM + AI Foundation',
-summary:'CRM 첫 도입이지만 Core에 이미 Data & AI(500K Flex Credits)가 포함되어 "처음부터 AI-ready"로 포지셔닝',
-summary_en:'First-time CRM adoption, but Core already includes Data & AI (500K Flex Credits) — position as "AI-ready from day one"',
+position:'영업을 체계화하고 싶은데 어디서 시작할지 모름',
+position_en:'Wants to systematize sales but doesn\'t know where to start',
+summary:'영업 사원이 퇴사해도 고객 히스토리가 사라지지 않고, AI가 첫날부터 이메일을 대신 써주는 환경을 만들 수 있습니다. 별도 AI 프로젝트 없이 CRM 도입 자체가 AI 도입이 됩니다.',
+summary_en:'Customer history never disappears even when reps leave, and AI writes emails from day one. CRM adoption itself becomes AI adoption — no separate AI project needed.',
 products:{
 sales:[
 {edition:'Starter/Pro',
@@ -1018,20 +1061,20 @@ features:[
 ]}
 ]
 },
-positioning:'CRM 자체를 모르는 고객 → 작은 SMB는 Starter/Pro Suite부터, 그 외는 Core로 시작. "AI가 포함된 CRM"으로 시작점을 낮추되, Starter·Pro Suite는 Portfolio 2.0 변경 대상이 아님을 명확히.',
-positioning_en:'For customers who don\'t know CRM → lower the starting point with "CRM that includes AI." Emphasize Core is all-in-one: CRM basics + AI + Sandbox.',
-antiPattern:'Advanced/Max 기능(Agentforce, Slack, Tableau)을 앞세우지 마세요. CRM 기본도 모르는 상태에서 AI 스택은 과부하. "나중에 업그레이드하면 열린다" 정도로.',
-antiPattern_en:'Don\'t lead with Advanced/Max features (Agentforce, Slack, Tableau). AI stack is overwhelming when they don\'t know CRM basics. Mention as "unlocks when you upgrade later."',
+positioning:'데이터가 쌓이는 순간부터 AI가 작동하고, Slack에서 팀 전체가 영업 상황을 실시간 공유할 수 있습니다. 별도 AI 프로젝트·별도 분석 도구·별도 협업 툴 구매 없이 하나의 플랫폼에서 시작. 작게 시작하려면 Starter→Pro Suite도 가능합니다.',
+positioning_en:'AI activates the moment data starts accumulating, and the whole team shares sales status in real-time via Slack. One platform — no separate AI project, analytics tool, or collaboration tool purchase needed. Start smaller with Starter→Pro Suite if needed.',
+antiPattern:'Advanced/Max 기능을 앞세우지 마세요. CRM을 모르는 상태에서 AI 스택은 과부하. "나중에 업그레이드하면 열린다" 정도로.',
+antiPattern_en:'Don\'t lead with Advanced/Max features. AI stack overwhelms when they don\'t know CRM. Just mention "unlocks when you upgrade later."',
 archAntiPatterns:[
 {title:'사람 연결 없는 AI 챗봇',title_en:'AI Chatbot Without Human Escalation',desc:'AI가 답 못하는 상황에서 상담원 연결 경로가 없으면 고객이 이탈합니다. 반드시 "사람에게 넘기기" 버튼을 설계해야 합니다.',desc_en:'When AI can\'t answer and there\'s no path to a human agent, customers drop off. Always design a "hand off to human" button.',severity:'High',ref:{label:'Agentforce for Service - Escalation',url:'https://trailhead.salesforce.com/content/learn/modules/agentforce-service-agent-quick-look/explore-use-cases-for-agentforce-for-service'}},
 {title:'Agent 무한 반복 방지 미설정',title_en:'No Agent Infinite Loop Guard',desc:'AI가 같은 작업을 끝없이 반복하면 하루 사용량을 몇 분 만에 다 써버립니다. 최대 반복 횟수를 꼭 설정하세요.',desc_en:'If AI endlessly repeats the same task, daily usage gets consumed in minutes. Always set a max iteration count.',severity:'Critical',ref:{label:'Agentforce Basics - Subagents',url:'https://trailhead.salesforce.com/content/learn/modules/einstein-copilot-basics/explore-einstein-copilot'}},
 ]
 },
 'nocrm-ai':{
-position:'<span style="background:#0176D3;color:#fff;padding:2px 8px;border-radius:4px;font-size:.85rem">Core $195/user/mo</span> AI 역량을 CRM 위에 바로 올리기',
-position_en:'<span style="background:#0176D3;color:#fff;padding:2px 8px;border-radius:4px;font-size:.85rem">Core $195/user/mo</span> Layer AI Capabilities Directly on CRM',
-summary:'Core에 이미 Slack Business+, Tableau Next, Sales Emails, Premier, 500K Flex Credits가 포함. Custom Agent를 빌드할 역량이 있으니 Core로 시작하고, 운영량이 커지면 Advanced(1M Flex)로 업그레이드',
-summary_en:'Core already includes Slack Business+, Tableau Next, Sales Emails, Premier, 500K Flex Credits. Teams with Custom Agent building capability start with Core, upgrade to Advanced (1M Flex) as usage grows',
+position:'자체 개발 역량은 있는데 CRM 플랫폼 위에서 AI를 돌릴 이유를 모름',
+position_en:'Has dev capability but doesn\'t see why to run AI on a CRM platform',
+summary:'개발팀이 만든 AI Agent를 팀 전체가 Slack에서 바로 쓸 수 있는 환경이 반나절 만에 세팅됩니다. 자체 도구 유지보수 부담 없이 플랫폼이 보안·모니터링을 처리합니다.',
+summary_en:'The dev team can set up an environment where AI Agents built in half a day are instantly available to the whole team in Slack. The platform handles security and monitoring — no internal tool maintenance burden.',
 products:{
 sales:[
 {edition:'Core',
@@ -1124,10 +1167,10 @@ features:[
 ]}
 ]
 },
-positioning:'기술력 있는 팀 → Core에 Slack + Tableau + Premier + Flex Credits가 이미 들어있다는 점 강조. "Core 하나로 CRM + AI 스택이 바로 세팅됨". 운영량 확대 시 Advanced로 자연스럽게 업셀.',
-positioning_en:'For tech-capable teams → emphasize Core already includes Slack + Tableau + Premier + Flex Credits. "One Core SKU sets up CRM + AI stack immediately." Natural upsell to Advanced as usage scales.',
-antiPattern:'CRM 기본기 강조 금지. 이 세그먼트는 AI 위에서 돌아가는 CRM이라는 관점으로. Core에 없는 기능(Casey, Security Suite)을 Core에 있다고 말하지 마세요.',
-antiPattern_en:'Don\'t emphasize CRM basics. This segment sees CRM through an AI lens. Don\'t claim Core has features it doesn\'t (Casey, Security Suite).',
+positioning:'자체 빌드한 도구의 유지보수·보안·모니터링을 플랫폼이 대신 처리합니다. Custom Agent를 만들어 Slack에서 팀 전체가 쓰는 구조가 바로 완성되고, 운영이 커지면 영업 인텔리전스(딜 코칭, 고객사 자동 분석)까지 확장할 수 있습니다.',
+positioning_en:'The platform handles maintenance, security, and monitoring for tools you build. Custom Agents deploy to Slack for the whole team instantly, and as operations grow, expand to sales intelligence (deal coaching, auto customer analysis).',
+antiPattern:'CRM 기본기 강조 금지. 이 세그먼트는 AI 위에서 돌아가는 CRM 관점. Core에 없는 기능(Casey, Security Suite)을 Core에 있다고 말하지 마세요.',
+antiPattern_en:'Don\'t emphasize CRM basics. This segment views CRM through an AI lens. Don\'t claim Core has features it doesn\'t (Casey, Security Suite).',
 archAntiPatterns:[
 {title:'MCP 서버를 직접 만들지 마세요',desc:'개발팀이 "우리가 직접 만드는 게 빠르다"며 MCP를 자체 구현하면, Salesforce가 기본 제공하는 보안·모니터링이 전부 사라집니다. 꼭 필요한 경우가 아니면 Salesforce Hosted MCP를 그대로 쓰세요.',severity:'Critical',ref:{label:'MCP Solutions for Developers',url:'https://developer.salesforce.com/docs/einstein/genai/guide/mcp.html'}},
 {title:'비밀번호/키를 코드에 직접 넣지 마세요',desc:'.env 파일이나 코드에 API 키를 직접 넣으면, 서버가 한 번 뚫리면 고객사 전체 데이터가 노출됩니다. Named Credentials 또는 외부 Vault 서비스를 사용해야 합니다.',severity:'Critical',ref:{label:'Named Credentials',url:'https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_callouts_named_credentials.htm'}},
@@ -1143,10 +1186,10 @@ archAntiPatterns:[
 ]
 },
 'crm-noai':{
-position:'<span style="background:#0176D3;color:#fff;padding:2px 8px;border-radius:4px;font-size:.85rem">Advanced $395/user/mo</span> Casey로 AI 첫 체험 만들기',
-position_en:'<span style="background:#0176D3;color:#fff;padding:2px 8px;border-radius:4px;font-size:.85rem">Advanced $395/user/mo</span> First AI Experience with Casey',
-summary:'이 세그먼트에 Advanced를 추천하는 이유: <b>Casey(Help Agent) + OBP가 Advanced부터 포함</b>. AI 미경험 고객에게 "리스크 없이 AI를 체험"시키는 킬러 번들. Core에도 Slack·Tableau·Premier가 있지만, Casey가 없으면 첫 AI 체험의 임팩트가 약합니다',
-summary_en:'Why Advanced for this segment: <b>Casey (Help Agent) + OBP is included from Advanced</b>. The killer bundle for "risk-free AI experience" for AI-inexperienced customers. Core has Slack/Tableau/Premier, but without Casey the first AI experience lacks impact',
+position:'CRM 데이터는 쌓여있는데 AI로 뭘 할 수 있는지 체감하지 못함',
+position_en:'CRM data is accumulated but can\'t feel what AI can do with it',
+summary:'이미 쌓아둔 CRM 데이터 위에 AI를 켜면, 영업 사원에게 딜 전략을 코칭하고 고객 이탈을 미리 감지합니다. 고객 문의는 AI가 자동 해결하고, 실패해도 비용이 발생하지 않습니다.',
+summary_en:'Turn on AI on top of accumulated CRM data — it coaches reps on deal strategy and detects customer churn early. Customer inquiries are auto-resolved by AI, with zero cost on failures.',
 products:{
 sales:[
 {edition:'Advanced',
@@ -1185,12 +1228,12 @@ features:[
 service:[
 {edition:'Advanced',
 scenarios:[
-{scenario:'Casey가 고객 문의를 자동 해결하고, 실패 시 비용이 발생하지 않는다',
-scenario_en:'Casey auto-resolves customer inquiries with zero cost on failures',
-scenarioDesc:'이 세그먼트에 Service Advanced를 추천하는 핵심 이유입니다. Casey가 FAQ, 주문 조회, 반품 처리 등 1차 문의를 자동 해결하고, 미해결 건만 상담원에게 에스컬레이션합니다. Outcome-Based Pricing으로 해결된 건에만 비용이 발생하므로 AI 도입 부담이 없습니다.',
-scenarioDesc_en:'The core reason to recommend Service Advanced for this segment. Casey auto-resolves tier-1 inquiries (FAQ, order lookup, returns) and escalates only unresolved cases. Outcome-Based Pricing means cost only on resolved cases — zero AI adoption risk.',
+{scenario:'Casey(Help Agent)로 고객 문의를 자동 해결하고, 실패 시 비용이 발생하지 않는다',
+scenario_en:'Casey (Help Agent) auto-resolves customer inquiries with zero cost on failures',
+scenarioDesc:'Casey는 본래 Enterprise 대규모 서비스 조직을 위해 설계된 에이전트이지만, Outcome-Based Pricing(성과 기반 과금) 덕분에 CBU/SMB에서도 파일럿이 가능합니다. FAQ, 주문 조회, 반품 처리 등 1차 문의를 자동 해결하고, 미해결 건만 상담원에게 에스컬레이션합니다. 해결된 건에만 비용이 발생하므로 AI 도입의 재무 리스크가 없습니다.',
+scenarioDesc_en:'Casey was originally designed for Enterprise-scale service organizations, but Outcome-Based Pricing makes pilots viable for CBU/SMB. Auto-resolves tier-1 inquiries (FAQ, order lookup, returns) and escalates only unresolved cases. Cost only on resolved cases — zero financial risk for AI adoption.',
 features:[
-{name:'Casey (Help Agent) + Outcome-Based Pricing',desc:'Service Advanced를 추천하는 핵심 이유. 해결 건당 과금이라 "실패하면 비용 0원". AI를 처음 경험하는 서비스팀에게 리스크 없는 첫 체험을 만들어줍니다',desc_en:'The core reason to recommend Service Advanced. Pay per resolution means "zero cost on failures." Creates a risk-free first experience for service teams new to AI'},
+{name:'Casey (Help Agent) + Outcome-Based Pricing',desc:'Enterprise 대상 에이전트이지만 OBP(해결 건당 과금) 모델로 SMB 파일럿 가능. 실패 시 비용 0원이라 AI 미경험 팀의 첫 체험에 적합합니다',desc_en:'Enterprise-targeted agent but OBP (pay per resolution) model enables SMB pilots. Zero cost on failures — ideal for first AI experience of inexperienced teams'},
 {name:'1M Flex Credits',desc:'Casey + CSI + 기타 AI 기능을 동시 운영하기에 충분한 용량. Core의 500K로는 서비스 자동화 운영에 부족할 수 있습니다',desc_en:'Sufficient capacity to simultaneously operate Casey + CSI + other AI features. Core\'s 500K may not be enough for service automation operations'}
 ]},
 {scenario:'CSI가 이탈 위험 고객을 사전에 식별해 상담원이 선제적으로 케어한다',
@@ -1217,10 +1260,10 @@ features:[
 ]}
 ]
 },
-positioning:'CRM은 쓰지만 AI 경험 없는 고객 → <b>Casey OBP가 Advanced를 추천하는 핵심 이유.</b> "리스크 없이 AI 첫 체험"을 만들어주세요. Core에도 좋은 번들이 있지만, Casey 없이는 AI 도입의 임팩트가 반감됩니다.',
-positioning_en:'For CRM users with no AI experience → <b>Casey OBP is the core reason to recommend Advanced.</b> Create a "risk-free first AI experience." Core has great bundles too, but without Casey the AI adoption impact is halved.',
-antiPattern:'아키텍처·MCP 깊이 금지. Core에 없는 기능을 Core에 있다고 말하지 마세요(Casey, CSI, Security Suite는 Advanced부터). Max 기능은 언급하지 마세요.',
-antiPattern_en:'Avoid architecture/MCP deep dives. Don\'t claim Core has features it doesn\'t (Casey, CSI, Security Suite are Advanced-only). Don\'t mention Max features.',
+positioning:'기존 데이터가 곧 AI의 연료입니다. 별도 데이터 준비 없이 업그레이드만으로 AI가 즉시 인사이트를 생성합니다. 고객 문의는 AI가 해결하고 실패 시 비용 0원이라 재무 리스크가 없습니다. 영업팀은 AI가 코칭하는 딜 전략으로 감 의존 영업에서 벗어납니다.',
+positioning_en:'Existing data is the fuel for AI. Just upgrade and AI instantly generates insights — no separate data prep needed. Customer inquiries are AI-resolved with zero cost on failures — no financial risk. Sales teams escape gut-feeling selling with AI-coached deal strategies.',
+antiPattern:'아키텍처·MCP 깊이 금지. Casey는 Enterprise 대상임을 인지하되 OBP로 파일럿 가능하다고 안내. Max 기능은 언급하지 마세요.',
+antiPattern_en:'Avoid architecture/MCP deep dives. Acknowledge Casey targets Enterprise but explain OBP enables pilots. Don\'t mention Max features.',
 archAntiPatterns:[
 {title:'AI가 개인정보를 자동으로 가려준다고 믿지 마세요',desc:'Agentforce 에이전트 경로에서는 현재 개인정보 마스킹이 꺼져 있습니다. AI에게 데이터를 넘기기 전에, 민감한 정보(이름·전화번호 등)를 미리 제거하는 단계를 직접 만들어야 합니다.',severity:'Critical',ref:{label:'Data Masking (Trust Layer)',url:'https://developer.salesforce.com/docs/einstein/genai/guide/data-masking.html'}},
 {title:'AI에게 너무 많은 권한을 주지 마세요',desc:'"모든 API 접근" 같은 넓은 권한을 주면, 키가 유출됐을 때 피해가 전체로 번집니다. AI가 실제 필요한 기능만 딱 골라서 최소 권한만 부여하세요.',severity:'High',ref:{label:'OAuth & Connected Apps',url:'https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/intro_oauth_and_connected_apps.htm'}},
@@ -1238,20 +1281,20 @@ archAntiPatterns:[
 ]
 },
 'crm-ai':{
-position:'<span style="background:#0176D3;color:#fff;padding:2px 8px;border-radius:4px;font-size:.85rem">Advanced $395/user/mo</span> Casey + CSI로 고도화',
-position_en:'<span style="background:#0176D3;color:#fff;padding:2px 8px;border-radius:4px;font-size:.85rem">Advanced $395/user/mo</span> Advanced with Casey + CSI',
-summary:'CRM과 AI 모두 아는 고객이니 Advanced의 <b>Casey + CSI + Security + 1M Flex Credits</b>로 고도화. 멀티 Agent 체이닝, 분석→액션 자동화가 핵심. Max(Paige, WFM, 2.75M Flex)는 전사 확산 시에만 참고',
-summary_en:'Customers who know both CRM and AI — advance with Advanced\'s <b>Casey + CSI + Security + 1M Flex Credits</b>. Multi-agent chaining and analysis→action automation are key. Max (Paige, WFM, 2.75M Flex) only for org-wide scaling reference',
+position:'AI는 이미 아는데 포인트 솔루션이 파편화되어 있고 통합 오케스트레이션이 안 됨',
+position_en:'Already knows AI but point solutions are fragmented without unified orchestration',
+summary:'파편화된 포인트 솔루션을 하나의 플랫폼으로 통합하면, 사람 개입 없이 리드 발굴부터 캠페인까지 자동으로 이어집니다. Coworker 한 문장이 Agent 팀 전체를 움직입니다.',
+summary_en:'Consolidate fragmented point solutions into one platform — multi-agent orchestration runs lead discovery to campaigns without human intervention. One Coworker sentence triggers an entire Agent team.',
 products:{
 sales:[
 {edition:'Advanced',
 scenarios:[
 {scenario:'Hunter → Piper → Margo, 3개 Agent가 사람 개입 없이 리드 발굴부터 캠페인까지 자동 체이닝한다',
 scenario_en:'Hunter → Piper → Margo: 3 Agents auto-chain from lead discovery to campaign execution without human intervention',
-scenarioDesc:'이 세그먼트의 핵심 시연 포인트입니다. Hunter가 ICP 기반으로 타겟 기업을 발굴하면, Piper가 BANT 기준으로 적합도를 자동 평가하고, 적합한 리드에 대해 Margo가 개인화된 캠페인을 자동 실행합니다. 단일 Agent가 아닌 "Agent 팀이 협업하는" 멀티 Agent 오케스트레이션의 실질적 가치를 보여줍니다.',
-scenarioDesc_en:'The key demo point for this segment. Hunter discovers target companies based on ICP, Piper auto-evaluates qualification via BANT criteria, and Margo auto-executes personalized campaigns for qualified leads. Demonstrates the practical value of multi-agent orchestration — "a team of agents collaborating," not a single agent.',
+scenarioDesc:'이 세그먼트의 핵심 시연 포인트입니다. Hunter가 ICP 기반으로 타겟 기업을 발굴하면(Data 360 연동 필요), Piper가 BANT 기준으로 적합도를 자동 평가하고, 적합한 리드에 대해 Margo가 개인화된 캠페인을 자동 실행합니다. 단일 Agent가 아닌 "Agent 팀이 협업하는" 멀티 Agent 오케스트레이션의 실질적 가치를 보여줍니다.',
+scenarioDesc_en:'The key demo point for this segment. Hunter discovers target companies based on ICP (requires Data 360 integration), Piper auto-evaluates qualification via BANT criteria, and Margo auto-executes personalized campaigns for qualified leads. Demonstrates the practical value of multi-agent orchestration — "a team of agents collaborating," not a single agent.',
 features:[
-{name:'멀티 Agent 체이닝 (1M Flex Credits)',desc:'Hunter → Piper → Margo 순차 협업. 1M Flex Credits로 멀티 Agent 오케스트레이션을 안정적으로 운영. 이 세그먼트가 "왜 Salesforce인가"에 대한 핵심 답변',desc_en:'Hunter → Piper → Margo sequential collaboration. 1M Flex Credits for stable multi-agent orchestration. The core answer to "why Salesforce" for this segment'}
+{name:'멀티 Agent 체이닝 (1M Flex Credits)',desc:'Hunter → Piper → Margo 순차 협업. 1M Flex Credits로 멀티 Agent 오케스트레이션을 안정적으로 운영. Hunter는 Data 360 연동이 필요하며, Margo 캠페인 실행에는 Marketing Cloud(별도 라이선스)가 필요합니다',desc_en:'Hunter → Piper → Margo sequential collaboration. 1M Flex Credits for stable multi-agent orchestration. Hunter requires Data 360 integration, and Margo campaign execution requires Marketing Cloud (separate license)'}
 ]},
 {scenario:'분석 결과가 바로 Agent 액션을 트리거하는 "분석→실행" 자동화',
 scenario_en:'"Analysis → Execution" automation where analytics directly trigger Agent actions',
@@ -1291,8 +1334,8 @@ service:[
 scenarios:[
 {scenario:'Casey + CSI로 "이탈 감지 → 선제 대응 → 에스컬레이션"까지 서비스 풀 체인을 자동화한다',
 scenario_en:'Automate the full service chain from churn detection to proactive response to escalation with Casey + CSI',
-scenarioDesc:'이 세그먼트에서는 Casey + CSI의 기본 조합을 넘어 고도화 시나리오를 시연합니다. CSI가 고객 행동 패턴을 실시간 분석해 이탈 위험 고객을 자동 식별하고, Casey가 선제 대응합니다. 복잡한 케이스는 상담원에게 자동 라우팅되며, Security Suite로 고객 데이터 보호까지 완비합니다.',
-scenarioDesc_en:'For this segment, demonstrate advanced scenarios beyond basic Casey + CSI. CSI analyzes customer behavior patterns in real-time to auto-identify at-risk customers, Casey proactively responds. Complex cases auto-route to agents, with Security Suite ensuring complete data protection.',
+scenarioDesc:'Casey는 Enterprise 대규모 서비스 조직 대상이지만, 이 세그먼트는 이미 AI를 아는 팀이니 고도화 시나리오로 차별화합니다. CSI가 고객 행동 패턴을 실시간 분석해 이탈 위험 고객을 자동 식별하고, Casey가 선제 대응합니다. 복잡한 케이스는 상담원에게 자동 라우팅되며, Security Suite로 고객 데이터 보호까지 완비합니다.',
+scenarioDesc_en:'Casey targets Enterprise-scale service organizations, but this segment already knows AI — differentiate with advanced scenarios. CSI analyzes customer behavior patterns in real-time to auto-identify at-risk customers, Casey proactively responds. Complex cases auto-route to agents, with Security Suite ensuring complete data protection.',
 features:[
 {name:'Casey + CSI 고도화',desc:'기본 1차 응대를 넘어 이탈 위험 고객 자동 식별, 맞춤 리텐션 캠페인 자동 트리거. 이 세그먼트는 이미 AI를 아는 팀이니 고도화 시나리오로 차별화해야 합니다',desc_en:'Beyond basic tier-1 response: auto-identification of at-risk customers, auto-triggered retention campaigns. This segment knows AI, so differentiate with advanced scenarios'},
 {name:'Security Suite',desc:'AI 고도화 시 데이터 보호와 컴플라이언스가 급부상합니다. Backup/Archive/Data Detect/Security Center로 "AI 확장해도 데이터는 안전"이라는 신뢰를 줍니다',desc_en:'Data protection and compliance become critical during AI advancement. Backup/Archive/Data Detect/Security Center builds trust: "data stays safe even as AI scales"'}
@@ -1324,10 +1367,10 @@ features:[
 ]}
 ]
 },
-positioning:'고도화된 고객 → Advanced의 Casey + CSI + Security로 차별화. "Core에도 좋은 번들이 있지만, 이 세그먼트가 원하는 고도화는 Advanced에서 완성됨". Max는 Paige/WFM이 필요한 경우에만.',
-positioning_en:'For advanced customers → differentiate with Advanced\'s Casey + CSI + Security. "Core has great bundles, but the advancement this segment wants is completed in Advanced." Max only when Paige/WFM needed.',
-antiPattern:'기본 기능 데모 금지. 이미 아는 내용 반복은 신뢰도 하락. Max를 메인으로 셀링하지 마세요 — CBU 예산에 안 맞습니다. Core 기능을 Advanced 전용이라고 말하지 마세요(Slack, Tableau, Premier는 Core에도 포함).',
-antiPattern_en:'Avoid basic feature demos. Repeating what they know erodes credibility. Don\'t sell Max as main pitch — doesn\'t fit CBU budgets. Don\'t claim Core features are Advanced-only (Slack, Tableau, Premier are in Core too).',
+positioning:'포인트 솔루션을 걷어내고 단일 플랫폼으로 통합하면 비용이 줄고 거버넌스가 강화됩니다. Coworker 한 문장으로 멀티 Agent를 실행하는 경험이 조직 전체로 확산됩니다. Margo 캠페인은 Marketing Cloud(별도), Hunter는 Data 360 연동이 필요합니다.',
+positioning_en:'Consolidating point solutions into one platform reduces costs and strengthens governance. The experience of running multi-agent workflows with one Coworker sentence scales across the organization. Margo campaigns require Marketing Cloud (separate), Hunter requires Data 360 integration.',
+antiPattern:'기본 기능 데모 금지. Max를 메인으로 셀링하지 마세요. Core 기능을 Advanced 전용이라고 말하지 마세요(Slack, Tableau, Premier는 Core에도 포함).',
+antiPattern_en:'Avoid basic feature demos. Don\'t sell Max as main pitch. Don\'t claim Core features are Advanced-only (Slack, Tableau, Premier are in Core too).',
 archAntiPatterns:[
 {title:'"만능 에이전트" 하나로 다 하려 하지 마세요',desc:'하나의 AI에게 영업·서비스·마케팅·HR 전부 맡기면, AI가 질문을 헷갈려서 엉뚱한 답을 합니다. 역할별로 전문 에이전트를 나누고, 관리자 에이전트가 적절한 곳에 전달하는 구조로 만드세요.',severity:'High',ref:{label:'Agentforce Subagents 구성',url:'https://trailhead.salesforce.com/content/learn/modules/einstein-copilot-basics/explore-einstein-copilot'}},
 {title:'장애 추적이 안 되는 구조',desc:'여러 시스템(외부 AI → MCP → Salesforce → MuleSoft)을 거치는데 각각 따로 로그를 남기면, 문제 생겼을 때 어디서 터졌는지 찾을 수 없습니다. 모든 단계에 같은 추적 ID(X-Correlation-Id)를 붙여야 합니다.',severity:'High',ref:{label:'Event Monitoring',url:'https://trailhead.salesforce.com/content/learn/modules/event_monitoring'}},
@@ -1436,8 +1479,8 @@ const panel=document.getElementById('hi-side-panel');
 document.querySelectorAll('.hi-pill').forEach(p=>p.style.outline='none');
 if(panel&&panel.dataset.active===el.textContent){
 panel.innerHTML=`<div class="agent-side-empty">
-<div style="font-weight:700;color:var(--navy)">Headless 상세 패널</div>
-<div>왼쪽 인터페이스를 클릭하면<br>설명이 여기에 표시됩니다.</div>
+<div style="font-weight:700;color:var(--navy)">${LANG==='en'?'Headless Detail Panel':'Headless 상세 패널'}</div>
+<div>${LANG==='en'?'Click an interface on the left<br>to view details here.':'왼쪽 인터페이스를 클릭하면<br>설명이 여기에 표시됩니다.'}</div>
 </div>`;
 panel.dataset.active='';
 return;
@@ -1462,8 +1505,8 @@ function resetFeatureSidePanel(){
 const panel=document.getElementById('feature-side-panel');
 if(!panel) return;
 panel.innerHTML=`<div class="agent-side-empty">
-<div style="font-weight:700;color:var(--navy)">호출·자동화 상세 패널</div>
-<div>왼쪽 경로 박스를 클릭하면<br>설명이 여기에 표시됩니다.</div>
+<div style="font-weight:700;color:var(--navy)">${LANG==='en'?'Invocation & Automation Detail':'호출·자동화 상세 패널'}</div>
+<div>${LANG==='en'?'Click a path on the left<br>to view details here.':'왼쪽 경로 박스를 클릭하면<br>설명이 여기에 표시됩니다.'}</div>
 </div>`;
 panel.dataset.active='';
 }
@@ -1475,8 +1518,8 @@ document.querySelectorAll('.agency-pill').forEach(p=>p.style.outline='none');
 const name=el.textContent.trim();
 if(panel.dataset.active===name){
 panel.innerHTML=`<div class="agent-side-empty">
-<div style="font-weight:700;color:var(--navy)">Agent 설계·운영 상세 패널</div>
-<div>왼쪽 플랫폼 기능을 클릭하면<br>설명이 여기에 표시됩니다.</div>
+<div style="font-weight:700;color:var(--navy)">${LANG==='en'?'Agent Design & Ops Detail':'Agent 설계·운영 상세 패널'}</div>
+<div>${LANG==='en'?'Click a platform feature on the left<br>to view details here.':'왼쪽 플랫폼 기능을 클릭하면<br>설명이 여기에 표시됩니다.'}</div>
 </div>`;
 panel.dataset.active='';
 return;
@@ -1492,7 +1535,7 @@ en:'<div style="display:flex;flex-direction:column;gap:.55rem"><div><b>Core Conc
 const rich=detailMap[name];
 const body=rich?(LANG==='en'?rich.en:rich.ko):desc;
 panel.innerHTML=`<div class="agent-side-title">${name}</div>
-<div class="agent-side-section">설명</div>
+<div class="agent-side-section">${LANG==='en'?'Description':'설명'}</div>
 <div class="agent-side-body">${body}</div>`;
 panel.dataset.active=name;
 }
@@ -1501,7 +1544,7 @@ function renderFeatureSidePanel({name,bodyHtml}){
 const panel=document.getElementById('feature-side-panel');
 if(!panel) return;
 panel.innerHTML=`<div class="agent-side-title">${name}</div>
-<div class="agent-side-section">설명</div>
+<div class="agent-side-section">${LANG==='en'?'Description':'설명'}</div>
 <div class="agent-side-body">${bodyHtml}</div>`;
 panel.dataset.active=name;
 }
@@ -1523,8 +1566,8 @@ function resetAgentSidePanel(){
 const panel=document.getElementById('agent-side-panel');
 if(!panel) return;
 panel.innerHTML=`<div class="agent-side-empty">
-<div style="font-weight:700;color:var(--navy)">Sub-agent 상세 패널</div>
-<div>왼쪽 Sub-agent 박스를 클릭하면<br>설명이 여기에 표시됩니다.</div>
+<div style="font-weight:700;color:var(--navy)">${LANG==='en'?'Sub-agent Detail Panel':'Sub-agent 상세 패널'}</div>
+<div>${LANG==='en'?'Click a Sub-agent on the left<br>to view details here.':'왼쪽 Sub-agent 박스를 클릭하면<br>설명이 여기에 표시됩니다.'}</div>
 </div>`;
 panel.dataset.active='';
 }
@@ -1535,11 +1578,11 @@ if(!panel) return;
 const videoHtml=videoId
 ?`<div class="agent-side-video"><iframe src="https://drive.google.com/file/d/${videoId}/preview" allow="autoplay"></iframe></div>`
 :`<div class="agent-side-video" style="min-height:160px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.35rem;padding:1rem;border-style:dashed;background:#FAFBFC;color:var(--gray-600);text-align:center;font-size:.8rem;line-height:1.45">
-<div style="font-weight:700;color:var(--navy)">Demo 영상 준비 중</div>
-<div>이 Agent에 매핑된 Demo 영상이 아직 없습니다.</div>
+<div style="font-weight:700;color:var(--navy)">${LANG==='en'?'Demo Video Coming Soon':'Demo 영상 준비 중'}</div>
+<div>${LANG==='en'?'No demo video mapped to this Agent yet.':'이 Agent에 매핑된 Demo 영상이 아직 없습니다.'}</div>
 </div>`;
 panel.innerHTML=`<div class="agent-side-title">${name}</div>
-<div class="agent-side-section">설명</div>
+<div class="agent-side-section">${LANG==='en'?'Description':'설명'}</div>
 <div class="agent-side-body">${bodyHtml}</div>
 <div class="agent-side-section">Demo</div>
 ${videoHtml}`;
@@ -1559,32 +1602,158 @@ if(box){box.style.display='none';box.dataset.active='';}
 return;
 }
 el.style.outline='2px solid var(--blue)';
+function agentDetailHtml({overview,audience,motion,prereq},isEn){
+return `<div style="display:flex;flex-direction:column;gap:.7rem">
+<div>
+<div style="font-size:.82rem;font-weight:700;color:var(--navy);margin-bottom:.2rem">${isEn?'Overview':'개요'}</div>
+<div>${overview}</div>
+</div>
+<div>
+<div style="font-size:.82rem;font-weight:700;color:var(--navy);margin-bottom:.2rem">${isEn?'Audience':'대상'}</div>
+<div>${audience}</div>
+</div>
+<div>
+<div style="font-size:.82rem;font-weight:700;color:var(--navy);margin-bottom:.2rem">${isEn?'How it is sold':'영업·도입 방식'}</div>
+<div>${motion}</div>
+</div>
+<div>
+<div style="font-size:.82rem;font-weight:700;color:var(--navy);margin-bottom:.2rem">${isEn?'Prerequisite':'도입 시 전제'}</div>
+<div>${prereq}</div>
+</div>
+</div>`;
+}
 const naDetailMap={
-Felix:`<div style="display:flex;flex-direction:column;gap:.7rem">
-<div>
-<div style="font-size:.82rem;font-weight:700;color:var(--navy);margin-bottom:.2rem">시나리오</div>
-<ul style="margin:0;padding-left:1rem">
-<li>Field Service 현장 기사의 작업 일정 확인, 부품 조회, 작업 완료 리포트를 모바일에서 AI로 보조</li>
-</ul>
-</div>
-<div>
-<div style="font-size:.82rem;font-weight:700;color:var(--navy);margin-bottom:.2rem">필수 라이선스</div>
-<ul style="margin:0;padding-left:1rem">
-<li>Agentforce for Field Service (A4FS) add-on SKU (EE/UE/PE 별도 SKU)</li>
-<li>A4FS SKU에는 사용자당 Tableau Next Standard Creator + Standard Consumer 각 1개 포함 (2026년 7월 기준)</li>
-<li>대안: Agentforce 1 Field Service Edition 사용 시 A4FS 포함 구성(Tableau Next, Slack, Sales Cloud, Premier Success 등)으로 일괄 제공</li>
-</ul>
-</div>
-<div>
-<div style="font-size:.82rem;font-weight:700;color:var(--navy);margin-bottom:.2rem">전제 조건 (Prerequisite)</div>
-<ul style="margin:0;padding-left:1rem">
-<li>표준 Field Service EE/UE 라이선스 + Agentforce SKU + Universal/Flex Credits 필요</li>
-<li>Voice-to-Form 등 특정 기능만 위한 RUL(Restricted Use License) 세부 과금은 공식 sub-SKU 가이드가 아직 명확하지 않음</li>
-</ul>
-</div>
-</div>`
+Paige:{
+ko:agentDetailHtml({
+overview:'사내 임직원의 IT·HR 요청(VPN 리셋, 복리후생, 휴가 조회 등)을 Slack·포털에서 자동 처리하는 직원용 서비스 에이전트입니다. *(외부 고객 상담용 아님)*',
+audience:'임직원 IT·HR 담당',
+motion:'기존 코어 시트에 얹어 시작하고, 사용량이 늘면 Flex Credits로 확장',
+prereq:'Service Cloud(IT Service Desk 기반). HR Service는 별도 org가 필요할 수 있습니다.'
+},false),
+en:agentDetailHtml({
+overview:'An employee service agent that auto-handles internal IT/HR requests (VPN reset, benefits, PTO, etc.) in Slack and portals. *(Not for external customer support.)*',
+audience:'Internal IT & HR owners',
+motion:'Start on existing core seats, then expand with Flex Credits as usage grows',
+prereq:'Service Cloud (IT Service Desk–based). HR Service may require a separate org.'
+},true)
+},
+Marshall:{
+ko:agentDetailHtml({
+overview:'백오피스(운영) 업무에서 사람과 AI가 같이 일하는 운영 에이전트입니다.',
+audience:'COO·운영 조직',
+motion:'큰 Ops 딜에 맞춰 SF Commit 또는 OU Blueprint 같은 장기 계약형 가격으로 확장',
+prereq:'Agentforce Operations. 제조·운영 중심 Enterprise 딜 맥락'
+},false),
+en:agentDetailHtml({
+overview:'An operations agent for human + AI collaboration across back-office work.',
+audience:'COO / operations teams',
+motion:'Scale with long-term contract pricing such as SF Commit or OU Blueprint on larger Ops deals',
+prereq:'Agentforce Operations. Best fit for manufacturing/ops-centric Enterprise deals'
+},true)
+},
+Felix:{
+ko:agentDetailHtml({
+overview:'현장에서 음성으로 입력해 작업 양식을 채우는(Voice-to-Form) 필드 작업 안내 에이전트입니다. *(발표/Announced 단계)*',
+audience:'현장 기사·현장 관리자',
+motion:'아직 판매 방식이 확정되지 않음 (TBD)',
+prereq:'Agentforce Field Service / Field Service 환경'
+},false),
+en:agentDetailHtml({
+overview:'A field guidance agent that fills work forms by voice (Voice-to-Form). *(Announced)*',
+audience:'Field technicians and field supervisors',
+motion:'Sales approach not yet finalized (TBD)',
+prereq:'Agentforce Field Service / Field Service environment'
+},true)
+},
+Hunter:{
+ko:agentDetailHtml({
+overview:'타깃 조사부터 아웃리치까지 하는 아웃바운드 영업 발굴 에이전트입니다. 영업 담당자와 수주~수개월 단위로 길게 협업하는 타입이 특징입니다. *(Pilot, 10월 GA 예정)*',
+audience:'영업 리더·영업 담당자',
+motion:'기존 Sales Productivity 갱신(리뉴얼) 때 함께 붙이는 방식',
+prereq:'Sales Cloud (Data 360이 있으면 더 유리)'
+},false),
+en:agentDetailHtml({
+overview:'An outbound prospecting agent from research to outreach. Designed for multi-week/month collaboration with sellers. *(Pilot; GA planned for October)*',
+audience:'Sales leaders and sellers',
+motion:'Attach during Sales Productivity renewals',
+prereq:'Sales Cloud (stronger with Data 360)'
+},true)
+},
+Margo:{
+ko:agentDetailHtml({
+overview:'캠페인 기획부터 실행까지 E2E로 돌리고, 스스로 최적화하는 마케팅 에이전트입니다.',
+audience:'CMO·마케팅 담당',
+motion:'기존 마케팅 지출을 소비형(크레딧) SKU로 옮기는 크로스셀',
+prereq:'Marketing Cloud (Contentful 연계 가능)'
+},false),
+en:agentDetailHtml({
+overview:'A self-optimizing marketing agent that plans and runs campaigns end to end.',
+audience:'CMO / marketing owners',
+motion:'Cross-sell by shifting existing marketing spend into a consumption (credits) SKU',
+prereq:'Marketing Cloud (Contentful optional)'
+},true)
+},
+Archer:{
+ko:agentDetailHtml({
+overview:'직접 판매 담당자를 위한 상시(always-on) 딜 전략 코칭 에이전트입니다.',
+audience:'직접 판매·Revenue 담당자',
+motion:'아직 판매 방식이 확정되지 않음 (TBD)',
+prereq:'Revenue Cloud'
+},false),
+en:agentDetailHtml({
+overview:'An always-on deal strategy coaching agent for direct sellers.',
+audience:'Direct sales / revenue owners',
+motion:'Sales approach not yet finalized (TBD)',
+prereq:'Revenue Cloud'
+},true)
+},
+Piper:{
+ko:agentDetailHtml({
+overview:'웹사이트·인박스로 들어오는 리드를 자격 검증하고 파이프라인으로 넘기는 인바운드 에이전트입니다. *(GA)*',
+audience:'CMO·영업개발(Sales Dev)',
+motion:'기존 Sales Cloud 시트로 먼저 써보게 한 뒤(trial-swap) 본계약으로 확장',
+prereq:'Sales Cloud (B2B)'
+},false),
+en:agentDetailHtml({
+overview:'An inbound agent that qualifies website/inbox leads and moves them into pipeline. *(GA)*',
+audience:'CMO / Sales Development',
+motion:'Start with a trial-swap on existing Sales Cloud seats, then expand to full contract',
+prereq:'Sales Cloud (B2B)'
+},true)
+},
+Casey:{
+ko:agentDetailHtml({
+overview:'외부 고객 케이스를 푸는 서비스 에이전트(구 Help Agent)입니다. 음성·SMS·WhatsApp·웹챗 등 전 채널. *(GA)*',
+audience:'고객 서비스 조직(외부 고객 응대)',
+motion:'코어 시트로 시작하고, 사용 확대 시 Flex Credits로 확장',
+prereq:'Service Cloud Enterprise'
+},false),
+en:agentDetailHtml({
+overview:'A customer service agent for external cases (formerly Help Agent), across voice, SMS, WhatsApp, and web chat. *(GA)*',
+audience:'Customer service teams (external customers)',
+motion:'Start on core seats, then expand with Flex Credits as usage grows',
+prereq:'Service Cloud Enterprise'
+},true)
+},
+Carter:{
+ko:agentDetailHtml({
+overview:'상품 탐색부터 체크아웃까지 돕는 커머스 쇼퍼 에이전트입니다. (인챗 결제 포함)',
+audience:'커머스·디지털 담당',
+motion:'GA로 진입한 뒤 POS·OMS 등으로 확장',
+prereq:'Commerce Cloud (D2C)'
+},false),
+en:agentDetailHtml({
+overview:'A commerce shopper agent that helps from product discovery through checkout (including in-chat payment).',
+audience:'Commerce / digital owners',
+motion:'Enter at GA, then expand into POS/OMS and related journeys',
+prereq:'Commerce Cloud (D2C)'
+},true)
+}
 };
-const leftContent=naDetailMap[name]||(LANG==='en'&&el.dataset.descEn?el.dataset.descEn:el.dataset.desc);
+const entry=naDetailMap[name];
+const leftContent=entry
+?(LANG==='en'&&entry.en?entry.en:entry.ko)
+:(LANG==='en'&&el.dataset.descEn?el.dataset.descEn:el.dataset.desc);
 renderAgentSidePanel({
 name,
 bodyHtml:leftContent,
@@ -1680,7 +1849,7 @@ positioningBox.innerHTML='';
 if(activeResultTab==='guide'){
 el.classList.remove('demo-grid-3');
 if(g){
-const editionAccent={Core:'var(--navy)',Advanced:'var(--navy)',Max:'var(--gray-600)','Starter/Pro':'var(--teal)'};
+const editionAccent={Core:'var(--navy)',Advanced:'var(--blue)',Max:'var(--gray-600)','Starter/Pro':'var(--teal)'};
 const editionPrices={Core:'$195/user/mo',Advanced:'$395/user/mo',Max:'$550/user/mo','Starter/Pro':'$25~$100/user/mo','Core에도 포함':''};
 if(g.products&&!Array.isArray(g.products)){
 const clouds=[{key:'sales',label:'Sales Cloud',color:'#0176D3'},{key:'service',label:'Service Cloud',color:'#0B5CAB'}];
@@ -1689,16 +1858,13 @@ clouds.forEach(cloud=>{
 const items=g.products[cloud.key];
 if(!items||!items.length) return;
 html+=`<div style="margin-bottom:1.8rem">
-<div style="font-size:1.05rem;font-weight:700;color:${cloud.color};margin-bottom:.8rem;display:flex;align-items:center;gap:.5rem">
-<span style="width:4px;height:20px;background:${cloud.color};border-radius:2px;display:inline-block"></span>
-${cloud.label}
-</div>`;
+<div style="font-size:1.05rem;font-weight:700;color:${cloud.color};margin-bottom:.8rem">${cloud.label}</div>`;
 items.forEach(item=>{
 const accent=editionAccent[item.edition]||'var(--navy)';
 const price=editionPrices[item.edition]||'';
 const scenarios=item.scenarios||[{scenario:item.scenario,scenario_en:item.scenario_en,scenarioDesc:item.scenarioDesc,scenarioDesc_en:item.scenarioDesc_en,features:item.features}];
 const scLabel=LANG==='en'?'Scenario':'시나리오';
-html+=`<div style="margin-bottom:1rem;background:#fff;border:1px solid var(--gray-200);border-left:4px solid ${accent};border-radius:var(--radius)">
+html+=`<div style="margin-bottom:1rem;background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius)">
 <div style="padding:.6rem .9rem;border-bottom:1px solid var(--gray-200);display:flex;align-items:center;gap:.5rem">
 <span style="font-size:.78rem;font-weight:700;color:#fff;background:${accent};padding:3px 10px;border-radius:4px">${item.edition}</span>
 ${price?`<span style="font-size:.82rem;font-weight:600;color:var(--gray-600)">${price}</span>`:''}
@@ -1746,11 +1912,11 @@ el.innerHTML='<div class="empty-state">'+t('emptyGuide')+'</div>';
 el.classList.remove('demo-grid-3');
 if(g&&g.archAntiPatterns&&g.archAntiPatterns.length){
 const sevColor={Critical:'#D32F2F',High:'var(--orange)'};
-let html=`<div style="margin-bottom:1rem;padding:1rem 1.2rem;background:#FFF8F0;border:1px solid #FFD9A0;border-left:4px solid var(--orange);border-radius:var(--radius)">
+let html=`<div style="margin-bottom:1rem;padding:1rem 1.2rem;background:#FFF8F0;border:1px solid #FFD9A0;border-radius:var(--radius)">
 <div style="font-size:.8rem;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:.5px;margin-bottom:.3rem">Architecture Anti-Patterns</div>
 <div style="font-size:.88rem;color:#333">${t('archIntro')} <span style="font-size:.78rem;color:var(--gray-600)">(Headless 360 Anti-Pattern Review)</span></div>
 </div>`;
-html+=g.archAntiPatterns.map(ap=>`<div style="margin-bottom:.6rem;padding:.8rem 1rem;background:#fff;border:1px solid var(--gray-200);border-left:3px solid ${sevColor[ap.severity]||'var(--gray-300)'};border-radius:var(--radius-sm)">
+html+=g.archAntiPatterns.map(ap=>`<div style="margin-bottom:.6rem;padding:.8rem 1rem;background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius-sm)">
 <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem">
 <span style="font-size:.7rem;font-weight:700;color:#fff;background:${sevColor[ap.severity]||'#666'};padding:2px 6px;border-radius:3px">${ap.severity}</span>
 <span style="font-size:.92rem;font-weight:700;color:var(--navy)">${lf(ap,'title')}</span>
@@ -1946,7 +2112,9 @@ const SCENARIOS=[
 
 const DEMOS=SCENARIOS;
 const CAT_COLORS={'효율 × Assist':'#0070D2','효과 × Assist':'#5A1BA9','효율 × Automate':'#DD7A01','효과 × Automate':'#04844B'};
-const CAT_DESC={'효율 × Assist':'업무 시간 단축 · 반복 감소 + 사람 보조','효과 × Assist':'딜 성사율 · 고객 만족 ↑ + 인사이트 제공','효율 × Automate':'반복/행정 업무 무인화','효과 × Automate':'성과 자동 추적 · 조직 확산'};
+const CAT_DESC_KO={'효율 × Assist':'업무 시간 단축 · 반복 감소 + 사람 보조','효과 × Assist':'딜 성사율 · 고객 만족 ↑ + 인사이트 제공','효율 × Automate':'반복/행정 업무 무인화','효과 × Automate':'성과 자동 추적 · 조직 확산'};
+const CAT_DESC_EN={'효율 × Assist':'Reduce work time & repetition + human assist','효과 × Assist':'Deal close rate & CSAT ↑ + insights','효율 × Automate':'Automate repetitive/admin tasks','효과 × Automate':'Auto-track performance & org-wide scaling'};
+function getCatDesc(cat){return (LANG==='en'?CAT_DESC_EN:CAT_DESC_KO)[cat]||'';}
 
 const CORE_DEMOS=[];
 
@@ -1985,7 +2153,7 @@ sections.innerHTML=`<div style="margin-top:1.5rem">
 <div style="width:4px;height:28px;border-radius:2px;background:${color}"></div>
 <div>
 <div style="font-size:1.1rem;font-weight:700;color:${color}">${cat}</div>
-<div style="font-size:.85rem;color:var(--gray-600)">${CAT_DESC[cat]||''}</div>
+<div style="font-size:.85rem;color:var(--gray-600)">${getCatDesc(cat)}</div>
 </div>
 </div>
 <div class="demo-grid">${items.map(v=>{
@@ -2126,7 +2294,7 @@ return `<li class="tree-node">
 <div class="node-card node-root">
 <div class="node-top">
 <span class="node-title">${lf(meta,'title')} (${meta.desc})</span>
-<span class="node-count">${items.length}건</span>
+<span class="node-count">${items.length}${LANG==='en'?' items':'건'}</span>
 </div>
 </div>
 <ul class="tree-children">${items.map(x=>`<li class="tree-node">
@@ -2185,51 +2353,51 @@ const rules={
 'A1E - Agentforce 1 Edition':{
 title:'A1E 과금 규칙 요약',
 title_en:'A1E Billing Rules Summary',
-body:'내부 트리거(직원이 직접 사용하는 employee-facing 사용)는 A1E/A4X 조건 충족 시 Unmetered로 처리할 수 있습니다. 다만 외부/고객 채널로 나가는 인터랙션 또는 시스템 자동 트리거는 항상 Metered(Flex Credits 소비)로 처리됩니다.',
-body_en:'Internal triggers (employee-facing usage) can be Unmetered when A1E/A4X conditions are met. However, external/customer channel interactions or system-automated triggers are always Metered (consuming Flex Credits).',
-agents:['Paige','Felix','Hunter','Casey','RFP Agent','Service Rep Assistant','OMS Agent','Account Qualification Agent','Quoting Agent']
+body:'내부 트리거(직원이 직접 사용하는 employee-facing 사용)는 A1E/A4X 조건 충족 시 Unmetered로 처리할 수 있습니다. 다만 외부/고객 채널로 나가는 인터랙션 또는 시스템 자동 트리거는 항상 Metered(Flex Credits 소비)로 처리됩니다. 참고: A1E는 2026년 11월부로 EOS 예정이므로 영업·제안 시 반드시 확인하세요.',
+body_en:'Internal triggers (employee-facing usage) can be Unmetered when A1E/A4X conditions are met. However, external/customer channel interactions or system-automated triggers are always Metered (consuming Flex Credits). Note: A1E is scheduled for EOS as of November 2026 — confirm this for sales and proposals.',
+agents:['Paige','Hunter','Casey','RFP Agent','Service Rep Assistant','OMS Agent','Account Qualification Agent','Quoting Agent']
 },
 'A4X - Agentforce Add-on':{
 title:'A4X 과금 규칙 요약',
 title_en:'A4X Billing Rules Summary',
 body:'A4X도 내부 트리거(직원 사용) 영역에서는 Unmetered 적용 대상입니다. 그러나 자동화·스케줄러·외부 채널 호출 등 시스템/외부 트리거는 Flex Credits 기반 Metered 과금이 적용됩니다.',
 body_en:'A4X also qualifies for Unmetered on internal triggers (employee usage). However, automation, schedulers, and external channel calls are subject to Flex Credits-based Metered billing.',
-agents:['Paige','Felix','Hunter','Casey','RFP Agent','Service Rep Assistant','OMS Agent','Account Qualification Agent','Quoting Agent']
+agents:['Paige','Hunter','Casey','RFP Agent','Service Rep Assistant','OMS Agent','Account Qualification Agent','Quoting Agent']
 },
 'AELA - Agentforce Enterprise License Agreement':{
 title:'AELA 과금 규칙 요약',
 title_en:'AELA Billing Rules Summary',
 body:'AELA는 계약 형태에 따라 범위가 달라집니다(Velocity / Unlimited). 일반적으로 내부 사용 외에도 확장성이 높지만, 실제 무제한 적용 범위는 계약 조건 기준으로 확인해야 합니다.',
 body_en:'AELA scope varies by contract type (Velocity / Unlimited). Generally offers higher scalability beyond internal use, but the actual unlimited scope must be verified against contract terms.',
-agents:['Paige','Felix','Hunter','Casey','Carter','RFP Agent','Service Rep Assistant','Customer Onboarding Agent','Engage With Prospects Agent','WISMO Agent','Scheduling Agent','Agentforce Service Agent','OMS Agent','Account Qualification Agent','Quoting Agent','LeadGen Agent']
+agents:['Paige','Hunter','Casey','Carter','RFP Agent','Service Rep Assistant','Customer Onboarding Agent','Engage With Prospects Agent','WISMO Agent','Scheduling Agent','Agentforce Service Agent','OMS Agent','Account Qualification Agent','Quoting Agent','LeadGen Agent']
 },
 'Flex Credits - Usage-based credits':{
 title:'Flex Credits 과금 규칙 요약',
 title_en:'Flex Credits Billing Rules Summary',
 body:'Unmetered 대상이 아닌 모든 실행(외부/고객 채널 인터랙션, 시스템 자동 트리거, Data 360 쿼리 등)은 Flex Credits로 소비됩니다.',
 body_en:'All executions not qualifying for Unmetered (external/customer channel interactions, system-automated triggers, Data 360 queries, etc.) are consumed as Flex Credits.',
-agents:['Paige','Felix','Hunter','Margo','Archer','Casey','Carter','RFP Agent','Service Rep Assistant','Customer Onboarding Agent','Engage With Prospects Agent','WISMO Agent','Scheduling Agent','Agentforce Service Agent','OMS Agent','Account Qualification Agent','Quoting Agent','LeadGen Agent']
+agents:['Paige','Hunter','Casey','Carter','RFP Agent','Service Rep Assistant','Customer Onboarding Agent','Engage With Prospects Agent','WISMO Agent','Scheduling Agent','Agentforce Service Agent','OMS Agent','Account Qualification Agent','Quoting Agent','LeadGen Agent']
 },
 'AUL - Agentforce User License + Flex Credits':{
 title:'AUL 과금 규칙 요약',
 title_en:'AUL Billing Rules Summary',
 body:'AUL은 floor-level 사용자 라이선스로 Unmetered tier가 없어 사용이 Metered로 처리됩니다. 즉, 실제 에이전트 사용은 Flex Credits와 함께 설계해야 합니다.',
 body_en:'AUL is a floor-level user license with no Unmetered tier — all usage is Metered. Agent usage must be designed together with Flex Credits.',
-agents:['Paige','Felix','Hunter','Margo','Archer','Casey','Carter','RFP Agent','Service Rep Assistant','Customer Onboarding Agent','Engage With Prospects Agent','WISMO Agent','Scheduling Agent','Agentforce Service Agent','OMS Agent','Account Qualification Agent','Quoting Agent','LeadGen Agent']
+agents:['Paige','Hunter','Casey','Carter','RFP Agent','Service Rep Assistant','Customer Onboarding Agent','Engage With Prospects Agent','WISMO Agent','Scheduling Agent','Agentforce Service Agent','OMS Agent','Account Qualification Agent','Quoting Agent','LeadGen Agent']
 },
 '별도 라이선스 필요':{
 title:'별도 라이선스 필요 요약',
 title_en:'Separate License Required Summary',
 body:'기본 번들 외 별도 라이선스 검토가 필요한 항목입니다.',
 body_en:'Items requiring additional license review beyond the base bundle.',
-agents:['Piper']
+agents:['Piper','Margo']
 },
 '미정':{
 title:'미정 항목 요약',
 title_en:'TBD Items Summary',
 body:'현재 기준으로 제품/계약 정책 확정 전 항목입니다.',
 body_en:'Items pending product/contract policy finalization.',
-agents:['Marshall','Margo','Archer']
+agents:['Marshall','Felix','Archer']
 }
 };
 buttons.forEach(btn=>{
