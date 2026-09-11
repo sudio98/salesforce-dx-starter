@@ -25,11 +25,11 @@ jobs:
           rm auth_url.txt
 
       - name: Copy HTML to Static Resource
-        run: cp ai-initiative/segment-content-map-c.html force-app/main/default/staticresources/SegmentContentMapC.html
+        run: cp ai-initiative/segment-content-map-c.html force-app/main/default/staticresources/AIinitiative.html
 
       - name: Deploy to Salesforce
         run: |
           sf project deploy start \
             --target-org orgfarm \
-            --source-dir force-app/main/default/staticresources/SegmentContentMapC.html \
-            --source-dir force-app/main/default/staticresources/SegmentContentMapC.resource-meta.xml
+            --source-dir force-app/main/default/staticresources/AIinitiative.html \
+            --source-dir force-app/main/default/staticresources/AIinitiative.resource-meta.xml

@@ -1,5 +1,5 @@
 import { LightningElement } from 'lwc';
-import SEGMENT_CONTENT_MAP from '@salesforce/resourceUrl/SegmentContentMapC';
+import SEGMENT_CONTENT_MAP from '@salesforce/resourceUrl/AIinitiative';
 
 export default class SegmentContentMapC extends LightningElement {
     get staticResourceUrl() {
