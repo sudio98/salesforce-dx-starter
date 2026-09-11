@@ -531,6 +531,7 @@ Santa: 비즈니스 리더 / Elves: 임직원 / Children: 고객<br>
 <div style="display:flex;gap:.5rem;margin-top:2rem;margin-bottom:1rem">
 <button class="toggle-btn active" id="tab-guide" onclick="switchResultTab('guide')" style="padding:.5rem 1.2rem;font-size:var(--text-body)" data-i18n="tabGuideBtn">에디션 추천 가이드</button>
 <button class="toggle-btn" id="tab-content" onclick="switchResultTab('content')" style="padding:.5rem 1.2rem;font-size:var(--text-body)" data-i18n="tabContentBtn">추천 고객 제안 자료</button>
+<button class="toggle-btn" id="tab-arch" onclick="switchResultTab('arch')" style="padding:.5rem 1.2rem;font-size:var(--text-body)" data-i18n="tabArchBtn">구축 시 Anti-patterns 가이드</button>
 </div>
 <div class="clist" id="result-cards"></div>
 </div>
@@ -608,7 +609,7 @@ Santa: 비즈니스 리더 / Elves: 임직원 / Children: 고객<br>
 <span style="font-size:var(--text-body);font-weight:800;color:var(--navy)" data-i18n="rowSimplifiedSetup">간편 설정 에이전트</span>
 </div>
 <div style="background:#fff;padding:1.2rem;border-top:1px solid var(--gray-200);border-left:1px solid var(--gray-200);display:flex;flex-direction:column;gap:.45rem">
-<div class="na-pill" onclick="toggleNaDesc(this)" data-desc="IT와 HR 요청을 함께 처리하는 통합 임직원 서비스 에이전트. Slack·포털에서 VPN 리셋, 복리후생, PTO 등 자동 해결" data-desc-en="Integrated Employee Service agent for IT & HR. Auto-resolves VPN reset, benefits, PTO, and similar tickets in Slack/portals" data-video="https://video.ibm.com/embed/recorded/134965828?t=161" style="background:#E8F4FD;border:1px solid var(--gray-200);border-radius:var(--radius-sm);padding:.4rem .7rem;min-height:36px;display:flex;flex-direction:column;justify-content:center;text-align:center;cursor:pointer;transition:all .2s">
+<div class="na-pill" onclick="toggleNaDesc(this)" data-desc="IT와 HR 요청을 함께 처리하는 통합 임직원 서비스 에이전트. Slack·포털에서 VPN 리셋, 복리후생, PTO 등 자동 해결" data-desc-en="Integrated Employee Service agent for IT & HR. Auto-resolves VPN reset, benefits, PTO, and similar tickets in Slack/portals" data-video="https://video.ibm.com/embed/recorded/134965828?autoplay=false&start=161" style="background:#E8F4FD;border:1px solid var(--gray-200);border-radius:var(--radius-sm);padding:.4rem .7rem;min-height:36px;display:flex;flex-direction:column;justify-content:center;text-align:center;cursor:pointer;transition:all .2s">
 <div class="agent-name-row"><span style="font-size:var(--text-body);font-weight:700;color:var(--navy)">Paige</span><span class="agent-info-dot" data-tip="Employee Service Agent (IT & HR), 세일즈포스 자체개발 에이전트">?</span></div>
 <div class="agent-sub" style="font-size:var(--text-meta);color:var(--gray-600)" data-sub-ko="임직원 IT·HR 서비스 에이전트" data-sub-en="Employee IT & HR service agent">임직원 IT·HR 서비스 에이전트</div>
 </div>
@@ -622,29 +623,29 @@ Santa: 비즈니스 리더 / Elves: 임직원 / Children: 고객<br>
 </div>
 </div>
 <div style="background:#fff;padding:1.2rem;border-top:1px solid var(--gray-200);border-left:1px solid var(--gray-200);display:flex;flex-direction:column;gap:.45rem">
-<div class="na-pill" onclick="toggleNaDesc(this)" data-desc="아웃바운드 세일즈 에이전트. 리서치부터 아웃리치까지, 장기 협업형 프로스펙팅" data-desc-en="Outbound sales agent from research to outreach; long-horizon prospecting" data-video="https://video.ibm.com/embed/recorded/134965940?t=250" style="background:#E8F4FD;border:1px solid var(--gray-200);border-radius:var(--radius-sm);padding:.4rem .7rem;min-height:36px;display:flex;flex-direction:column;justify-content:center;text-align:center;cursor:pointer;transition:all .2s">
+<div class="na-pill" onclick="toggleNaDesc(this)" data-desc="아웃바운드 세일즈 에이전트. 리서치부터 아웃리치까지, 장기 협업형 프로스펙팅" data-desc-en="Outbound sales agent from research to outreach; long-horizon prospecting" data-video="https://video.ibm.com/embed/recorded/134965940?autoplay=false&start=250" style="background:#E8F4FD;border:1px solid var(--gray-200);border-radius:var(--radius-sm);padding:.4rem .7rem;min-height:36px;display:flex;flex-direction:column;justify-content:center;text-align:center;cursor:pointer;transition:all .2s">
 <div class="agent-name-row"><span style="font-size:var(--text-body);font-weight:700;color:var(--navy)">Hunter</span><span class="agent-info-dot" data-tip="Prospecting Agent, Bluebirds 인수 + 세일즈포스 자체개발 결합 에이전트">?</span></div>
 <div class="agent-sub" style="font-size:var(--text-meta);color:var(--gray-600)" data-sub-ko="아웃바운드 프로스펙팅 에이전트" data-sub-en="Outbound prospecting agent">아웃바운드 프로스펙팅 에이전트</div>
 </div>
-<div class="na-pill" onclick="toggleNaDesc(this)" data-desc="캠페인 기획→콘텐츠 생성→실행까지 E2E 자율 처리하는 자기최적화형 마케팅 에이전트. Customer 360 데이터로 목표·예산 설정, 채널 배분(이메일↔SMS) 자율 최적화. Contentful과 연계해 콘텐츠를 조회·활용" data-desc-en="Self-optimizing marketing agent for E2E autonomous campaign planning → content generation → execution. Sets goals/budgets from Customer 360 data, autonomously optimizes channel allocation (email↔SMS). Integrates with Contentful for content retrieval and utilization" data-video="https://video.ibm.com/embed/recorded/134965902?t=413" style="background:#E8F4FD;border:1px solid var(--gray-200);border-radius:var(--radius-sm);padding:.4rem .7rem;min-height:36px;display:flex;flex-direction:column;justify-content:center;text-align:center;cursor:pointer;transition:all .2s">
+<div class="na-pill" onclick="toggleNaDesc(this)" data-desc="캠페인 기획→콘텐츠 생성→실행까지 E2E 자율 처리하는 자기최적화형 마케팅 에이전트. Customer 360 데이터로 목표·예산 설정, 채널 배분(이메일↔SMS) 자율 최적화. Contentful과 연계해 콘텐츠를 조회·활용" data-desc-en="Self-optimizing marketing agent for E2E autonomous campaign planning → content generation → execution. Sets goals/budgets from Customer 360 data, autonomously optimizes channel allocation (email↔SMS). Integrates with Contentful for content retrieval and utilization" data-video="https://video.ibm.com/embed/recorded/134965902?autoplay=false&start=413" style="background:#E8F4FD;border:1px solid var(--gray-200);border-radius:var(--radius-sm);padding:.4rem .7rem;min-height:36px;display:flex;flex-direction:column;justify-content:center;text-align:center;cursor:pointer;transition:all .2s">
 <div class="agent-name-row"><span style="font-size:var(--text-body);font-weight:700;color:var(--navy)">Margo</span><span class="agent-info-dot" data-tip="Marketing Goal Agent, 세일즈포스 자체개발 자율 최적화 마케팅 에이전트">?</span></div>
 <div class="agent-sub" style="font-size:var(--text-meta);color:var(--gray-600)" data-sub-ko="자율 최적화 마케팅 에이전트" data-sub-en="Self-optimizing marketing agent">자율 최적화 마케팅 에이전트</div>
 </div>
-<div class="na-pill" onclick="toggleNaDesc(this)" data-desc="직접 판매자를 위한 always-on 딜 전략가" data-desc-en="Always-on deal strategist for direct sellers" data-video="https://video.ibm.com/embed/recorded/134965985?t=382" style="background:#E8F4FD;border:1px solid var(--gray-200);border-radius:var(--radius-sm);padding:.4rem .7rem;min-height:36px;display:flex;flex-direction:column;justify-content:center;text-align:center;cursor:pointer;transition:all .2s">
+<div class="na-pill" onclick="toggleNaDesc(this)" data-desc="직접 판매자를 위한 always-on 딜 전략가" data-desc-en="Always-on deal strategist for direct sellers" data-video="https://video.ibm.com/embed/recorded/134965985?autoplay=false&start=382" style="background:#E8F4FD;border:1px solid var(--gray-200);border-radius:var(--radius-sm);padding:.4rem .7rem;min-height:36px;display:flex;flex-direction:column;justify-content:center;text-align:center;cursor:pointer;transition:all .2s">
 <div class="agent-name-row"><span style="font-size:var(--text-body);font-weight:700;color:var(--navy)">Archer</span><span class="agent-info-dot" data-tip="Revenue Cloud Deal Strategy Agent, 세일즈포스 자체개발 에이전트">?</span></div>
 <div class="agent-sub" style="font-size:var(--text-meta);color:var(--gray-600)" data-sub-ko="딜 전략 always-on 에이전트" data-sub-en="Always-on deal strategy agent">딜 전략 always-on 에이전트</div>
 </div>
 </div>
 <div style="background:#fff;padding:1.2rem;border-top:1px solid var(--gray-200);border-left:1px solid var(--gray-200);display:flex;flex-direction:column;gap:.45rem">
-<div class="na-pill" onclick="toggleNaDesc(this)" data-desc="인바운드 파이프라인 생성 에이전트. 웹사이트·인박스에서 리드 자격 검증·전환" data-desc-en="Inbound pipeline generation agent. Qualifies and converts leads from website and inbox" data-video="https://video.ibm.com/embed/recorded/134967590?t=135" data-slides="https://docs.google.com/presentation/d/1YCnB1MANTCYTqjY5MrSbLB3WYHzzXa49RZ_UlHMRynk/edit?slide=id.g3236a02e6db_0_168#slide=id.g3236a02e6db_0_168" style="background:#E8F4FD;border:1px solid var(--gray-200);border-radius:var(--radius-sm);padding:.4rem .7rem;min-height:36px;display:flex;flex-direction:column;justify-content:center;text-align:center;cursor:pointer;transition:all .2s">
+<div class="na-pill" onclick="toggleNaDesc(this)" data-desc="인바운드 파이프라인 생성 에이전트. 웹사이트·인박스에서 리드 자격 검증·전환" data-desc-en="Inbound pipeline generation agent. Qualifies and converts leads from website and inbox" data-video="https://video.ibm.com/embed/recorded/134967590?autoplay=false&start=135" data-slides="https://docs.google.com/presentation/d/1YCnB1MANTCYTqjY5MrSbLB3WYHzzXa49RZ_UlHMRynk/edit?slide=id.g3236a02e6db_0_168#slide=id.g3236a02e6db_0_168" style="background:#E8F4FD;border:1px solid var(--gray-200);border-radius:var(--radius-sm);padding:.4rem .7rem;min-height:36px;display:flex;flex-direction:column;justify-content:center;text-align:center;cursor:pointer;transition:all .2s">
 <div class="agent-name-row"><span style="font-size:var(--text-body);font-weight:700;color:var(--navy)">Piper</span><span class="agent-info-dot" data-tip="Inbound Pipeline / Lead Qualification Agent, Qualified 인수 기반 에이전트">?</span></div>
 <div class="agent-sub" style="font-size:var(--text-meta);color:var(--gray-600)" data-sub-ko="인바운드 파이프라인 생성 에이전트" data-sub-en="Inbound pipeline generation agent">인바운드 파이프라인 생성 에이전트</div>
 </div>
-<div class="na-pill" onclick="toggleNaDesc(this)" data-desc="대고객 케이스 해결 에이전트. 음성·SMS·WhatsApp·웹챗 전 채널" data-desc-en="External customer case-resolution agent. Voice/SMS/WhatsApp/web chat" data-video="https://video.ibm.com/embed/recorded/134965776?t=573" data-slides="https://docs.google.com/presentation/d/1brvDzNh7G-1ZcO76Kzk3VILuq2O21fcaGg35_UTdP4A/edit?slide=id.g3fa9ead65f1_0_823#slide=id.g3fa9ead65f1_0_823" style="background:#E8F4FD;border:1px solid var(--gray-200);border-radius:var(--radius-sm);padding:.4rem .7rem;min-height:36px;display:flex;flex-direction:column;justify-content:center;text-align:center;cursor:pointer;transition:all .2s">
+<div class="na-pill" onclick="toggleNaDesc(this)" data-desc="대고객 케이스 해결 에이전트. 음성·SMS·WhatsApp·웹챗 전 채널" data-desc-en="External customer case-resolution agent. Voice/SMS/WhatsApp/web chat" data-video="https://video.ibm.com/embed/recorded/134965776?autoplay=false&start=573" data-slides="https://docs.google.com/presentation/d/1brvDzNh7G-1ZcO76Kzk3VILuq2O21fcaGg35_UTdP4A/edit?slide=id.g3fa9ead65f1_0_823#slide=id.g3fa9ead65f1_0_823" style="background:#E8F4FD;border:1px solid var(--gray-200);border-radius:var(--radius-sm);padding:.4rem .7rem;min-height:36px;display:flex;flex-direction:column;justify-content:center;text-align:center;cursor:pointer;transition:all .2s">
 <div class="agent-name-row"><span style="font-size:var(--text-body);font-weight:700;color:var(--navy)">Casey</span><span class="agent-info-dot" data-tip="Help Agent / Customer Service Agent, 세일즈포스 자체개발 에이전트">?</span></div>
 <div class="agent-sub" style="font-size:var(--text-meta);color:var(--gray-600)" data-sub-ko="대고객 케이스 해결 에이전트" data-sub-en="Customer case resolution agent">대고객 케이스 해결 에이전트</div>
 </div>
-<div class="na-pill" onclick="toggleNaDesc(this)" data-desc="탐색–체크아웃 커머스 여정용 쇼퍼 에이전트. 인챗 체크아웃 포함" data-desc-en="Shopper agent for browse-to-checkout journeys, including in-chat checkout" data-video="https://video.ibm.com/embed/recorded/134967287?t=268" style="background:#E8F4FD;border:1px solid var(--gray-200);border-radius:var(--radius-sm);padding:.4rem .7rem;min-height:36px;display:flex;flex-direction:column;justify-content:center;text-align:center;cursor:pointer;transition:all .2s">
+<div class="na-pill" onclick="toggleNaDesc(this)" data-desc="탐색–체크아웃 커머스 여정용 쇼퍼 에이전트. 인챗 체크아웃 포함" data-desc-en="Shopper agent for browse-to-checkout journeys, including in-chat checkout" data-video="https://video.ibm.com/embed/recorded/134967287?autoplay=false&start=268" style="background:#E8F4FD;border:1px solid var(--gray-200);border-radius:var(--radius-sm);padding:.4rem .7rem;min-height:36px;display:flex;flex-direction:column;justify-content:center;text-align:center;cursor:pointer;transition:all .2s">
 <div class="agent-name-row"><span style="font-size:var(--text-body);font-weight:700;color:var(--navy)">Carter</span><span class="agent-info-dot" data-tip="Commerce Shopping Agent, 세일즈포스 자체개발 에이전트">?</span></div>
 <div class="agent-sub" style="font-size:var(--text-meta);color:var(--gray-600)" data-sub-ko="커머스 쇼퍼 에이전트" data-sub-en="Commerce shopper agent">커머스 쇼퍼 에이전트</div>
 </div>
@@ -674,7 +675,6 @@ Santa: 비즈니스 리더 / Elves: 임직원 / Children: 고객<br>
 </div>
 <div style="background:#fff;padding:1.2rem;border-top:1px solid var(--gray-200);border-left:1px solid var(--gray-200);display:flex;flex-direction:column;gap:.5rem">
 <div class="ca-pill" onclick="toggleCaDesc(this)" data-desc="주문 접수→재고 확인→출하 지시→배송 추적까지 주문 라이프사이클 전체를 자동화. 예외 건만 사람에게 알림" data-desc-en="Automates the entire order lifecycle from receipt → inventory check → shipment → delivery tracking. Only alerts humans for exceptions" style="background:#FFB84D;color:#fff;padding:.4rem .8rem;border-radius:var(--radius-sm);text-align:center;font-weight:700;font-size:var(--text-body);cursor:pointer;transition:all .2s">OMS Agent<br><span class="agent-sub" style="font-size:var(--text-meta);font-weight:500;opacity:.95" data-sub-ko="주문 관리·처리 자동화" data-sub-en="Order management & processing automation">주문 관리·처리 자동화</span></div>
-<div class="ca-pill" onclick="toggleCaDesc(this)" data-desc="기존 고객 데이터(매출·활동·산업) 기반으로 계정별 확장 가능성 점수 산출. 영업팀이 집중할 계정 우선순위 자동 제안" data-desc-en="Scores account expansion potential based on existing customer data (revenue, activity, industry). Auto-suggests account priority for the sales team" style="background:#FFB84D;color:#fff;padding:.4rem .8rem;border-radius:var(--radius-sm);text-align:center;font-weight:700;font-size:var(--text-body);cursor:pointer;transition:all .2s">Account Qualification Agent<br><span class="agent-sub" style="font-size:var(--text-meta);font-weight:500;opacity:.95" data-sub-ko="계정 적합도 평가·우선순위화" data-sub-en="Account qualification & prioritization">계정 적합도 평가·우선순위화</span></div>
 </div>
 <div style="background:#fff;padding:1.2rem;border-top:1px solid var(--gray-200);border-left:1px solid var(--gray-200);display:flex;flex-direction:column;gap:.5rem">
 <div class="ca-pill" onclick="toggleCaDesc(this)" data-desc="상품 구성·할인율·계약 조건을 자동 조합해 견적서 초안 생성. CPQ 규칙 기반으로 오류 방지" data-desc-en="Auto-assembles product bundles, discount rates, and contract terms to draft quotes. CPQ rule-based error prevention" style="background:#FFB84D;color:#fff;padding:.4rem .8rem;border-radius:var(--radius-sm);text-align:center;font-weight:700;font-size:var(--text-body);cursor:pointer;transition:all .2s">Quoting Agent<br><span class="agent-sub" style="font-size:var(--text-meta);font-weight:500;opacity:.95" data-sub-ko="견적 생성·검토·제안 보조" data-sub-en="Quote generation & proposal assistant">견적 생성·검토·제안 보조</span></div>
@@ -835,7 +835,6 @@ Santa: 비즈니스 리더 / Elves: 임직원 / Children: 고객<br>
 <span class="ca-pill" style="background:#E8F4FD;border:1px solid var(--gray-200);border-radius:var(--radius-sm);padding:.4rem .6rem;font-weight:600;color:var(--navy);text-align:center;display:flex;align-items:center;justify-content:center">RFP Agent</span>
 <span class="ca-pill" style="background:#E8F4FD;border:1px solid var(--gray-200);border-radius:var(--radius-sm);padding:.4rem .6rem;font-weight:600;color:var(--navy);text-align:center;display:flex;align-items:center;justify-content:center">Service Rep Assistant</span>
 <span class="ca-pill" style="background:#E8F4FD;border:1px solid var(--gray-200);border-radius:var(--radius-sm);padding:.4rem .6rem;font-weight:600;color:var(--navy);text-align:center;display:flex;align-items:center;justify-content:center">OMS Agent</span>
-<span class="ca-pill" style="background:#E8F4FD;border:1px solid var(--gray-200);border-radius:var(--radius-sm);padding:.4rem .6rem;font-weight:600;color:var(--navy);text-align:center;display:flex;align-items:center;justify-content:center">Account Qualification Agent</span>
 </div>
 <div style="background:#fff;padding:.7rem;border-top:1px solid var(--gray-200);border-left:1px solid var(--gray-200);display:flex;flex-direction:column;gap:.35rem;align-items:stretch">
 <span class="na-pill" style="background:#E8F4FD;border:1px solid var(--gray-200);border-radius:var(--radius-sm);padding:.4rem .6rem;font-weight:600;color:var(--navy);text-align:center;display:flex;align-items:center;justify-content:center">Hunter</span>
@@ -906,7 +905,7 @@ titleCrmNoai:{ko:'CRM (AI 미경험)',en:'CRM (No AI)'},
 descCrmNoai:{ko:'CRM 쓰지만 AI 경험 없음<br>AI 가치 소개·첫 체험 필요',en:'Using CRM but no AI experience<br>Needs AI value intro & first touch'},
 tabGuideBtn:{ko:'에디션 추천 가이드',en:'Edition Guide'},
 tabDemoBtn:{ko:'추천 시나리오',en:'Scenarios'},
-tabArchBtn:{ko:'추천 아키텍처 가이드',en:'Architecture Guide'},
+tabArchBtn:{ko:'구축 시 Anti-patterns 가이드',en:'Anti-patterns Guide for Implementation'},
 tabContentBtn:{ko:'추천 고객 제안 자료',en:'Proposal Materials'},
 agentTitle:{ko:'Agent 가이드북',en:'Agent Guidebook'},
 hiTitle:{ko:'Headless Interface 유형 소개',en:'Headless Interface Types Overview'},
@@ -2126,6 +2125,7 @@ document.querySelectorAll('.seg-cell').forEach(c=>c.classList.remove('active'));
 document.getElementById('seg-'+seg).classList.add('active');
 document.getElementById('tab-guide').classList.add('active');
 document.getElementById('tab-content').classList.remove('active');
+document.getElementById('tab-arch').classList.remove('active');
 const tabDemoEl=document.getElementById('tab-demo');if(tabDemoEl)tabDemoEl.classList.remove('active');
 const wrap=document.getElementById('results');
 const callout=document.getElementById('seg-callout');
@@ -2138,10 +2138,9 @@ if(!skipHistory) history.pushState({view:'map',seg:seg,tab:'guide'},'');
 
 function switchResultTab(tab,skipHistory){
 activeResultTab=tab;
-if(tab==='arch') tab='guide';
-activeResultTab=tab;
 document.getElementById('tab-guide').classList.toggle('active',tab==='guide');
 document.getElementById('tab-content').classList.toggle('active',tab==='content');
+document.getElementById('tab-arch').classList.toggle('active',tab==='arch');
 const tabDemo=document.getElementById('tab-demo');if(tabDemo)tabDemo.classList.toggle('active',tab==='demo');
 renderResults();
 if(!skipHistory) history.pushState({view:'map',seg:activeSeg,tab:tab},'');
@@ -2224,11 +2223,7 @@ el.classList.remove('is-plain');
 el.classList.remove('content-cards');
 if(g&&g.archAntiPatterns&&g.archAntiPatterns.length){
 const sevColor={Critical:'#D32F2F',High:'var(--orange)'};
-let html=`<div style="margin-bottom:1rem;padding:1rem 1.2rem;background:#FFF8F0;border:1px solid #FFD9A0;border-radius:var(--radius)">
-<div style="font-size:var(--text-meta);font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:.5px;margin-bottom:.3rem">Architecture Anti-Patterns</div>
-<div style="font-size:var(--text-body);color:#333">${t('archIntro')} <span style="font-size:var(--text-meta);color:var(--gray-600)">(Headless 360 Anti-Pattern Review)</span></div>
-</div>`;
-html+=g.archAntiPatterns.map(ap=>`<div style="margin-bottom:.6rem;padding:.8rem 1rem;background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius-sm)">
+el.innerHTML=g.archAntiPatterns.map(ap=>`<div style="margin-bottom:.6rem;padding:.8rem 1rem;background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius-sm)">
 <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem">
 <span style="font-size:var(--text-meta);font-weight:700;color:#fff;background:${sevColor[ap.severity]||'#666'};padding:2px 6px;border-radius:3px">${ap.severity}</span>
 <span style="font-size:var(--text-body);font-weight:700;color:var(--navy)">${lf(ap,'title')}</span>
@@ -2236,7 +2231,6 @@ html+=g.archAntiPatterns.map(ap=>`<div style="margin-bottom:.6rem;padding:.8rem 
 <div style="font-size:var(--text-body);color:#444;line-height:1.5">${lf(ap,'desc')}</div>
 ${ap.ref?`<div style="margin-top:.4rem"><a href="${ap.ref.url}" target="_blank" style="font-size:var(--text-meta);color:var(--blue);text-decoration:none;font-weight:600">📄 ${ap.ref.label} →</a></div>`:''}
 </div>`).join('');
-el.innerHTML=html;
 }else{
 el.innerHTML='<div class="empty-state">'+t('emptyArch')+'</div>';
 }
@@ -2660,7 +2654,7 @@ bullets_en:[
 'External/customer channels and system-automated triggers are always Metered (Flex Credits)',
 'Note: A1E is scheduled for EOS as of November 2026 — confirm for sales and proposals'
 ],
-agents:['Paige','Hunter','Casey','RFP Agent','Service Rep Assistant','OMS Agent','Account Qualification Agent','Quoting Agent']
+agents:['Paige','Hunter','Casey','RFP Agent','Service Rep Assistant','OMS Agent','Quoting Agent']
 },
 'A4X - Agentforce Add-on':{
 title:'A4X 과금 규칙 요약',
@@ -2675,7 +2669,7 @@ bullets_en:[
 'Internal triggers (employee usage) qualify for Unmetered',
 'Automation, schedulers, and external channel calls are Flex Credits-based Metered'
 ],
-agents:['Paige','Hunter','Casey','RFP Agent','Service Rep Assistant','OMS Agent','Account Qualification Agent','Quoting Agent']
+agents:['Paige','Hunter','Casey','RFP Agent','Service Rep Assistant','OMS Agent','Quoting Agent']
 },
 'AELA - Agentforce Enterprise License Agreement':{
 title:'AELA 과금 규칙 요약',
@@ -2690,7 +2684,7 @@ bullets_en:[
 'Generally offers higher scalability beyond internal use',
 'Actual unlimited scope must be verified against contract terms'
 ],
-agents:['Paige','Hunter','Casey','Carter','RFP Agent','Service Rep Assistant','Customer Onboarding Agent','Engage With Prospects Agent','WISMO Agent','Scheduling Agent','Agentforce Service Agent','OMS Agent','Account Qualification Agent','Quoting Agent','LeadGen Agent']
+agents:['Paige','Hunter','Casey','Carter','RFP Agent','Service Rep Assistant','Customer Onboarding Agent','Engage With Prospects Agent','WISMO Agent','Scheduling Agent','Agentforce Service Agent','OMS Agent','Quoting Agent','LeadGen Agent']
 },
 'Flex Credits - Usage-based credits':{
 title:'Flex Credits 과금 규칙 요약',
@@ -2705,7 +2699,7 @@ bullets_en:[
 'Examples: external/customer channel interactions, system-automated triggers, Data 360 queries',
 'Standard consumption: ~10 Flex (=$0.05 list) per interaction'
 ],
-agents:['Paige','Hunter','Casey','Carter','RFP Agent','Service Rep Assistant','Customer Onboarding Agent','Engage With Prospects Agent','WISMO Agent','Scheduling Agent','Agentforce Service Agent','OMS Agent','Account Qualification Agent','Quoting Agent','LeadGen Agent']
+agents:['Paige','Hunter','Casey','Carter','RFP Agent','Service Rep Assistant','Customer Onboarding Agent','Engage With Prospects Agent','WISMO Agent','Scheduling Agent','Agentforce Service Agent','OMS Agent','Quoting Agent','LeadGen Agent']
 },
 'AUL - Agentforce User License + Flex Credits':{
 title:'AUL 과금 규칙 요약',
@@ -2722,7 +2716,7 @@ bullets_en:[
 'Only Slack and basic Salesforce UI (no Custom object access)',
 'Design agent usage together with Flex Credits'
 ],
-agents:['Paige','Hunter','Casey','Carter','RFP Agent','Service Rep Assistant','Customer Onboarding Agent','Engage With Prospects Agent','WISMO Agent','Scheduling Agent','Agentforce Service Agent','OMS Agent','Account Qualification Agent','Quoting Agent','LeadGen Agent']
+agents:['Paige','Hunter','Casey','Carter','RFP Agent','Service Rep Assistant','Customer Onboarding Agent','Engage With Prospects Agent','WISMO Agent','Scheduling Agent','Agentforce Service Agent','OMS Agent','Quoting Agent','LeadGen Agent']
 },
 '별도 라이선스 필요':{
 title:'별도 라이선스 필요 요약',
